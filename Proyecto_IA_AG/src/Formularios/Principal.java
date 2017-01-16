@@ -5,11 +5,21 @@
  */
 package Formularios;
 
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Erick
  */
 public class Principal extends javax.swing.JFrame {
+    
+    Object sumando1[];
+    Object sumando2[];
+    Object resultado[];
+    char letras[]=new char[10];
+    
 
     /**
      * Creates new form Principal
@@ -18,8 +28,167 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
+        inicio();
     }
 
+    private void inicio(){
+        pnlDatosPrevios.setVisible(false);
+        pnlResultados.setVisible(false);
+        btnCalcular.setEnabled(false);        
+        txtSumando1.requestFocus();
+    }
+    
+    private void mostrarPaneles(){
+        pnlDatosPrevios.setVisible(true);
+        pnlResultados.setVisible(true);
+        lblMensaje.setVisible(false);
+        tblResultado.setVisible(false);
+        lstResultado.setVisible(false);
+    }
+    
+    private void mostrarControles(){
+        lblMensaje.setVisible(true);
+        tblResultado.setVisible(true);
+        lstResultado.setVisible(true);
+    }
+    
+    private void mostrarMensaje(){
+        lblMensaje.setVisible(true);
+    }
+    
+    private void mostrarCalcular(){
+        if (!txtSumando1.getText().isEmpty()&&!txtSumando2.getText().isEmpty()&&!txtResultado.getText().isEmpty())
+        {
+            btnCalcular.setEnabled(true);
+        }else{
+            btnCalcular.setEnabled(false);
+        }
+    }
+    
+    private void soloLetras(java.awt.event.KeyEvent evt){
+        char c=evt.getKeyChar();
+        if((c<'a'||c>'z')&&(c<'A'||c>'Z'))
+        {
+            evt.consume();
+        }
+    }
+    
+    private void armarVectoresLetras(){
+        String operador1,operador2,suma;
+        operador1=txtSumando1.getText();
+        operador2=txtSumando2.getText();
+        suma=txtResultado.getText();
+        
+        sumando1=new Object[operador1.length()];
+        sumando2=new Object[operador2.length()];
+        resultado=new Object[suma.length()];
+        
+        sumando1=separarLetras(operador1,sumando1);
+        sumando2=separarLetras(operador2,sumando2);
+        resultado=separarLetras(suma,resultado);
+    }
+    
+    private Object[] separarLetras(String cadena,Object vector[]){
+        for (int i = 0; i < cadena.length(); i++) {
+            vector[i]=cadena.charAt(i);
+        }
+        return vector;
+    }
+    
+    private void mostrarDatosPrevios(){
+        armarVectoresLetras();
+        DefaultTableModel modelo = new DefaultTableModel(null,armarTitulos());
+        tblDatos.setModel(modelo);
+        crearFila(modelo);
+        setearFila();
+    }
+    
+    private String[] armarTitulos(){
+        String titulos[];
+        String operador1,operador2,suma;
+        operador1=txtSumando1.getText();
+        operador2=txtSumando2.getText();
+        suma=txtResultado.getText();
+        
+        if (operador1.length()>operador2.length()) {
+            if (operador1.length()>suma.length()) {
+                titulos=new String[operador1.length()];
+            }else{
+                titulos=new String[suma.length()];
+            }
+        }else{
+            if (operador2.length()>suma.length()) {
+                titulos=new String[operador2.length()];
+            }else{
+                titulos=new String[suma.length()];
+            }
+        }
+        return titulos;
+    }
+    
+    private void crearFila(DefaultTableModel modeloSetear) {
+        String fila[] = new String[tblDatos.getColumnCount()];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < fila.length; j++) {
+                fila[j]="";
+            }
+            modeloSetear.addRow(fila);
+        }
+    }
+    
+    private void setearFila(){
+        int i=sumando1.length-1;
+        int j=tblDatos.getColumnCount()-1;
+        while(i>=0) {
+            tblDatos.setValueAt(sumando1[i], 0, j);
+            i--;
+            j--;
+        }
+        i=sumando2.length-1;
+        j=tblDatos.getColumnCount()-1;
+        while(i>=0) {
+            tblDatos.setValueAt(sumando2[i], 1, j);
+            i--;
+            j--;
+        }
+        i=resultado.length-1;
+        j=tblDatos.getColumnCount()-1;
+        while(i>=0) {
+            tblDatos.setValueAt(resultado[i], 2, j);
+            i--;
+            j--;
+        }
+    }
+    
+    private ArrayList obtenerLetras(){
+        ArrayList <Object> letrasSinRepeticion=new ArrayList<>();
+//        DefaultListModel lista=new DefaultListModel();
+        for (int i = 0; i < sumando1.length; i++) {
+            if (!letrasSinRepeticion.contains(sumando1[i])) {
+                letrasSinRepeticion.add(sumando1[i]);
+            }
+        }
+        for (int i = 0; i < sumando2.length; i++) {
+            if (!letrasSinRepeticion.contains(sumando2[i])) {
+                letrasSinRepeticion.add(sumando2[i]);
+            }
+        }
+        for (int i = 0; i < resultado.length; i++) {
+            if (!letrasSinRepeticion.contains(resultado[i])) {
+                letrasSinRepeticion.add(resultado[i]);
+            }
+        }
+//        lstResultado.setModel(lista);
+//        for (int i = 0; i < letrasSinRepeticion.size(); i++) {
+//            lista.addElement(letrasSinRepeticion.get(i));
+//        }
+        return letrasSinRepeticion;
+    }
+    
+    private void inicializarPoblacion(){
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,9 +202,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtSumando1 = new javax.swing.JTextField();
+        txtSumando2 = new javax.swing.JTextField();
+        txtResultado = new javax.swing.JTextField();
         btnCalcular = new javax.swing.JButton();
         pnlDatosPrevios = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -58,7 +227,39 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel3.setText("Resultado:");
 
+        txtSumando1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSumando1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSumando1KeyTyped(evt);
+            }
+        });
+
+        txtSumando2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSumando2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSumando2KeyTyped(evt);
+            }
+        });
+
+        txtResultado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtResultadoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtResultadoKeyTyped(evt);
+            }
+        });
+
         btnCalcular.setText("Calcular");
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
         pnlDatos.setLayout(pnlDatosLayout);
@@ -76,9 +277,9 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(btnCalcular))
                     .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                        .addComponent(jTextField2)
-                        .addComponent(jTextField3)))
+                        .addComponent(txtSumando1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                        .addComponent(txtSumando2)
+                        .addComponent(txtResultado)))
                 .addGap(0, 62, Short.MAX_VALUE))
         );
         pnlDatosLayout.setVerticalGroup(
@@ -87,15 +288,15 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSumando1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSumando2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCalcular)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -105,13 +306,10 @@ public class Principal extends javax.swing.JFrame {
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(tblDatos);
@@ -137,22 +335,14 @@ public class Principal extends javax.swing.JFrame {
 
         tblResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(tblResultado);
 
-        lstResultado.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(lstResultado);
 
         lblMensaje.setText("Mensaje");
@@ -210,6 +400,47 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSumando1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyTyped
+        // TODO add your handling code here:
+        soloLetras(evt);
+        mostrarCalcular();        
+    }//GEN-LAST:event_txtSumando1KeyTyped
+
+    private void txtSumando2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando2KeyTyped
+        // TODO add your handling code here:
+        soloLetras(evt);
+        mostrarCalcular();        
+    }//GEN-LAST:event_txtSumando2KeyTyped
+
+    private void txtResultadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultadoKeyTyped
+        // TODO add your handling code here:
+        soloLetras(evt);
+        mostrarCalcular();        
+    }//GEN-LAST:event_txtResultadoKeyTyped
+
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        // TODO add your handling code here:        
+        mostrarPaneles();
+        mostrarDatosPrevios();
+        mostrarControles();
+        obtenerLetras();
+    }//GEN-LAST:event_btnCalcularActionPerformed
+
+    private void txtSumando1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyReleased
+        // TODO add your handling code here:
+        txtSumando1.setText(txtSumando1.getText().toUpperCase());
+    }//GEN-LAST:event_txtSumando1KeyReleased
+
+    private void txtSumando2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando2KeyReleased
+        // TODO add your handling code here:
+        txtSumando2.setText(txtSumando2.getText().toUpperCase());
+    }//GEN-LAST:event_txtSumando2KeyReleased
+
+    private void txtResultadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultadoKeyReleased
+        // TODO add your handling code here:
+        txtResultado.setText(txtResultado.getText().toUpperCase());
+    }//GEN-LAST:event_txtResultadoKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -253,9 +484,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JList<String> lstResultado;
     private javax.swing.JPanel pnlDatos;
@@ -263,5 +491,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pnlResultados;
     private javax.swing.JTable tblDatos;
     private javax.swing.JTable tblResultado;
+    private javax.swing.JTextField txtResultado;
+    private javax.swing.JTextField txtSumando1;
+    private javax.swing.JTextField txtSumando2;
     // End of variables declaration//GEN-END:variables
 }
