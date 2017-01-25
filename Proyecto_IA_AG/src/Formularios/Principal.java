@@ -6,7 +6,7 @@
 package Formularios;
 
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
+import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,12 +14,13 @@ import javax.swing.table.DefaultTableModel;
  * @author Erick
  */
 public class Principal extends javax.swing.JFrame {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Datos">
     Object sumando1[];
     Object sumando2[];
     Object resultado[];
-    char letras[]=new char[10];
-    
+    ArrayList<Object> letrasSinRepeticion;
+    //</editor-fold>
 
     /**
      * Creates new form Principal
@@ -31,164 +32,247 @@ public class Principal extends javax.swing.JFrame {
         inicio();
     }
 
-    private void inicio(){
+    private void inicio() {
         pnlDatosPrevios.setVisible(false);
         pnlResultados.setVisible(false);
-        btnCalcular.setEnabled(false);        
+        btnCalcular.setEnabled(false);
         txtSumando1.requestFocus();
     }
-    
-    private void mostrarPaneles(){
+
+    private void mostrarPaneles() {
         pnlDatosPrevios.setVisible(true);
         pnlResultados.setVisible(true);
         lblMensaje.setVisible(false);
         tblResultado.setVisible(false);
         lstResultado.setVisible(false);
     }
-    
-    private void mostrarControles(){
+
+    private void mostrarControles() {
         lblMensaje.setVisible(true);
         tblResultado.setVisible(true);
         lstResultado.setVisible(true);
     }
-    
-    private void mostrarMensaje(){
+
+    private void mostrarMensaje() {
         lblMensaje.setVisible(true);
     }
-    
-    private void mostrarCalcular(){
-        if (!txtSumando1.getText().isEmpty()&&!txtSumando2.getText().isEmpty()&&!txtResultado.getText().isEmpty())
-        {
+
+    private void mostrarCalcular() {
+        if (!txtSumando1.getText().isEmpty() && !txtSumando2.getText().isEmpty() && !txtResultado.getText().isEmpty()) {
             btnCalcular.setEnabled(true);
-        }else{
+        } else {
             btnCalcular.setEnabled(false);
         }
     }
-    
-    private void soloLetras(java.awt.event.KeyEvent evt){
-        char c=evt.getKeyChar();
-        if((c<'a'||c>'z')&&(c<'A'||c>'Z'))
-        {
+
+    private void soloLetras(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
         }
     }
-    
-    private void armarVectoresLetras(){
-        String operador1,operador2,suma;
-        operador1=txtSumando1.getText();
-        operador2=txtSumando2.getText();
-        suma=txtResultado.getText();
-        
-        sumando1=new Object[operador1.length()];
-        sumando2=new Object[operador2.length()];
-        resultado=new Object[suma.length()];
-        
-        sumando1=separarLetras(operador1,sumando1);
-        sumando2=separarLetras(operador2,sumando2);
-        resultado=separarLetras(suma,resultado);
+
+    private void armarVectoresLetras() {
+        String operador1, operador2, suma;
+        operador1 = txtSumando1.getText();
+        operador2 = txtSumando2.getText();
+        suma = txtResultado.getText();
+
+        sumando1 = new Object[operador1.length()];
+        sumando2 = new Object[operador2.length()];
+        resultado = new Object[suma.length()];
+
+        sumando1 = separarLetras(operador1, sumando1);
+        sumando2 = separarLetras(operador2, sumando2);
+        resultado = separarLetras(suma, resultado);
     }
-    
-    private Object[] separarLetras(String cadena,Object vector[]){
+
+    private Object[] separarLetras(String cadena, Object vector[]) {
         for (int i = 0; i < cadena.length(); i++) {
-            vector[i]=cadena.charAt(i);
+            vector[i] = cadena.charAt(i);
         }
         return vector;
     }
-    
-    private void mostrarDatosPrevios(){
+
+    private void mostrarDatosPrevios() {
         armarVectoresLetras();
-        DefaultTableModel modelo = new DefaultTableModel(null,armarTitulos());
+        DefaultTableModel modelo = new DefaultTableModel(null, armarTitulos());
         tblDatos.setModel(modelo);
         crearFila(modelo);
         setearFila();
     }
-    
-    private String[] armarTitulos(){
+
+    private String[] armarTitulos() {
         String titulos[];
-        String operador1,operador2,suma;
-        operador1=txtSumando1.getText();
-        operador2=txtSumando2.getText();
-        suma=txtResultado.getText();
-        
-        if (operador1.length()>operador2.length()) {
-            if (operador1.length()>suma.length()) {
-                titulos=new String[operador1.length()];
-            }else{
-                titulos=new String[suma.length()];
+        String operador1, operador2, suma;
+        operador1 = txtSumando1.getText();
+        operador2 = txtSumando2.getText();
+        suma = txtResultado.getText();
+
+        if (operador1.length() > operador2.length()) {
+            if (operador1.length() > suma.length()) {
+                titulos = new String[operador1.length()];
+            } else {
+                titulos = new String[suma.length()];
             }
-        }else{
-            if (operador2.length()>suma.length()) {
-                titulos=new String[operador2.length()];
-            }else{
-                titulos=new String[suma.length()];
-            }
+        } else if (operador2.length() > suma.length()) {
+            titulos = new String[operador2.length()];
+        } else {
+            titulos = new String[suma.length()];
         }
         return titulos;
     }
-    
+
     private void crearFila(DefaultTableModel modeloSetear) {
         String fila[] = new String[tblDatos.getColumnCount()];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < fila.length; j++) {
-                fila[j]="";
+                fila[j] = "";
             }
             modeloSetear.addRow(fila);
         }
     }
-    
-    private void setearFila(){
-        int i=sumando1.length-1;
-        int j=tblDatos.getColumnCount()-1;
-        while(i>=0) {
+
+    private void setearFila() {
+        int i = sumando1.length - 1;
+        int j = tblDatos.getColumnCount() - 1;
+        while (i >= 0) {
             tblDatos.setValueAt(sumando1[i], 0, j);
             i--;
             j--;
         }
-        i=sumando2.length-1;
-        j=tblDatos.getColumnCount()-1;
-        while(i>=0) {
+        i = sumando2.length - 1;
+        j = tblDatos.getColumnCount() - 1;
+        while (i >= 0) {
             tblDatos.setValueAt(sumando2[i], 1, j);
             i--;
             j--;
         }
-        i=resultado.length-1;
-        j=tblDatos.getColumnCount()-1;
-        while(i>=0) {
+        i = resultado.length - 1;
+        j = tblDatos.getColumnCount() - 1;
+        while (i >= 0) {
             tblDatos.setValueAt(resultado[i], 2, j);
             i--;
             j--;
         }
     }
-    
-    private ArrayList obtenerLetras(){
-        ArrayList <Object> letrasSinRepeticion=new ArrayList<>();
-//        DefaultListModel lista=new DefaultListModel();
-        for (int i = 0; i < sumando1.length; i++) {
-            if (!letrasSinRepeticion.contains(sumando1[i])) {
-                letrasSinRepeticion.add(sumando1[i]);
+
+    private void obtenerLetras() {
+        letrasSinRepeticion = new ArrayList<>();
+        for (Object sumando11 : sumando1) {
+            if (!letrasSinRepeticion.contains(sumando11)) {
+                letrasSinRepeticion.add(sumando11);
             }
         }
-        for (int i = 0; i < sumando2.length; i++) {
-            if (!letrasSinRepeticion.contains(sumando2[i])) {
-                letrasSinRepeticion.add(sumando2[i]);
+        for (Object sumando21 : sumando2) {
+            if (!letrasSinRepeticion.contains(sumando21)) {
+                letrasSinRepeticion.add(sumando21);
             }
         }
-        for (int i = 0; i < resultado.length; i++) {
-            if (!letrasSinRepeticion.contains(resultado[i])) {
-                letrasSinRepeticion.add(resultado[i]);
+        for (Object resultado1 : resultado) {
+            if (!letrasSinRepeticion.contains(resultado1)) {
+                letrasSinRepeticion.add(resultado1);
             }
         }
-//        lstResultado.setModel(lista);
-//        for (int i = 0; i < letrasSinRepeticion.size(); i++) {
-//            lista.addElement(letrasSinRepeticion.get(i));
-//        }
-        return letrasSinRepeticion;
     }
-    
-    private void inicializarPoblacion(){
+
+    private ArrayList crearCromosoma() {
+        int limite = letrasSinRepeticion.size();
+        int aleatorio;
+        ArrayList<Object> cromosoma = new ArrayList<>();
+        int i = 0;
+        while (i < limite) {
+            aleatorio = (int) (Math.random() * 10);
+            if (!cromosoma.contains(aleatorio)) {
+                cromosoma.add(aleatorio);
+                i++;
+            }
+        }
+        return cromosoma;
+    }
+
+    private int numeroCombinaciones() {
+        int f = 1,n=1,numero;
         
+        for (int i = 1; i <= 10; i++) {
+            f = f * i;
+        }
+        
+        numero=10-letrasSinRepeticion.size();
+        for (int i = 1; i <= numero; i++) {
+            n = n * i;
+        }
+        return f/n;
     }
-    
+
+    private int calcularAptitud(ArrayList cromosomaEvaluar) {        
+        String operador1="",operador2="",suma="",s;
+        int s1,s2,sumaOriginal,m,n,ap1=0,ap2=0,c;
+        
+        for (Object sumando11 : sumando1) {
+            int indice = letrasSinRepeticion.indexOf(sumando11);
+            operador1+=cromosomaEvaluar.get(indice);
+        }
+        
+        for (Object sumando21 : sumando2) {
+            int indice = letrasSinRepeticion.indexOf(sumando21);
+            operador2+=cromosomaEvaluar.get(indice);
+        }
+        
+        for (Object resultado1 : resultado) {
+            int indice = letrasSinRepeticion.indexOf(resultado1);
+            suma+=cromosomaEvaluar.get(indice);
+        }
+        
+        s1=Integer.valueOf(operador1);
+        s2=Integer.valueOf(operador2);        
+        sumaOriginal=s1+s2;
+        s=String.valueOf(sumaOriginal);
+        
+        if (suma.length()>s.length()) {
+            n=suma.length();
+            m=s.length();
+        }else{
+            m=suma.length();
+            n=s.length();
+        }
+        
+        String sa="",soa="";
+        for (int i = (suma.length()-1); i >= 0; i--) {
+            sa+=suma.charAt(i);
+        }
+        
+        for (int i = (s.length()-1); i >= 0; i--) {
+            soa+=s.charAt(i);
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int x,y;
+            x=Integer.valueOf(String.valueOf(sa.charAt(i)));
+            y=Integer.valueOf(String.valueOf(soa.charAt(i)));
+            ap1+=Math.abs(x-y)*(m-i);
+        }
+        
+        String mayor;
+        if (sa.length()>soa.length()) {
+            mayor=sa;
+        }else{
+            mayor=soa;
+        }
+        
+        for (int i = m; i < n; i++) {
+            int y=Integer.valueOf(String.valueOf(mayor.charAt(i)));
+            ap2+=y*Math.pow(10, (i-m)+2);
+        }
+        
+        if (suma.equals(s)) {
+            c=0;
+        }else{
+            c=1;
+        }
+        return ap1+ap2+(c*5790);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -403,19 +487,19 @@ public class Principal extends javax.swing.JFrame {
     private void txtSumando1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyTyped
         // TODO add your handling code here:
         soloLetras(evt);
-        mostrarCalcular();        
+        mostrarCalcular();
     }//GEN-LAST:event_txtSumando1KeyTyped
 
     private void txtSumando2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando2KeyTyped
         // TODO add your handling code here:
         soloLetras(evt);
-        mostrarCalcular();        
+        mostrarCalcular();
     }//GEN-LAST:event_txtSumando2KeyTyped
 
     private void txtResultadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultadoKeyTyped
         // TODO add your handling code here:
         soloLetras(evt);
-        mostrarCalcular();        
+        mostrarCalcular();
     }//GEN-LAST:event_txtResultadoKeyTyped
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
@@ -424,6 +508,21 @@ public class Principal extends javax.swing.JFrame {
         mostrarDatosPrevios();
         mostrarControles();
         obtenerLetras();
+        
+        ArrayList<Object> prueba;
+        int aptitud;
+        prueba=crearCromosoma();
+        aptitud=calcularAptitud(prueba);
+        
+        for (int i = 0; i < prueba.size(); i++) {
+            System.out.println(prueba.get(i));
+        }
+        
+        System.out.println("Aptitud:" + aptitud);
+        
+        for (int i = 0; i < letrasSinRepeticion.size(); i++) {
+            System.out.println(letrasSinRepeticion.get(i));
+        }
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void txtSumando1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyReleased
