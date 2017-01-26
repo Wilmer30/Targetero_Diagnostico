@@ -6,7 +6,6 @@
 package Formularios;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +19,8 @@ public class Principal extends javax.swing.JFrame {
     Object sumando2[];
     Object resultado[];
     ArrayList<Object> letrasSinRepeticion;
+    ArrayList<Object> cromosomasEvaluados;
+    ArrayList<ArrayList<Object>> poblacion;
     //</editor-fold>
 
     /**
@@ -272,6 +273,52 @@ public class Principal extends javax.swing.JFrame {
         }
         return ap1+ap2+(c*5790);
     }
+    
+    private String cadenaCromosoma(ArrayList cromosomaConvertir){
+        String cadena="";
+        for (int i = 0; i < cromosomaConvertir.size(); i++) {
+            cadena+=cromosomaConvertir.get(i);
+        }
+        return cadena;
+    }
+    
+    private void generarPoblacionInicial(){
+        int i=0;
+        ArrayList<Object> cromosoma;
+        ArrayList<Object> cromosomaEvaluado;
+        String cromosomaPoblacion;
+        int aptitud;
+        cromosomasEvaluados=new ArrayList<>();
+        poblacion=new ArrayList<>();
+        do {
+            cromosoma=crearCromosoma();
+            cromosomaPoblacion=cadenaCromosoma(cromosoma);
+            if (!cromosomasEvaluados.contains(cromosomaPoblacion)) {
+                cromosomasEvaluados.add(cromosomaPoblacion);                
+                aptitud=calcularAptitud(cromosoma);                
+                cromosomaEvaluado=new ArrayList<>();
+                cromosomaEvaluado.add(cromosomaPoblacion);
+                cromosomaEvaluado.add(aptitud);
+                poblacion.add(cromosomaEvaluado);
+                i++;
+            }
+        } while (i<12500);
+    }
+    
+    private void seleccionElitista(){
+        
+    }
+    
+    private void AlgoritmoGenético(){        
+        mostrarPaneles();
+        mostrarDatosPrevios();
+        mostrarControles();
+        obtenerLetras();
+        long tiempoinicial=System.currentTimeMillis();
+        generarPoblacionInicial();
+        long tiempototal=System.currentTimeMillis()-tiempoinicial;
+        System.out.println("El tiempo de demora es: "+tiempototal+"miliseg");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -503,26 +550,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtResultadoKeyTyped
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        // TODO add your handling code here:        
-        mostrarPaneles();
-        mostrarDatosPrevios();
-        mostrarControles();
-        obtenerLetras();
-        
-        ArrayList<Object> prueba;
-        int aptitud;
-        prueba=crearCromosoma();
-        aptitud=calcularAptitud(prueba);
-        
-        for (int i = 0; i < prueba.size(); i++) {
-            System.out.println(prueba.get(i));
-        }
-        
-        System.out.println("Aptitud:" + aptitud);
-        
-        for (int i = 0; i < letrasSinRepeticion.size(); i++) {
-            System.out.println(letrasSinRepeticion.get(i));
-        }
+        // TODO add your handling code here:
+        AlgoritmoGenético();
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void txtSumando1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyReleased
