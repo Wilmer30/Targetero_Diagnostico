@@ -20,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
     Object resultado[];
     ArrayList<Object> letrasSinRepeticion;
     ArrayList<Object> cromosomasEvaluados;
+    ArrayList<Object> cromosomasMejores;
     ArrayList<ArrayList<Object>> poblacion;
     //</editor-fold>
 
@@ -305,8 +306,33 @@ public class Principal extends javax.swing.JFrame {
         } while (i<12500);
     }
     
-    private void seleccionElitista(){
+    private void ordenarPoblacion(){
+        for (int i = 0; i < poblacion.size(); i++) {
+            for (int j = i; j < poblacion.size(); j++) {                
+                if ((int)poblacion.get(j).get(1)<(int)poblacion.get(i).get(1))
+                {
+                    Object tempCr,tempAp;
+                    tempAp = poblacion.get(j).get(1);
+                    tempCr= poblacion.get(j).get(0);
+                    poblacion.get(j).set(1,poblacion.get(i).get(1));
+                    poblacion.get(j).set(0,poblacion.get(i).get(0));
+                    poblacion.get(i).set(0,tempCr);
+                    poblacion.get(i).set(1,tempAp);
+                }
+            }
+        }
+    }
         
+    private void seleccionElitista(){        
+        ordenarPoblacion();
+        cromosomasMejores=new ArrayList<>();
+        for (int i = 0; i < 1250; i++) {
+            cromosomasMejores.add(poblacion.get(i).get(0));
+        }
+    }
+    
+    private void cruce(String cromosoma1,String Cromosoma2){
+        int longitud=cromosoma1.length();
     }
     
     private void AlgoritmoGenético(){        
