@@ -342,6 +342,13 @@ public class Principal extends javax.swing.JFrame {
         obtenerLetras();
         long tiempoinicial=System.currentTimeMillis();
         generarPoblacionInicial();
+        seleccionElitista();
+//        for (int i = 0; i < poblacion.size(); i++) {
+//            System.out.println("Cromosoma: "+poblacion.get(i).get(0)+" Aptitud: "+poblacion.get(i).get(1));
+//        }
+//        for (int i = 0; i < cromosomasMejores.size(); i++) {
+//            System.out.println("Cromosoma: "+cromosomasMejores.get(i));
+//        }
         long tiempototal=System.currentTimeMillis()-tiempoinicial;
         System.out.println("El tiempo de demora es: "+tiempototal+"miliseg");
     }
