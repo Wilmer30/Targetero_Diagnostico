@@ -7,6 +7,7 @@ package Formularios;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +43,9 @@ public class Principal extends javax.swing.JFrame {
         pnlResultados.setVisible(false);
         btnCalcular.setEnabled(false);
         lblTiempo.setVisible(false);
+        lblNumeroCromosomas.setVisible(false);
+        btnLimpiar.setVisible(false);
+        btnSalir.setVisible(false);
         txtSumando1.requestFocus();
     }
     //</editor-fold>
@@ -406,7 +410,7 @@ public class Principal extends javax.swing.JFrame {
                 }
                 nCr = cruce(C1, C2);
                 if (!solucion.isEmpty()) {
-                    nCr=2;
+                    nCr = 2;
                     i = longitud;
                 }
             }
@@ -489,8 +493,8 @@ public class Principal extends javax.swing.JFrame {
         cromosoma = cadenaCromosoma(cromosomaMuta);
         return cromosoma;
     }
-    
-    private void setearFilaSolucion(ArrayList op1,ArrayList op2,ArrayList s) {
+
+    private void setearFilaSolucion(ArrayList op1, ArrayList op2, ArrayList s) {
         int i = sumando1.length - 1;
         int j = tblResultado.getColumnCount() - 1;
         while (i >= 0) {
@@ -513,19 +517,19 @@ public class Principal extends javax.swing.JFrame {
             j--;
         }
     }
-    
-    private void setearSolucion(){
+
+    private void setearSolucion() {
         DefaultTableModel modelo = new DefaultTableModel(null, armarTitulos());
         tblResultado.setModel(modelo);
-        crearFila(modelo);        
+        crearFila(modelo);
     }
-    
-    private void mostrarSolucion(){
-        ArrayList<Object> operador1=new ArrayList<>();
-        ArrayList<Object> operador2=new ArrayList<>();
-        ArrayList<Object> suma=new ArrayList<>();
-        ArrayList<Object> cromosomaEvaluar=cromosomaCadena(solucion);
-                
+
+    private void mostrarSolucion() {
+        ArrayList<Object> operador1 = new ArrayList<>();
+        ArrayList<Object> operador2 = new ArrayList<>();
+        ArrayList<Object> suma = new ArrayList<>();
+        ArrayList<Object> cromosomaEvaluar = cromosomaCadena(solucion);
+
         for (Object sumando11 : sumando1) {
             int indice = letrasSinRepeticion.indexOf(sumando11);
             operador1.add(cromosomaEvaluar.get(indice));
@@ -539,45 +543,61 @@ public class Principal extends javax.swing.JFrame {
         for (Object resultado1 : resultado) {
             int indice = letrasSinRepeticion.indexOf(resultado1);
             suma.add(cromosomaEvaluar.get(indice));
-        }        
+        }
         setearSolucion();
-        setearFilaSolucion(operador1,operador2, suma);
+        setearFilaSolucion(operador1, operador2, suma);
     }
 
-    private void mostrarLetrasValor(){
-        DefaultListModel lista=new DefaultListModel();
-        ArrayList<Object> cromosomaSolucion=cromosomaCadena(solucion);
+    private void mostrarLetrasValor() {
+        DefaultListModel lista = new DefaultListModel();
+        ArrayList<Object> cromosomaSolucion = cromosomaCadena(solucion);
         for (int i = 0; i < letrasSinRepeticion.size(); i++) {
-            lista.addElement(letrasSinRepeticion.get(i)+" = "+cromosomaSolucion.get(i));
+            lista.addElement(letrasSinRepeticion.get(i) + " = " + cromosomaSolucion.get(i));
         }
         lstResultado.setModel(lista);
     }
-    
+
     private void AlgoritmoGenético() {
         solucion = "";
         mostrarPaneles();
         mostrarDatosPrevios();
         obtenerLetras();
-        int combinaciones = numeroCombinaciones();
-        long tiempoinicial = System.currentTimeMillis();
-        generarPoblacionInicial();
-        if (solucion.isEmpty()) {
-            do {
-                seleccionElitista();
-                generarNuevaPoblacion();
-                System.out.println(cromosomasEvaluados.size());
-            } while (solucion.isEmpty() && (cromosomasEvaluados.size() != combinaciones));
+        if (letrasSinRepeticion.size() > 10) {
+            JOptionPane.showMessageDialog(null, "Criptoaritmética Incorrecta\n"
+                    +"La criptoaritmética debe tener hasta 10 letras diferentes","ERROR",JOptionPane.ERROR_MESSAGE);
+            limpiar();
+        } else {
+            int combinaciones = numeroCombinaciones();
+            long tiempoinicial = System.currentTimeMillis();
+            generarPoblacionInicial();
+            if (solucion.isEmpty()) {
+                do {
+                    seleccionElitista();
+                    generarNuevaPoblacion();
+                } while (solucion.isEmpty() && (cromosomasEvaluados.size() != combinaciones));
+            }
+            if (!solucion.isEmpty()) {
+                mostrarControles();
+                mostrarSolucion();
+                mostrarLetrasValor();
+            } else {
+                mostrarMensaje();
+            }
+            long tiempototal = System.currentTimeMillis() - tiempoinicial;
+            lblTiempo.setVisible(true);
+            lblTiempo.setText("El tiempo de demora es: " + tiempototal + " miliseg");
+            lblNumeroCromosomas.setVisible(true);
+            btnLimpiar.setVisible(true);
+            btnSalir.setVisible(true);
+            lblNumeroCromosomas.setText("Se han evaluado: " + cromosomasEvaluados.size() + " cromosomas");
         }
-        if (!solucion.isEmpty()) {
-            mostrarControles();
-            mostrarSolucion();
-            mostrarLetrasValor();
-        }else{
-            mostrarMensaje();
-        }
-        long tiempototal = System.currentTimeMillis() - tiempoinicial;
-        lblTiempo.setVisible(true);
-        lblTiempo.setText("El tiempo de demora es: " + tiempototal + " miliseg");        
+    }
+
+    private void limpiar() {
+        txtSumando1.setText("");
+        txtSumando2.setText("");
+        txtResultado.setText("");
+        inicio();
     }
 
     /**
@@ -606,6 +626,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstResultado = new javax.swing.JList<>();
         lblMensaje = new javax.swing.JLabel();
+        lblNumeroCromosomas = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         lblTiempo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -739,6 +762,22 @@ public class Principal extends javax.swing.JFrame {
 
         lblMensaje.setText("Mensaje");
 
+        lblNumeroCromosomas.setText("Número de cromosomas");
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlResultadosLayout = new javax.swing.GroupLayout(pnlResultados);
         pnlResultados.setLayout(pnlResultadosLayout);
         pnlResultadosLayout.setHorizontalGroup(
@@ -747,7 +786,14 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlResultadosLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNumeroCromosomas)
+                            .addGroup(pnlResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimpiar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -759,7 +805,15 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addGroup(pnlResultadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                    .addGroup(pnlResultadosLayout.createSequentialGroup()
+                        .addComponent(lblNumeroCromosomas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimpiar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSalir)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -836,6 +890,16 @@ public class Principal extends javax.swing.JFrame {
         txtResultado.setText(txtResultado.getText().toUpperCase());
     }//GEN-LAST:event_txtResultadoKeyReleased
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -873,6 +937,8 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCalcular;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -880,6 +946,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblNumeroCromosomas;
     private javax.swing.JLabel lblTiempo;
     private javax.swing.JList<String> lstResultado;
     private javax.swing.JPanel pnlDatos;
