@@ -6,6 +6,7 @@
 package Formularios;
 
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,6 +23,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Object> cromosomasEvaluados;
     ArrayList<Object> cromosomasMejores;
     ArrayList<ArrayList<Object>> poblacion;
+    String solucion;
     //</editor-fold>
 
     /**
@@ -34,28 +36,32 @@ public class Principal extends javax.swing.JFrame {
         inicio();
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Desactivar controles al inicio">
     private void inicio() {
         pnlDatosPrevios.setVisible(false);
         pnlResultados.setVisible(false);
         btnCalcular.setEnabled(false);
         txtSumando1.requestFocus();
     }
+    //</editor-fold>
 
     private void mostrarPaneles() {
         pnlDatosPrevios.setVisible(true);
-        pnlResultados.setVisible(true);
+        pnlResultados.setVisible(false);
         lblMensaje.setVisible(false);
         tblResultado.setVisible(false);
         lstResultado.setVisible(false);
     }
 
     private void mostrarControles() {
+        lblMensaje.setText("Solución encontrada");
         lblMensaje.setVisible(true);
         tblResultado.setVisible(true);
         lstResultado.setVisible(true);
     }
 
     private void mostrarMensaje() {
+        lblMensaje.setText("La criptoaritmética no tinene solución");
         lblMensaje.setVisible(true);
     }
 
@@ -305,6 +311,10 @@ public class Principal extends javax.swing.JFrame {
             if (!cromosomasEvaluados.contains(cromosomaPoblacion)) {
                 cromosomasEvaluados.add(cromosomaPoblacion);
                 aptitud = calcularAptitud(cromosoma);
+                if (aptitud == 0) {
+                    solucion = cromosomaPoblacion;
+                    i = 12500;
+                }
                 cromosomaEvaluado = new ArrayList<>();
                 cromosomaEvaluado.add(cromosomaPoblacion);
                 cromosomaEvaluado.add(aptitud);
@@ -339,21 +349,76 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private boolean buscarGenRepetido(String parte1, String parte2) {
+        ArrayList<Object> cromosoma1 = cromosomaCadena(parte1);
+        ArrayList<Object> cromosoma2 = cromosomaCadena(parte2);
         boolean respuesta = false;
-        for (int i = 0; i < parte1.length(); i++) {
-            if (parte2.contains(String.valueOf(parte1.charAt(i)))) {
+        for (int i = 0; i < cromosoma1.size(); i++) {
+            if (cromosoma2.contains(cromosoma1.get(i))) {
                 respuesta = true;
             }
         }
         return respuesta;
     }
 
-    private void cruce(String cromosoma1, String cromosoma2) {
+    private void generarNuevaPoblacion() {
+        int i = 0;
+        int ncruces;
+        int nmutaciones;
+        int indice1, indice2, aleatorio;
+        int longitud = cromosomasMejores.size();
+        poblacion = new ArrayList<>();
+        do {
+            String C1 = cromosomasMejores.get(i).toString();
+            String C2 = cromosomasMejores.get(i + 1).toString();
+            int nCr = cruce(C1, C2);
+            if (!solucion.isEmpty()) {
+                i = longitud;
+            }
+            ncruces = 0;
+            nmutaciones = 0;
+            while (nCr != 2) {
+                ncruces++;
+                if (ncruces == 10) {
+                    ArrayList<Object> genesCr = buscarPosiblesGenes(C1);
+                    ArrayList<Object> genesCr1 = buscarPosiblesGenes(C2);
+                    if (!genesCr.isEmpty()) {
+                        aleatorio = (int) (Math.random() * C1.length());
+                        indice1 = (int) (Math.random() * genesCr.size());
+                        C1 = mutacion(C1, aleatorio, indice1, genesCr);
+                        C2 = mutacion(C2, aleatorio, indice1, genesCr1);
+                    } else {
+                        do {
+                            indice1 = (int) (Math.random() * C1.length());
+                            indice2 = (int) (Math.random() * C1.length());
+                        } while (indice1 == indice2);
+                        C1 = mutacion(C1, indice1, indice2);
+                        C2 = mutacion(C2, indice1, indice2);
+                    }
+                    ncruces = 0;
+                    nmutaciones++;
+                }
+                if (nmutaciones == 10) {
+                    aleatorio = (int) (Math.random() * longitud);
+                    C2 = cromosomasMejores.get(aleatorio).toString();
+                    nmutaciones = 0;
+                    ncruces = 0;
+                }
+                nCr = cruce(C1, C2);
+                if (!solucion.isEmpty()) {
+                    nCr=2;
+                    i = longitud;
+                }
+            }
+            i += 2;
+        } while (i < longitud);
+    }
+
+    private int cruce(String cromosoma1, String cromosoma2) {
         String p1Cr1, p2Cr1, p1Cr2, p2Cr2;
         ArrayList<Object> cromosomaEvaluado;
         String cromosomaCruce1, cromosomaCruce2;
         int aptitud;
-        int contar=0;
+        int contar = 0;
         int longitud = cromosoma1.length();
         int aleatorio = (int) (Math.random() * longitud);
         p1Cr1 = cromosoma1.substring(0, aleatorio);
@@ -366,6 +431,9 @@ public class Principal extends javax.swing.JFrame {
                 if (!cromosomasEvaluados.contains(cromosomaCruce1)) {
                     cromosomasEvaluados.add(cromosomaCruce1);
                     aptitud = calcularAptitud(cromosomaCadena(cromosomaCruce1));
+                    if (aptitud == 0) {
+                        solucion = cromosomaCruce1;
+                    }
                     cromosomaEvaluado = new ArrayList<>();
                     cromosomaEvaluado.add(cromosomaCruce1);
                     cromosomaEvaluado.add(aptitud);
@@ -378,6 +446,9 @@ public class Principal extends javax.swing.JFrame {
                 if (!cromosomasEvaluados.contains(cromosomaCruce2)) {
                     cromosomasEvaluados.add(cromosomaCruce2);
                     aptitud = calcularAptitud(cromosomaCadena(cromosomaCruce2));
+                    if (aptitud == 0) {
+                        solucion = cromosomaCruce2;
+                    }
                     cromosomaEvaluado = new ArrayList<>();
                     cromosomaEvaluado.add(cromosomaCruce2);
                     cromosomaEvaluado.add(aptitud);
@@ -386,9 +457,9 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         }
-
+        return contar;
     }
-    
+
     private ArrayList buscarPosiblesGenes(String cromosoma) {
         ArrayList<Object> genes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -398,40 +469,110 @@ public class Principal extends javax.swing.JFrame {
         }
         return genes;
     }
-    
-    private String mutacion(String cromosoma,int aleatorio,int indice,ArrayList genesCr){
-//        ArrayList<Object> genesCr = buscarPosiblesGenes(cromosoma);
-        if (!genesCr.isEmpty()) {            
-            cromosoma=cromosoma.replace(String.valueOf(cromosoma.charAt(aleatorio)), String.valueOf(genesCr.get(indice)));
-        }else{
-            
+
+    private String mutacion(String cromosoma, int aleatorio, int indice, ArrayList genesCr) {
+        ArrayList<Object> cromosomaMuta = cromosomaCadena(cromosoma);
+        if (!genesCr.isEmpty()) {
+            cromosomaMuta.set(aleatorio, genesCr.get(indice));
+            cromosoma = cadenaCromosoma(cromosomaMuta);
         }
         return cromosoma;
     }
-    
-    private String mutacion(String cromosoma,int indice1,int indice2){
-        String aux,gen;
-        aux=String.valueOf(cromosoma.charAt(indice1));
-        gen=String.valueOf(cromosoma.charAt(indice2));
-        cromosoma=cromosoma.replace(gen, aux);
-        cromosoma=cromosoma.replace(aux, gen);
+
+    private String mutacion(String cromosoma, int indice1, int indice2) {
+        String aux;
+        ArrayList<Object> cromosomaMuta = cromosomaCadena(cromosoma);
+        aux = String.valueOf(cromosomaMuta.get(indice2));
+        cromosomaMuta.set(indice2, cromosomaMuta.get(indice1));
+        cromosomaMuta.set(indice1, aux);
+        cromosoma = cadenaCromosoma(cromosomaMuta);
         return cromosoma;
     }
+    
+    private void setearFilaSolucion(ArrayList op1,ArrayList op2,ArrayList s) {
+        int i = sumando1.length - 1;
+        int j = tblResultado.getColumnCount() - 1;
+        while (i >= 0) {
+            tblResultado.setValueAt(op1.get(i), 0, j);
+            i--;
+            j--;
+        }
+        i = sumando2.length - 1;
+        j = tblResultado.getColumnCount() - 1;
+        while (i >= 0) {
+            tblResultado.setValueAt(op2.get(i), 1, j);
+            i--;
+            j--;
+        }
+        i = resultado.length - 1;
+        j = tblResultado.getColumnCount() - 1;
+        while (i >= 0) {
+            tblResultado.setValueAt(s.get(i), 2, j);
+            i--;
+            j--;
+        }
+    }
+    
+    private void setearSolucion(){
+        DefaultTableModel modelo = new DefaultTableModel(null, armarTitulos());
+        tblResultado.setModel(modelo);
+        crearFila(modelo);        
+    }
+    
+    private void mostrarSolucion(){
+        ArrayList<Object> operador1=new ArrayList<>();
+        ArrayList<Object> operador2=new ArrayList<>();
+        ArrayList<Object> suma=new ArrayList<>();
+        ArrayList<Object> cromosomaEvaluar=cromosomaCadena(solucion);
+                
+        for (Object sumando11 : sumando1) {
+            int indice = letrasSinRepeticion.indexOf(sumando11);
+            operador1.add(cromosomaEvaluar.get(indice));
+        }
 
+        for (Object sumando21 : sumando2) {
+            int indice = letrasSinRepeticion.indexOf(sumando21);
+            operador2.add(cromosomaEvaluar.get(indice));
+        }
+
+        for (Object resultado1 : resultado) {
+            int indice = letrasSinRepeticion.indexOf(resultado1);
+            suma.add(cromosomaEvaluar.get(indice));
+        }        
+        setearSolucion();
+        setearFilaSolucion(operador1,operador2, suma);
+    }
+
+    private void mostrarLetrasValor(){
+        DefaultListModel lista=new DefaultListModel();
+        ArrayList<Object> cromosomaSolucion=cromosomaCadena(solucion);
+        for (int i = 0; i < letrasSinRepeticion.size(); i++) {
+            lista.addElement(letrasSinRepeticion.get(i)+" = "+cromosomaSolucion.get(i));
+        }
+        lstResultado.setModel(lista);
+    }
+    
     private void AlgoritmoGenético() {
+        solucion = null;
         mostrarPaneles();
         mostrarDatosPrevios();
-        mostrarControles();
         obtenerLetras();
+        int combinaciones = numeroCombinaciones();
         long tiempoinicial = System.currentTimeMillis();
         generarPoblacionInicial();
-        seleccionElitista();
-//        for (int i = 0; i < poblacion.size(); i++) {
-//            System.out.println("Cromosoma: "+poblacion.get(i).get(0)+" Aptitud: "+poblacion.get(i).get(1));
-//        }
-//        for (int i = 0; i < cromosomasMejores.size(); i++) {
-//            System.out.println("Cromosoma: "+cromosomasMejores.get(i));
-//        }
+        if (solucion.isEmpty()) {
+            do {
+                seleccionElitista();
+                generarNuevaPoblacion();
+            } while (solucion.isEmpty() && (cromosomasEvaluados.size() != combinaciones));
+        }
+        if (!solucion.isEmpty()) {
+            mostrarControles();
+            mostrarSolucion();
+            mostrarLetrasValor();
+        }else{
+            mostrarMensaje();
+        }
         long tiempototal = System.currentTimeMillis() - tiempoinicial;
         System.out.println("El tiempo de demora es: " + tiempototal + "miliseg");
     }
