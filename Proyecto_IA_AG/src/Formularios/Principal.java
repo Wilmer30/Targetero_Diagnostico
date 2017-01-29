@@ -194,153 +194,236 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private int numeroCombinaciones() {
-        int f = 1,n=1,numero;
-        
+        int f = 1, n = 1, numero;
+
         for (int i = 1; i <= 10; i++) {
             f = f * i;
         }
-        
-        numero=10-letrasSinRepeticion.size();
+
+        numero = 10 - letrasSinRepeticion.size();
         for (int i = 1; i <= numero; i++) {
             n = n * i;
         }
-        return f/n;
+        return f / n;
     }
 
-    private int calcularAptitud(ArrayList cromosomaEvaluar) {        
-        String operador1="",operador2="",suma="",s;
-        int s1,s2,sumaOriginal,m,n,ap1=0,ap2=0,c;
-        
+    private int calcularAptitud(ArrayList cromosomaEvaluar) {
+        String operador1 = "", operador2 = "", suma = "", s;
+        int s1, s2, sumaOriginal, m, n, ap1 = 0, ap2 = 0, c;
+
         for (Object sumando11 : sumando1) {
             int indice = letrasSinRepeticion.indexOf(sumando11);
-            operador1+=cromosomaEvaluar.get(indice);
+            operador1 += cromosomaEvaluar.get(indice);
         }
-        
+
         for (Object sumando21 : sumando2) {
             int indice = letrasSinRepeticion.indexOf(sumando21);
-            operador2+=cromosomaEvaluar.get(indice);
+            operador2 += cromosomaEvaluar.get(indice);
         }
-        
+
         for (Object resultado1 : resultado) {
             int indice = letrasSinRepeticion.indexOf(resultado1);
-            suma+=cromosomaEvaluar.get(indice);
+            suma += cromosomaEvaluar.get(indice);
         }
-        
-        s1=Integer.valueOf(operador1);
-        s2=Integer.valueOf(operador2);        
-        sumaOriginal=s1+s2;
-        s=String.valueOf(sumaOriginal);
-        
-        if (suma.length()>s.length()) {
-            n=suma.length();
-            m=s.length();
-        }else{
-            m=suma.length();
-            n=s.length();
+
+        s1 = Integer.valueOf(operador1);
+        s2 = Integer.valueOf(operador2);
+        sumaOriginal = s1 + s2;
+        s = String.valueOf(sumaOriginal);
+
+        if (suma.length() > s.length()) {
+            n = suma.length();
+            m = s.length();
+        } else {
+            m = suma.length();
+            n = s.length();
         }
-        
-        String sa="",soa="";
-        for (int i = (suma.length()-1); i >= 0; i--) {
-            sa+=suma.charAt(i);
+
+        String sa = "", soa = "";
+        for (int i = (suma.length() - 1); i >= 0; i--) {
+            sa += suma.charAt(i);
         }
-        
-        for (int i = (s.length()-1); i >= 0; i--) {
-            soa+=s.charAt(i);
+
+        for (int i = (s.length() - 1); i >= 0; i--) {
+            soa += s.charAt(i);
         }
-        
+
         for (int i = 0; i < m; i++) {
-            int x,y;
-            x=Integer.valueOf(String.valueOf(sa.charAt(i)));
-            y=Integer.valueOf(String.valueOf(soa.charAt(i)));
-            ap1+=Math.abs(x-y)*(m-i);
+            int x, y;
+            x = Integer.valueOf(String.valueOf(sa.charAt(i)));
+            y = Integer.valueOf(String.valueOf(soa.charAt(i)));
+            ap1 += Math.abs(x - y) * (m - i);
         }
-        
+
         String mayor;
-        if (sa.length()>soa.length()) {
-            mayor=sa;
-        }else{
-            mayor=soa;
+        if (sa.length() > soa.length()) {
+            mayor = sa;
+        } else {
+            mayor = soa;
         }
-        
+
         for (int i = m; i < n; i++) {
-            int y=Integer.valueOf(String.valueOf(mayor.charAt(i)));
-            ap2+=y*Math.pow(10, (i-m)+2);
+            int y = Integer.valueOf(String.valueOf(mayor.charAt(i)));
+            ap2 += y * Math.pow(10, (i - m) + 2);
         }
-        
+
         if (suma.equals(s)) {
-            c=0;
-        }else{
-            c=1;
+            c = 0;
+        } else {
+            c = 1;
         }
-        return ap1+ap2+(c*5790);
+        return ap1 + ap2 + (c * 5790);
     }
-    
-    private String cadenaCromosoma(ArrayList cromosomaConvertir){
-        String cadena="";
+
+    private String cadenaCromosoma(ArrayList cromosomaConvertir) {
+        String cadena = "";
         for (int i = 0; i < cromosomaConvertir.size(); i++) {
-            cadena+=cromosomaConvertir.get(i);
+            cadena += cromosomaConvertir.get(i);
         }
         return cadena;
     }
-    
-    private void generarPoblacionInicial(){
-        int i=0;
+
+    private ArrayList cromosomaCadena(String cadena) {
+        ArrayList<Object> cromosoma = new ArrayList<>();
+        for (int i = 0; i < cadena.length(); i++) {
+            cromosoma.add(String.valueOf(cadena.charAt(i)));
+        }
+        return cromosoma;
+    }
+
+    private void generarPoblacionInicial() {
+        int i = 0;
         ArrayList<Object> cromosoma;
         ArrayList<Object> cromosomaEvaluado;
         String cromosomaPoblacion;
         int aptitud;
-        cromosomasEvaluados=new ArrayList<>();
-        poblacion=new ArrayList<>();
+        cromosomasEvaluados = new ArrayList<>();
+        poblacion = new ArrayList<>();
         do {
-            cromosoma=crearCromosoma();
-            cromosomaPoblacion=cadenaCromosoma(cromosoma);
+            cromosoma = crearCromosoma();
+            cromosomaPoblacion = cadenaCromosoma(cromosoma);
             if (!cromosomasEvaluados.contains(cromosomaPoblacion)) {
-                cromosomasEvaluados.add(cromosomaPoblacion);                
-                aptitud=calcularAptitud(cromosoma);                
-                cromosomaEvaluado=new ArrayList<>();
+                cromosomasEvaluados.add(cromosomaPoblacion);
+                aptitud = calcularAptitud(cromosoma);
+                cromosomaEvaluado = new ArrayList<>();
                 cromosomaEvaluado.add(cromosomaPoblacion);
                 cromosomaEvaluado.add(aptitud);
                 poblacion.add(cromosomaEvaluado);
                 i++;
             }
-        } while (i<12500);
+        } while (i < 12500);
     }
-    
-    private void ordenarPoblacion(){
+
+    private void ordenarPoblacion() {
         for (int i = 0; i < poblacion.size(); i++) {
-            for (int j = i; j < poblacion.size(); j++) {                
-                if ((int)poblacion.get(j).get(1)<(int)poblacion.get(i).get(1))
-                {
-                    Object tempCr,tempAp;
+            for (int j = i; j < poblacion.size(); j++) {
+                if ((int) poblacion.get(j).get(1) < (int) poblacion.get(i).get(1)) {
+                    Object tempCr, tempAp;
                     tempAp = poblacion.get(j).get(1);
-                    tempCr= poblacion.get(j).get(0);
-                    poblacion.get(j).set(1,poblacion.get(i).get(1));
-                    poblacion.get(j).set(0,poblacion.get(i).get(0));
-                    poblacion.get(i).set(0,tempCr);
-                    poblacion.get(i).set(1,tempAp);
+                    tempCr = poblacion.get(j).get(0);
+                    poblacion.get(j).set(1, poblacion.get(i).get(1));
+                    poblacion.get(j).set(0, poblacion.get(i).get(0));
+                    poblacion.get(i).set(0, tempCr);
+                    poblacion.get(i).set(1, tempAp);
                 }
             }
         }
     }
-        
-    private void seleccionElitista(){        
+
+    private void seleccionElitista() {
         ordenarPoblacion();
-        cromosomasMejores=new ArrayList<>();
+        cromosomasMejores = new ArrayList<>();
         for (int i = 0; i < 1250; i++) {
             cromosomasMejores.add(poblacion.get(i).get(0));
         }
     }
-    
-    private void cruce(String cromosoma1,String Cromosoma2){
-        int longitud=cromosoma1.length();
+
+    private boolean buscarGenRepetido(String parte1, String parte2) {
+        boolean respuesta = false;
+        for (int i = 0; i < parte1.length(); i++) {
+            if (parte2.contains(String.valueOf(parte1.charAt(i)))) {
+                respuesta = true;
+            }
+        }
+        return respuesta;
+    }
+
+    private void cruce(String cromosoma1, String cromosoma2) {
+        String p1Cr1, p2Cr1, p1Cr2, p2Cr2;
+        ArrayList<Object> cromosomaEvaluado;
+        String cromosomaCruce1, cromosomaCruce2;
+        int aptitud;
+        int contar=0;
+        int longitud = cromosoma1.length();
+        int aleatorio = (int) (Math.random() * longitud);
+        p1Cr1 = cromosoma1.substring(0, aleatorio);
+        p2Cr1 = cromosoma1.substring(aleatorio);
+        p1Cr2 = cromosoma2.substring(0, aleatorio);
+        p2Cr2 = cromosoma2.substring(aleatorio);
+        if (!p1Cr1.equals(p1Cr2)) {
+            if (!buscarGenRepetido(p1Cr1, p2Cr2)) {
+                cromosomaCruce1 = p1Cr1 + p2Cr2;
+                if (!cromosomasEvaluados.contains(cromosomaCruce1)) {
+                    cromosomasEvaluados.add(cromosomaCruce1);
+                    aptitud = calcularAptitud(cromosomaCadena(cromosomaCruce1));
+                    cromosomaEvaluado = new ArrayList<>();
+                    cromosomaEvaluado.add(cromosomaCruce1);
+                    cromosomaEvaluado.add(aptitud);
+                    poblacion.add(cromosomaEvaluado);
+                    contar++;
+                }
+            }
+            if (!buscarGenRepetido(p1Cr2, p2Cr1)) {
+                cromosomaCruce2 = p1Cr2 + p2Cr1;
+                if (!cromosomasEvaluados.contains(cromosomaCruce2)) {
+                    cromosomasEvaluados.add(cromosomaCruce2);
+                    aptitud = calcularAptitud(cromosomaCadena(cromosomaCruce2));
+                    cromosomaEvaluado = new ArrayList<>();
+                    cromosomaEvaluado.add(cromosomaCruce2);
+                    cromosomaEvaluado.add(aptitud);
+                    poblacion.add(cromosomaEvaluado);
+                    contar++;
+                }
+            }
+        }
+
     }
     
-    private void AlgoritmoGenético(){        
+    private ArrayList buscarPosiblesGenes(String cromosoma) {
+        ArrayList<Object> genes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            if (!cromosoma.contains(String.valueOf(i))) {
+                genes.add(i);
+            }
+        }
+        return genes;
+    }
+    
+    private String mutacion(String cromosoma,int aleatorio,int indice,ArrayList genesCr){
+//        ArrayList<Object> genesCr = buscarPosiblesGenes(cromosoma);
+        if (!genesCr.isEmpty()) {            
+            cromosoma=cromosoma.replace(String.valueOf(cromosoma.charAt(aleatorio)), String.valueOf(genesCr.get(indice)));
+        }else{
+            
+        }
+        return cromosoma;
+    }
+    
+    private String mutacion(String cromosoma,int indice1,int indice2){
+        String aux,gen;
+        aux=String.valueOf(cromosoma.charAt(indice1));
+        gen=String.valueOf(cromosoma.charAt(indice2));
+        cromosoma=cromosoma.replace(gen, aux);
+        cromosoma=cromosoma.replace(aux, gen);
+        return cromosoma;
+    }
+
+    private void AlgoritmoGenético() {
         mostrarPaneles();
         mostrarDatosPrevios();
         mostrarControles();
         obtenerLetras();
-        long tiempoinicial=System.currentTimeMillis();
+        long tiempoinicial = System.currentTimeMillis();
         generarPoblacionInicial();
         seleccionElitista();
 //        for (int i = 0; i < poblacion.size(); i++) {
@@ -349,8 +432,8 @@ public class Principal extends javax.swing.JFrame {
 //        for (int i = 0; i < cromosomasMejores.size(); i++) {
 //            System.out.println("Cromosoma: "+cromosomasMejores.get(i));
 //        }
-        long tiempototal=System.currentTimeMillis()-tiempoinicial;
-        System.out.println("El tiempo de demora es: "+tiempototal+"miliseg");
+        long tiempototal = System.currentTimeMillis() - tiempoinicial;
+        System.out.println("El tiempo de demora es: " + tiempototal + "miliseg");
     }
 
     /**
