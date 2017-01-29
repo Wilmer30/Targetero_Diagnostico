@@ -41,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         pnlDatosPrevios.setVisible(false);
         pnlResultados.setVisible(false);
         btnCalcular.setEnabled(false);
+        lblTiempo.setVisible(false);
         txtSumando1.requestFocus();
     }
     //</editor-fold>
@@ -564,6 +565,7 @@ public class Principal extends javax.swing.JFrame {
             do {
                 seleccionElitista();
                 generarNuevaPoblacion();
+                System.out.println(cromosomasEvaluados.size());
             } while (solucion.isEmpty() && (cromosomasEvaluados.size() != combinaciones));
         }
         if (!solucion.isEmpty()) {
@@ -574,7 +576,8 @@ public class Principal extends javax.swing.JFrame {
             mostrarMensaje();
         }
         long tiempototal = System.currentTimeMillis() - tiempoinicial;
-        System.out.println("El tiempo de demora es: " + tiempototal + "miliseg");
+        lblTiempo.setVisible(true);
+        lblTiempo.setText("El tiempo de demora es: " + tiempototal + "miliseg");        
     }
 
     /**
@@ -603,6 +606,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         lstResultado = new javax.swing.JList<>();
         lblMensaje = new javax.swing.JLabel();
+        lblTiempo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Criptoaritmética con Algoritmos Genéticos");
@@ -759,6 +763,8 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lblTiempo.setText("Tiempo de Demora");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -771,6 +777,9 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lblTiempo)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -782,7 +791,8 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlDatosPrevios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTiempo))
         );
 
         pack();
@@ -870,6 +880,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblTiempo;
     private javax.swing.JList<String> lstResultado;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlDatosPrevios;
