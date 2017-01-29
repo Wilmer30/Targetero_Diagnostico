@@ -553,7 +553,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void AlgoritmoGenético() {
-        solucion = null;
+        solucion = "";
         mostrarPaneles();
         mostrarDatosPrevios();
         obtenerLetras();
