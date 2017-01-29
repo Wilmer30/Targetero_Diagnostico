@@ -48,7 +48,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void mostrarPaneles() {
         pnlDatosPrevios.setVisible(true);
-        pnlResultados.setVisible(false);
+        pnlResultados.setVisible(true);
         lblMensaje.setVisible(false);
         tblResultado.setVisible(false);
         lstResultado.setVisible(false);
@@ -577,7 +577,7 @@ public class Principal extends javax.swing.JFrame {
         }
         long tiempototal = System.currentTimeMillis() - tiempoinicial;
         lblTiempo.setVisible(true);
-        lblTiempo.setText("El tiempo de demora es: " + tiempototal + "miliseg");        
+        lblTiempo.setText("El tiempo de demora es: " + tiempototal + " miliseg");        
     }
 
     /**
