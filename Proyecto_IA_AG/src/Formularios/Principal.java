@@ -5,7 +5,9 @@
  */
 package Formularios;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -620,7 +622,7 @@ public class Principal extends javax.swing.JFrame {
             }
             long tiempototal = System.currentTimeMillis() - tiempoinicial;
             lblTiempo.setVisible(true);
-            lblTiempo.setText("El tiempo de demora es: " + tiempototal + " miliseg");
+            lblTiempo.setText("El tiempo de demora es: " + setearTiempo(tiempototal));
             lblNumeroCromosomas.setVisible(true);
             btnLimpiar.setVisible(true);
             btnSalir.setVisible(true);
@@ -633,6 +635,37 @@ public class Principal extends javax.swing.JFrame {
         txtSumando2.setText("");
         txtResultado.setText("");
         inicio();
+    }
+    
+    private String setearTiempo(long tiempo){
+        int s=0,m=0,h=0;
+        long ms=tiempo;
+        String t="";
+        if (tiempo>=1000) {
+            s=(int)tiempo/1000;
+            ms=tiempo%1000;
+        }
+        if (s>=60) {
+            m=(int)s/60;
+            s=s%60;
+        }
+        if (m>=60) {
+            h=(int)m/60;
+            m=m%60;
+        }
+        if (h!=0) {
+            t+=String.valueOf(h)+" hora(s), ";
+        }
+        if (m!=0) {
+            t+=String.valueOf(m)+" minuto(s), ";
+        }
+        if(s!=0){
+            t+=String.valueOf(s)+" segundo(s), ";
+        }
+        if(ms!=0){
+            t+=String.valueOf(ms)+" milisegundos";
+        }
+        return t;
     }
 
     /**
