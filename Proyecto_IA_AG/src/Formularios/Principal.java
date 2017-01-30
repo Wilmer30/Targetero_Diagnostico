@@ -25,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Object> cromosomasMejores;
     ArrayList<ArrayList<Object>> poblacion;
     String solucion;
+    int npoblacion;
     //</editor-fold>
 
     /**
@@ -72,9 +73,25 @@ public class Principal extends javax.swing.JFrame {
 
     private void mostrarCalcular() {
         if (!txtSumando1.getText().isEmpty() && !txtSumando2.getText().isEmpty() && !txtResultado.getText().isEmpty()) {
-            btnCalcular.setEnabled(true);
+            validarResultado();            
         } else {
             btnCalcular.setEnabled(false);
+        }
+    }
+    
+    private void validarResultado(){
+        if (txtSumando1.getText().length()>txtSumando2.getText().length()) {
+            if (txtResultado.getText().length()>txtSumando1.getText().length()) {
+                btnCalcular.setEnabled(true);
+            }else{
+                btnCalcular.setEnabled(false);
+            }
+        }else{
+            if (txtResultado.getText().length()>txtSumando2.getText().length()) {
+                btnCalcular.setEnabled(true);
+            }else{
+                btnCalcular.setEnabled(false);
+            }
         }
     }
 
@@ -318,7 +335,7 @@ public class Principal extends javax.swing.JFrame {
                 aptitud = calcularAptitud(cromosoma);
                 if (aptitud == 0) {
                     solucion = cromosomaPoblacion;
-                    i = 12500;
+                    i = npoblacion;
                 }
                 cromosomaEvaluado = new ArrayList<>();
                 cromosomaEvaluado.add(cromosomaPoblacion);
@@ -326,7 +343,7 @@ public class Principal extends javax.swing.JFrame {
                 poblacion.add(cromosomaEvaluado);
                 i++;
             }
-        } while (i < 12500);
+        } while (i < npoblacion);
     }
 
     private void ordenarPoblacion() {
@@ -347,8 +364,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void seleccionElitista() {
         ordenarPoblacion();
+        int nseleccion;
+        if (poblacion.size()==npoblacion) {
+            nseleccion=(int)(poblacion.size()*0.1);
+        }else{
+            nseleccion=(int)(poblacion.size()/2);
+        }
         cromosomasMejores = new ArrayList<>();
-        for (int i = 0; i < 1250; i++) {
+        for (int i = 0; i < nseleccion; i++) {
             cromosomasMejores.add(poblacion.get(i).get(0));
         }
     }
@@ -556,7 +579,15 @@ public class Principal extends javax.swing.JFrame {
         }
         lstResultado.setModel(lista);
     }
-
+    
+    private void numeroPoblacion(int n){
+        if (n>1000000) {
+            npoblacion=12500;
+        }else{
+            npoblacion=(int)(n*0.1);
+        }        
+    }
+    
     private void AlgoritmoGenético() {
         solucion = "";
         mostrarPaneles();
@@ -568,6 +599,7 @@ public class Principal extends javax.swing.JFrame {
             limpiar();
         } else {
             int combinaciones = numeroCombinaciones();
+            numeroPoblacion(combinaciones);
             long tiempoinicial = System.currentTimeMillis();
             generarPoblacionInicial();
             if (solucion.isEmpty()) {
@@ -870,7 +902,7 @@ public class Principal extends javax.swing.JFrame {
     private void txtResultadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultadoKeyTyped
         // TODO add your handling code here:
         soloLetras(evt);
-        mostrarCalcular();
+        mostrarCalcular();        
     }//GEN-LAST:event_txtResultadoKeyTyped
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
