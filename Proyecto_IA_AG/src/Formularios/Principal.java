@@ -5,9 +5,7 @@
  */
 package Formularios;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -80,20 +78,18 @@ public class Principal extends javax.swing.JFrame {
             btnCalcular.setEnabled(false);
         }
     }
-    
-    private void validarResultado(){
-        if (txtSumando1.getText().length()>txtSumando2.getText().length()) {
-            if (txtResultado.getText().length()>=txtSumando1.getText().length()) {
+
+    private void validarResultado() {
+        if (txtSumando1.getText().length() > txtSumando2.getText().length()) {
+            if (txtResultado.getText().length() >= txtSumando1.getText().length()) {
                 btnCalcular.setEnabled(true);
-            }else{
+            } else {
                 btnCalcular.setEnabled(false);
             }
-        }else{
-            if (txtResultado.getText().length()>=txtSumando2.getText().length()) {
-                btnCalcular.setEnabled(true);
-            }else{
-                btnCalcular.setEnabled(false);
-            }
+        } else if (txtResultado.getText().length() >= txtSumando2.getText().length()) {
+            btnCalcular.setEnabled(true);
+        } else {
+            btnCalcular.setEnabled(false);
         }
     }
 
@@ -367,12 +363,12 @@ public class Principal extends javax.swing.JFrame {
     private void seleccionElitista() {
         ordenarPoblacion();
         int nseleccion;
-        if (poblacion.size()==npoblacion) {
-            nseleccion=(int)(poblacion.size()*0.1);
-        }else{
-            nseleccion=(int)(poblacion.size()/2);
+        if (poblacion.size() == npoblacion) {
+            nseleccion = (int) (poblacion.size() * 0.1);
+        } else {
+            nseleccion = (int) (poblacion.size() / 2);
         }
-        if (nseleccion%2!=0) {
+        if (nseleccion % 2 != 0) {
             nseleccion++;
         }
         cromosomasMejores = new ArrayList<>();
@@ -399,6 +395,9 @@ public class Principal extends javax.swing.JFrame {
         int nmutaciones;
         int indice1, indice2, aleatorio;
         int longitud = cromosomasMejores.size();
+        int naleatorio;
+        int aptitud;
+        ArrayList<Object> cromosomaEvaluado;
         poblacion = new ArrayList<>();
         do {
             String C1 = cromosomasMejores.get(i).toString();
@@ -409,6 +408,7 @@ public class Principal extends javax.swing.JFrame {
             }
             ncruces = 0;
             nmutaciones = 0;
+            naleatorio = 0;
             while (nCr != 2) {
                 ncruces++;
                 if (ncruces == 10) {
@@ -435,11 +435,33 @@ public class Principal extends javax.swing.JFrame {
                     C2 = cromosomasMejores.get(aleatorio).toString();
                     nmutaciones = 0;
                     ncruces = 0;
-                }
+                    naleatorio++;
+                }                
                 nCr = cruce(C1, C2);
                 if (!solucion.isEmpty()) {
                     nCr = 2;
                     i = longitud;
+                }
+                if (naleatorio == 1001&&nCr!=2) {
+                    aptitud = calcularAptitud(cromosomaCadena(C1));
+                    if (aptitud == 0) {
+                        solucion = C1;
+                    }
+                    cromosomaEvaluado = new ArrayList<>();
+                    cromosomaEvaluado.add(C1);
+                    cromosomaEvaluado.add(aptitud);
+                    poblacion.add(cromosomaEvaluado);
+                    
+                    aptitud = calcularAptitud(cromosomaCadena(C2));
+                    if (aptitud == 0) {
+                        solucion = C2;
+                    }
+                    cromosomaEvaluado = new ArrayList<>();
+                    cromosomaEvaluado.add(C2);
+                    cromosomaEvaluado.add(aptitud);
+                    poblacion.add(cromosomaEvaluado);
+                    nCr=2;
+                    npoblacion=0;
                 }
             }
             i += 2;
@@ -584,15 +606,15 @@ public class Principal extends javax.swing.JFrame {
         }
         lstResultado.setModel(lista);
     }
-    
-    private void numeroPoblacion(int n){
-        if (n>1000000) {
-            npoblacion=12500;
-        }else{
-            npoblacion=(int)(n*0.1);
-        }        
+
+    private void numeroPoblacion(int n) {
+        if (n > 1000000) {
+            npoblacion = 12500;
+        } else {
+            npoblacion = (int) (n * 0.1);
+        }
     }
-    
+
     private void AlgoritmoGenético() {
         solucion = "";
         mostrarPaneles();
@@ -600,7 +622,7 @@ public class Principal extends javax.swing.JFrame {
         obtenerLetras();
         if (letrasSinRepeticion.size() > 10) {
             JOptionPane.showMessageDialog(null, "Criptoaritmética Incorrecta\n"
-                    +"La criptoaritmética debe tener hasta 10 letras diferentes","ERROR",JOptionPane.ERROR_MESSAGE);
+                    + "La criptoaritmética debe tener hasta 10 letras diferentes", "ERROR", JOptionPane.ERROR_MESSAGE);
             limpiar();
         } else {
             int combinaciones = numeroCombinaciones();
@@ -634,36 +656,40 @@ public class Principal extends javax.swing.JFrame {
         txtSumando1.setText("");
         txtSumando2.setText("");
         txtResultado.setText("");
+        txtSumando1.setEnabled(true);
+        txtSumando2.setEnabled(true);
+        txtResultado.setEnabled(true);
         inicio();
+        
     }
-    
-    private String setearTiempo(long tiempo){
-        int s=0,m=0,h=0;
-        long ms=tiempo;
-        String t="";
-        if (tiempo>=1000) {
-            s=(int)tiempo/1000;
-            ms=tiempo%1000;
+
+    private String setearTiempo(long tiempo) {
+        int s = 0, m = 0, h = 0;
+        long ms = tiempo;
+        String t = "";
+        if (tiempo >= 1000) {
+            s = (int) tiempo / 1000;
+            ms = tiempo % 1000;
         }
-        if (s>=60) {
-            m=(int)s/60;
-            s=s%60;
+        if (s >= 60) {
+            m = (int) s / 60;
+            s = s % 60;
         }
-        if (m>=60) {
-            h=(int)m/60;
-            m=m%60;
+        if (m >= 60) {
+            h = (int) m / 60;
+            m = m % 60;
         }
-        if (h!=0) {
-            t+=String.valueOf(h)+" hora(s), ";
+        if (h != 0) {
+            t += String.valueOf(h) + " hora(s), ";
         }
-        if (m!=0) {
-            t+=String.valueOf(m)+" minuto(s), ";
+        if (m != 0) {
+            t += String.valueOf(m) + " minuto(s), ";
         }
-        if(s!=0){
-            t+=String.valueOf(s)+" segundo(s), ";
+        if (s != 0) {
+            t += String.valueOf(s) + " segundo(s), ";
         }
-        if(ms!=0){
-            t+=String.valueOf(ms)+" milisegundos";
+        if (ms != 0) {
+            t += String.valueOf(ms) + " milisegundos";
         }
         return t;
     }
@@ -920,23 +946,26 @@ public class Principal extends javax.swing.JFrame {
 
     private void txtSumando1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyTyped
         // TODO add your handling code here:
-        soloLetras(evt);        
+        soloLetras(evt);
     }//GEN-LAST:event_txtSumando1KeyTyped
 
     private void txtSumando2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando2KeyTyped
         // TODO add your handling code here:
-        soloLetras(evt);        
+        soloLetras(evt);
     }//GEN-LAST:event_txtSumando2KeyTyped
 
     private void txtResultadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultadoKeyTyped
         // TODO add your handling code here:
-        soloLetras(evt);        
+        soloLetras(evt);
     }//GEN-LAST:event_txtResultadoKeyTyped
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         // TODO add your handling code here:
         AlgoritmoGenético();
         btnCalcular.setEnabled(false);
+        txtSumando1.setEnabled(false);
+        txtSumando2.setEnabled(false);
+        txtResultado.setEnabled(false);
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void txtSumando1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSumando1KeyReleased
@@ -964,8 +993,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
-        limpiar();
-        btnCalcular.setEnabled(true);
+        limpiar();        
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
