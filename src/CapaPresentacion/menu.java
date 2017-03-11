@@ -13,8 +13,7 @@ import ObjetoNegocios.Enumeraciones.*;
  */
 public class menu extends javax.swing.JFrame {
 
-    
-     static EstadoVentanas estadoVentana;
+    static EstadoVentanas estadoVentana;
 
     public static void setEstadoVentana(EstadoVentanas estadoVentana) {
         menu.estadoVentana = estadoVentana;
@@ -43,22 +42,21 @@ public class menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         dpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        mnAdministrador = new javax.swing.JMenu();
+        smRol = new javax.swing.JMenu();
+        miIngresoUsuario = new javax.swing.JMenuItem();
+        miDarBajaUsuario = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        miIngresoRol = new javax.swing.JMenuItem();
+        miAsignarRol = new javax.swing.JMenuItem();
+        mnCIE10 = new javax.swing.JMenu();
+        miIngresarCIE10 = new javax.swing.JMenuItem();
+        miDarBajaCIE10 = new javax.swing.JMenuItem();
+        mnHistoriaClinica = new javax.swing.JMenu();
+        miIngresarHC = new javax.swing.JMenuItem();
+        mnReportes = new javax.swing.JMenu();
+        mnConfiguraciones = new javax.swing.JMenu();
+        miCambioClave = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -90,107 +88,99 @@ public class menu extends javax.swing.JFrame {
 
         jMenuBar1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jMenu8.setText("Administrador");
+        mnAdministrador.setText("Administrador");
 
-        jMenu9.setText("Usuarios");
+        smRol.setText("Usuarios");
 
-        jMenuItem8.setText("Ingreso");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        miIngresoUsuario.setText("Ingreso");
+        miIngresoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                miIngresoUsuarioActionPerformed(evt);
             }
         });
-        jMenu9.add(jMenuItem8);
+        smRol.add(miIngresoUsuario);
 
-        jMenuItem9.setText("Dar de baja");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        miDarBajaUsuario.setText("Dar de baja");
+        miDarBajaUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                miDarBajaUsuarioActionPerformed(evt);
             }
         });
-        jMenu9.add(jMenuItem9);
+        smRol.add(miDarBajaUsuario);
 
-        jMenu8.add(jMenu9);
+        mnAdministrador.add(smRol);
 
         jMenu10.setText("Roles");
 
-        jMenuItem10.setText("Ingreso");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+        miIngresoRol.setText("Ingreso");
+        miIngresoRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
+                miIngresoRolActionPerformed(evt);
             }
         });
-        jMenu10.add(jMenuItem10);
+        jMenu10.add(miIngresoRol);
 
-        jMenuItem12.setText("Asignar");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+        miAsignarRol.setText("Asignar");
+        miAsignarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
+                miAsignarRolActionPerformed(evt);
             }
         });
-        jMenu10.add(jMenuItem12);
+        jMenu10.add(miAsignarRol);
 
-        jMenu8.add(jMenu10);
+        mnAdministrador.add(jMenu10);
 
-        jMenuBar1.add(jMenu8);
+        jMenuBar1.add(mnAdministrador);
 
-        jMenu4.setText("CIE10");
+        mnCIE10.setText("CIE10");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Ingresar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        miIngresarCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        miIngresarCIE10.setText("Ingresar");
+        miIngresarCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                miIngresarCIE10ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem1);
+        mnCIE10.add(miIngresarCIE10);
 
-        jMenuItem2.setText("Eliminar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        miDarBajaCIE10.setText("Eliminar");
+        miDarBajaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                miDarBajaCIE10ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem2);
+        mnCIE10.add(miDarBajaCIE10);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(mnCIE10);
 
-        jMenu3.setText("Historias clinicas");
+        mnHistoriaClinica.setText("Historias clinicas");
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Ingresar");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        miIngresarHC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        miIngresarHC.setText("Ingresar");
+        miIngresarHC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                miIngresarHCActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        mnHistoriaClinica.add(miIngresarHC);
 
-        jMenuItem4.setText("Modificar");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.add(mnHistoriaClinica);
+
+        mnReportes.setText("Reportes");
+        jMenuBar1.add(mnReportes);
+
+        mnConfiguraciones.setText("Configuración");
+
+        miCambioClave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        miCambioClave.setText("Cambio de clave");
+        miCambioClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                miCambioClaveActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        mnConfiguraciones.add(miCambioClave);
 
-        jMenuBar1.add(jMenu3);
-
-        jMenu7.setText("Reportes");
-        jMenuBar1.add(jMenu7);
-
-        jMenu2.setText("Configuración");
-
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText("Cambio de clave");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem5);
-
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(mnConfiguraciones);
 
         setJMenuBar(jMenuBar1);
 
@@ -215,56 +205,67 @@ public class menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void miIngresarCIE10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresarCIE10ActionPerformed
         // TODO add your handling code here:
-        ingreso_CIE10 ventana = new ingreso_CIE10();
-        dpPrincipal.add(ventana);
-        ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        if (!estadoVentana.name().equals("abierto")) {
+            ingreso_CIE10 ventana = new ingreso_CIE10();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+             estadoVentana = EstadoVentanas.abierto;
+        }
+    }//GEN-LAST:event_miIngresarCIE10ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void miIngresarHCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresarHCActionPerformed
         // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
         ingreso_HistoriaClinica ventana = new ingreso_HistoriaClinica();
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+        estadoVentana = EstadoVentanas.abierto;
+        }
+    }//GEN-LAST:event_miIngresarHCActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void miCambioClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCambioClaveActionPerformed
         // TODO add your handling code here:
+         if (!estadoVentana.name().equals("abierto")) {
         cambioClave ventana = new cambioClave();
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+        estadoVentana = EstadoVentanas.abierto;
+         }
+    }//GEN-LAST:event_miCambioClaveActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void miDarBajaCIE10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarBajaCIE10ActionPerformed
         // TODO add your handling code here:
+         if (!estadoVentana.name().equals("abierto")) {
         darBaja_Cie10 ventana = new darBaja_Cie10();
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+        estadoVentana = EstadoVentanas.abierto;
+         }
+    }//GEN-LAST:event_miDarBajaCIE10ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void miIngresoRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresoRolActionPerformed
         // TODO add your handling code here:
-        modificarHistoria ventana = new modificarHistoria();
-        dpPrincipal.add(ventana);
-        ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        if (!estadoVentana.name().equals("abierto")) {
+            ingresoRol ventana = new ingresoRol();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }
+    }//GEN-LAST:event_miIngresoRolActionPerformed
 
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+    private void miAsignarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAsignarRolActionPerformed
         // TODO add your handling code here:
-        ingresoRol ventana = new ingresoRol();
-        dpPrincipal.add(ventana);
-        ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
+        if (!estadoVentana.name().equals("abierto")) {
+            asignarRol_Usuario ventana = new asignarRol_Usuario();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }
+    }//GEN-LAST:event_miAsignarRolActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        // TODO add your handling code here:
-        asignarRol_Usuario ventana = new asignarRol_Usuario();
-        dpPrincipal.add(ventana);
-        ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void miIngresoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresoUsuarioActionPerformed
         // TODO add your handling code here:
 
         if (!estadoVentana.name().equals("abierto")) {
@@ -274,14 +275,17 @@ public class menu extends javax.swing.JFrame {
             estadoVentana = EstadoVentanas.abierto;
         }
 
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_miIngresoUsuarioActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void miDarBajaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarBajaUsuarioActionPerformed
         // TODO add your handling code here:
-        darBaja_Usuario ventana = new darBaja_Usuario();
-        dpPrincipal.add(ventana);
-        ventana.setVisible(true);
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+        if (!estadoVentana.name().equals("abierto")) {
+            darBaja_Usuario ventana = new darBaja_Usuario();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }
+    }//GEN-LAST:event_miDarBajaUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,25 +327,24 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem miAsignarRol;
+    private javax.swing.JMenuItem miCambioClave;
+    private javax.swing.JMenuItem miDarBajaCIE10;
+    private javax.swing.JMenuItem miDarBajaUsuario;
+    private javax.swing.JMenuItem miIngresarCIE10;
+    private javax.swing.JMenuItem miIngresarHC;
+    private javax.swing.JMenuItem miIngresoRol;
+    private javax.swing.JMenuItem miIngresoUsuario;
+    private javax.swing.JMenu mnAdministrador;
+    private javax.swing.JMenu mnCIE10;
+    private javax.swing.JMenu mnConfiguraciones;
+    private javax.swing.JMenu mnHistoriaClinica;
+    private javax.swing.JMenu mnReportes;
+    private javax.swing.JMenu smRol;
     // End of variables declaration//GEN-END:variables
 }
