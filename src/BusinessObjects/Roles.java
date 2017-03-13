@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AccesoDatos;
+package BusinessObjects;
 
 /**
  *
@@ -11,24 +11,24 @@ package AccesoDatos;
  */
 public class Roles {
 
-    Integer CodigoRol;
+    Integer codigoRol;
     String nombreRol;
-    String DescripcionRol;
+    String descripcionRol;
 
-    public void setCodigoRol(Integer CodigoRol) {
-        this.CodigoRol = CodigoRol;
+    public void setCodigoRol(Integer codigoRol) {
+        this.codigoRol = codigoRol;
     }
 
     public void setNombreRol(String nombreRol) {
         this.nombreRol = nombreRol;
     }
 
-    public void setDescripcionRol(String DescripcionRol) {
-        this.DescripcionRol = DescripcionRol;
+    public void setDescripcionRol(String descripcionRol) {
+        this.descripcionRol = descripcionRol;
     }
 
     public Integer getCodigoRol() {
-        return CodigoRol;
+        return codigoRol;
     }
 
     public String getNombreRol() {
@@ -36,7 +36,7 @@ public class Roles {
     }
 
     public String getDescripcionRol() {
-        return DescripcionRol;
+        return descripcionRol;
     }
 
 }

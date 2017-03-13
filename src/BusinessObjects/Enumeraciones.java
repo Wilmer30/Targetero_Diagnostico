@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetoNegocios;
-
-import AccesoDatos.Usuarios;
+package BusinessObjects;
 
 /**
  *
  * @author Wilmer Oñate
  */
-public class UsuarioDAL {
-    
-    public void Insert(Usuarios usuario){
-        
+public class Enumeraciones {
+
+    public enum EstadoVentanas {
+        cerrado, abierto
     }
 }
