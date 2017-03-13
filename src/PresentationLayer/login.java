@@ -211,24 +211,23 @@ public class login extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
-        UsuarioDAL usuario = new UsuarioDAL();
-
-        if ((txtCedula.getText()) != null) {
-            String password = (txtCedula.getText());
-            if (password.equals(txtClave.getText())) {
-//                    ConectarBaseDatos.SetUsuario(txtCedula.getText());
-//                    ConectarBaseDatos.SetContraseña(txtClave.getText());
-                menu menu = new menu();
-                menu.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "La clave no es correcta", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "El usuario no es correcto", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
-        }
-
+//        UsuarioDAL usuario = new UsuarioDAL();
+//        if (usuario.VerificarUsuario(txtCedula.getText()) ) {
+//           
+//            if ( usuario.VerificarContraseña(txtCedula.getText(),txtClave.getText()  ) ) {//                    
+//                menu menu = new menu();
+//                menu.setVisible(true);
+//                this.dispose();
+//            } else {
+//                JOptionPane.showMessageDialog(null, "La clave no es correcta", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+//            }
+//
+//        } else {
+//            JOptionPane.showMessageDialog(null, "El usuario no es correcto", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+//        }
+        menu menu = new menu();
+        menu.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_btnAceptarActionPerformed
 
