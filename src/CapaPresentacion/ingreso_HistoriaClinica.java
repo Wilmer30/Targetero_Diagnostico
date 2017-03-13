@@ -1,5 +1,8 @@
 package CapaPresentacion;
 
+import ObjetoNegocios.Enumeraciones;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -49,6 +52,23 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("INGRESO DE HISRIA CLINICA");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -196,9 +216,34 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        limpiarContorles();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+         if (!txtHistoriaClinica.getText().equals("") || !txtFechaIngreso.getText().equals("") ) {
+            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            //res=0 si//res=1 =no                  
+            if (res == 1) {
+                this.setDefaultCloseOperation(0); // no cierra la ventana
+            } else {
+                this.setDefaultCloseOperation(1);//  cierra la ventana
+                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+            }
+        } else {
+            this.setDefaultCloseOperation(1);//cierra la ventana
+            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
+        
+        
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    
+    public void limpiarContorles(){
+        txtFechaIngreso.setText(null);
+        txtHistoriaClinica.setText(null);
+        cbEstado.setSelectedItem(1);        
+    }
     /**
      * @param args the command line arguments
      */

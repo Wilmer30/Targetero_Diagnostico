@@ -5,6 +5,13 @@
  */
 package CapaPresentacion;
 
+import ObjetoNegocios.ConectarBaseDatos;
+import ObjetoNegocios.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Wilmer Oñate
@@ -204,10 +211,28 @@ public class login extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
-        //Si es correcto el login accedemos al menu principal
-        menu menu = new menu();
-        menu.setVisible(true);
-        this.dispose();
+        UsuarioDAL usuario = new UsuarioDAL();
+        try {
+            if (usuario.SelectCedula(txtCedula.getText()) != null) {
+                String password = usuario.SelectCedula(txtCedula.getText());
+                if (password.equals(txtClave.getText())) {
+                    ConectarBaseDatos.SetUsuario(txtCedula.getText());
+                    ConectarBaseDatos.SetContraseña(txtClave.getText());
+                    menu menu = new menu();
+                    menu.setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null,"La clave no es correcta","¡ERROR!",JOptionPane.ERROR_MESSAGE);
+                }
+
+            }else{
+                    JOptionPane.showMessageDialog(null,"El usuario no es correcto","¡ERROR!",JOptionPane.ERROR_MESSAGE);
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -217,31 +242,32 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtCedulaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyPressed
-        
-        
+
 
     }//GEN-LAST:event_txtCedulaKeyPressed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         // control de solo numeros en txtCedula
         controlSoloNumeros(evt);
-    
+
     }//GEN-LAST:event_txtCedulaKeyTyped
 
-public void limpiarComponentes(){
-    txtCedula.setText(null);
-    txtClave.setText(null);
-    txtCedula.requestFocus();
-}
-public void controlSoloNumeros(java.awt.event.KeyEvent evt){
-    char c = evt.getKeyChar();
+    public void limpiarComponentes() {
+        txtCedula.setText(null);
+        txtClave.setText(null);
+        txtCedula.requestFocus();
+    }
+
+    public void controlSoloNumeros(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
         if (!(Character.isDigit(c)
                 || (c == java.awt.event.KeyEvent.VK_BACK_SPACE)
                 || (c == java.awt.event.KeyEvent.VK_DELETE))) {
             getToolkit().beep();
             evt.consume();
         }
-}
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -256,28 +282,24 @@ public void controlSoloNumeros(java.awt.event.KeyEvent evt){
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(login.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(login.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(login.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(login.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

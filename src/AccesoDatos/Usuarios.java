@@ -17,11 +17,18 @@ public class Usuarios {
     Date lastActivity;
     Date created;
     String password;
+    String email;    
     boolean approved;
     Date lastLogin;
     String passwordQuestion;
     String passwordAnswer;
+public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public String getEmail() {
+        return email;
+    }
     public void setCodigoUsuario(Integer codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }

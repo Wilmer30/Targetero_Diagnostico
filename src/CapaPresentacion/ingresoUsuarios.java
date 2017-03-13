@@ -5,7 +5,15 @@
  */
 package CapaPresentacion;
 
+import AccesoDatos.Usuarios;
 import ObjetoNegocios.Enumeraciones;
+import ObjetoNegocios.UsuarioDAL;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -32,11 +40,9 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
-        txtNombreUsuario = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         btnCrear = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -70,9 +76,6 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel1.setText("Nombre de usuario");
-
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText("Email");
 
@@ -81,13 +84,16 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
 
         txtCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
         txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnCrear.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
         btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
@@ -108,12 +114,10 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(60, 60, 60)
+                        .addGap(65, 65, 65)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtCedula)
-                            .addComponent(txtNombreUsuario)
                             .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnCrear)
@@ -130,13 +134,9 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear)
                     .addComponent(btnCancelar))
@@ -164,8 +164,8 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+        // Limpiamos los txtcedula, txtnombreUsuario,txtEmail
+        limpiarContorles();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
@@ -179,8 +179,8 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if (!txtCedula.getText().equals("") || !txtNombreUsuario.getText().equals("") || !txtEmail.getText().equals("")) {
-            int res = JOptionPane.showConfirmDialog(null, "Desea cerrar esta ventan", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (!txtCedula.getText().equals("") || !txtEmail.getText().equals("") ) {
+            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
             if (res == 1) {
                 this.setDefaultCloseOperation(0); // no cierra la ventana
@@ -194,6 +194,40 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+       
+        UsuarioDAL usuarioDAL = new UsuarioDAL();
+        Usuarios usuario = new Usuarios();
+        JOptionPane.showMessageDialog(null, "Prueba");
+        try {
+            usuario.setNombreUsuario(txtCedula.getText());
+            usuario.setEmail(txtEmail.getText());
+            usuario.setCreated( getFechaActual());
+            usuario.setApproved(true);
+            
+           boolean res= usuarioDAL.Insert(usuario);
+            if (res) {
+                JOptionPane.showMessageDialog(null, "Ingresado");
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
+        }
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    public void limpiarContorles(){
+        txtCedula.setText(null);        
+        txtEmail.setText(null);
+    }
+    
+    public Date  getFechaActual() throws ParseException {
+    Date ahora = new Date();
+    SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+    return formateador.parse(ahora.toString());
+}
     /**
      * @param args the command line arguments
      */
@@ -232,12 +266,10 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrear;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }

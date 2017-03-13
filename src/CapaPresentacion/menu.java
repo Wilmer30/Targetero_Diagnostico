@@ -5,6 +5,7 @@
  */
 package CapaPresentacion;
 
+import ObjetoNegocios.ConectarBaseDatos;
 import ObjetoNegocios.Enumeraciones.*;
 
 /**
@@ -23,6 +24,7 @@ public class menu extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         estadoVentana = EstadoVentanas.cerrado;
+        lbCedulaUsuario.setText(ConectarBaseDatos.GetUsuario());
     }
 
     /**
@@ -41,6 +43,7 @@ public class menu extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         dpPrincipal = new javax.swing.JDesktopPane();
+        lbCedulaUsuario = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnAdministrador = new javax.swing.JMenu();
         smRol = new javax.swing.JMenu();
@@ -71,7 +74,7 @@ public class menu extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel1.setText("nombre del usuario logeado");
+        jLabel1.setText("Usuario:");
 
         dpPrincipal.setBackground(new java.awt.Color(224, 224, 224));
 
@@ -85,6 +88,9 @@ public class menu extends javax.swing.JFrame {
             dpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 392, Short.MAX_VALUE)
         );
+
+        lbCedulaUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbCedulaUsuario.setText("jLabel2");
 
         jMenuBar1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -192,14 +198,18 @@ public class menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(473, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbCedulaUsuario)
+                .addContainerGap(531, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(dpPrincipal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lbCedulaUsuario)))
         );
 
         pack();
@@ -332,6 +342,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCedulaUsuario;
     private javax.swing.JMenuItem miAsignarRol;
     private javax.swing.JMenuItem miCambioClave;
     private javax.swing.JMenuItem miDarBajaCIE10;
