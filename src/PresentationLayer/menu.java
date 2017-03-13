@@ -7,6 +7,7 @@ package PresentationLayer;
 
 import  BusinessObjects.ConectarBaseDatos;
 import BusinessObjects.Enumeraciones.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,7 +25,7 @@ public class menu extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         estadoVentana = EstadoVentanas.cerrado;
-        lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
+        //lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
     }
 
     /**
@@ -50,7 +51,6 @@ public class menu extends javax.swing.JFrame {
         miIngresoUsuario = new javax.swing.JMenuItem();
         miDarBajaUsuario = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
-        miIngresoRol = new javax.swing.JMenuItem();
         miAsignarRol = new javax.swing.JMenuItem();
         mnCIE10 = new javax.swing.JMenu();
         miIngresarCIE10 = new javax.swing.JMenuItem();
@@ -94,7 +94,7 @@ public class menu extends javax.swing.JFrame {
 
         jMenuBar1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        mnAdministrador.setText("Administrador");
+        mnAdministrador.setText("Usuarios");
 
         smRol.setText("Usuarios");
 
@@ -117,14 +117,6 @@ public class menu extends javax.swing.JFrame {
         mnAdministrador.add(smRol);
 
         jMenu10.setText("Roles");
-
-        miIngresoRol.setText("Ingreso");
-        miIngresoRol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miIngresoRolActionPerformed(evt);
-            }
-        });
-        jMenu10.add(miIngresoRol);
 
         miAsignarRol.setText("Asignar");
         miAsignarRol.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +141,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnCIE10.add(miIngresarCIE10);
 
-        miDarBajaCIE10.setText("Eliminar");
+        miDarBajaCIE10.setText("Dar de baja");
         miDarBajaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miDarBajaCIE10ActionPerformed(evt);
@@ -222,6 +214,8 @@ public class menu extends javax.swing.JFrame {
             dpPrincipal.add(ventana);
             ventana.setVisible(true);
              estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miIngresarCIE10ActionPerformed
 
@@ -232,6 +226,8 @@ public class menu extends javax.swing.JFrame {
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
         estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miIngresarHCActionPerformed
 
@@ -242,7 +238,9 @@ public class menu extends javax.swing.JFrame {
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
         estadoVentana = EstadoVentanas.abierto;
-         }
+         }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
     }//GEN-LAST:event_miCambioClaveActionPerformed
 
     private void miDarBajaCIE10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarBajaCIE10ActionPerformed
@@ -252,18 +250,10 @@ public class menu extends javax.swing.JFrame {
         dpPrincipal.add(ventana);
         ventana.setVisible(true);
         estadoVentana = EstadoVentanas.abierto;
-         }
-    }//GEN-LAST:event_miDarBajaCIE10ActionPerformed
-
-    private void miIngresoRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresoRolActionPerformed
-        // TODO add your handling code here:
-        if (!estadoVentana.name().equals("abierto")) {
-            ingresoRol ventana = new ingresoRol();
-            dpPrincipal.add(ventana);
-            ventana.setVisible(true);
-            estadoVentana = EstadoVentanas.abierto;
+         }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
-    }//GEN-LAST:event_miIngresoRolActionPerformed
+    }//GEN-LAST:event_miDarBajaCIE10ActionPerformed
 
     private void miAsignarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAsignarRolActionPerformed
         // TODO add your handling code here:
@@ -272,6 +262,8 @@ public class menu extends javax.swing.JFrame {
             dpPrincipal.add(ventana);
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miAsignarRolActionPerformed
 
@@ -283,6 +275,8 @@ public class menu extends javax.swing.JFrame {
             dpPrincipal.add(ventana);
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
 
     }//GEN-LAST:event_miIngresoUsuarioActionPerformed
@@ -294,6 +288,8 @@ public class menu extends javax.swing.JFrame {
             dpPrincipal.add(ventana);
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miDarBajaUsuarioActionPerformed
 
@@ -349,7 +345,6 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem miDarBajaUsuario;
     private javax.swing.JMenuItem miIngresarCIE10;
     private javax.swing.JMenuItem miIngresarHC;
-    private javax.swing.JMenuItem miIngresoRol;
     private javax.swing.JMenuItem miIngresoUsuario;
     private javax.swing.JMenu mnAdministrador;
     private javax.swing.JMenu mnCIE10;

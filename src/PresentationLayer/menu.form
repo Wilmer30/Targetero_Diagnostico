@@ -40,7 +40,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="mnAdministrador">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Administrador"/>
+            <Property name="text" type="java.lang.String" value="Usuarios"/>
           </Properties>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="smRol">
@@ -71,14 +71,6 @@
                 <Property name="text" type="java.lang.String" value="Roles"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="miIngresoRol">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Ingreso"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miIngresoRolActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miAsignarRol">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Asignar"/>
@@ -109,7 +101,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miDarBajaCIE10">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Eliminar"/>
+                <Property name="text" type="java.lang.String" value="Dar de baja"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miDarBajaCIE10ActionPerformed"/>
