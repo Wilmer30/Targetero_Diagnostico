@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AccesoDatos;
+package BusinessObjects;
 
 import java.util.Date;
 
@@ -13,22 +13,16 @@ import java.util.Date;
  */
 public class Usuarios {
     Integer codigoUsuario;
-    String  nombreUsuario;
+    String nombreUsuario;
     Date lastActivity;
     Date created;
+    String email;
     String password;
-    String email;    
     boolean approved;
     Date lastLogin;
     String passwordQuestion;
     String passwordAnswer;
-public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public String getEmail() {
-        return email;
-    }
     public void setCodigoUsuario(Integer codigoUsuario) {
         this.codigoUsuario = codigoUsuario;
     }
@@ -45,6 +39,10 @@ public void setEmail(String email) {
         this.created = created;
     }
 
+    public void setEmail(String email){
+        this.email=email;
+    }
+    
     public void setPassword(String password) {
         this.password = password;
     }
@@ -81,6 +79,9 @@ public void setEmail(String email) {
         return created;
     }
 
+    public String getEmail(){
+        return email;
+    }
     public String getPassword() {
         return password;
     }
@@ -99,7 +100,5 @@ public void setEmail(String email) {
 
     public String getPasswordAnswer() {
         return passwordAnswer;
-    }
-    
-    
+    }        
 }

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CapaPresentacion;
+package PresentationLayer;
 
-import ObjetoNegocios.ConectarBaseDatos;
-import ObjetoNegocios.*;
+import BusinessObjects.ConectarBaseDatos;
+import DataAccessLayer.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -133,9 +133,9 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -212,24 +212,21 @@ public class login extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
         UsuarioDAL usuario = new UsuarioDAL();
-        try {
-            if (usuario.SelectCedula(txtCedula.getText()) != null) {
-                String password = usuario.SelectCedula(txtCedula.getText());
-                if (password.equals(txtClave.getText())) {
-                    ConectarBaseDatos.SetUsuario(txtCedula.getText());
-                    ConectarBaseDatos.SetContraseña(txtClave.getText());
-                    menu menu = new menu();
-                    menu.setVisible(true);
-                    this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(null,"La clave no es correcta","¡ERROR!",JOptionPane.ERROR_MESSAGE);
-                }
 
-            }else{
-                    JOptionPane.showMessageDialog(null,"El usuario no es correcto","¡ERROR!",JOptionPane.ERROR_MESSAGE);
-                }
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        if ((txtCedula.getText()) != null) {
+            String password = (txtCedula.getText());
+            if (password.equals(txtClave.getText())) {
+//                    ConectarBaseDatos.SetUsuario(txtCedula.getText());
+//                    ConectarBaseDatos.SetContraseña(txtClave.getText());
+                menu menu = new menu();
+                menu.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "La clave no es correcta", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "El usuario no es correcto", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
         }
 
 

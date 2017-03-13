@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AccesoDatos;
+package BusinessObjects;
 
 /**
  *
@@ -27,7 +27,6 @@ public class Enfermedades {
         return estado;
     }
     
-
     public void setCodigoCie10(String codigoCie10) {
         this.codigoCie10 = codigoCie10;
     }

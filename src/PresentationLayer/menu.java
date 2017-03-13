@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CapaPresentacion;
+package PresentationLayer;
 
-import ObjetoNegocios.ConectarBaseDatos;
-import ObjetoNegocios.Enumeraciones.*;
+import  BusinessObjects.ConectarBaseDatos;
+import BusinessObjects.Enumeraciones.*;
 
 /**
  *
@@ -24,7 +24,7 @@ public class menu extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         estadoVentana = EstadoVentanas.cerrado;
-        lbCedulaUsuario.setText(ConectarBaseDatos.GetUsuario());
+        lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
     }
 
     /**

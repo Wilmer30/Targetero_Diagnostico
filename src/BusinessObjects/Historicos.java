@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AccesoDatos;
+package BusinessObjects;
 
 import java.util.Date;
 
@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Wilmer Oñate
  */
 public class Historicos {
+    
     String codigoCie10;
     String numeroHistoriaClinica;
     Date fechaIngreso;
@@ -47,6 +48,5 @@ public class Historicos {
 
     public String getEstadoPaciente() {
         return estadoPaciente;
-    }
-    
+    }    
 }

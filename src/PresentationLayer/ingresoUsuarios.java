@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CapaPresentacion;
+package PresentationLayer;
 
-import AccesoDatos.Usuarios;
-import ObjetoNegocios.Enumeraciones;
-import ObjetoNegocios.UsuarioDAL;
+import BusinessObjects.Usuarios;
+import BusinessObjects.Enumeraciones;
+import DataAccessLayer.UsuarioDAL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -197,25 +197,25 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
        
-        UsuarioDAL usuarioDAL = new UsuarioDAL();
-        Usuarios usuario = new Usuarios();
-        JOptionPane.showMessageDialog(null, "Prueba");
-        try {
-            usuario.setNombreUsuario(txtCedula.getText());
-            usuario.setEmail(txtEmail.getText());
-            usuario.setCreated( getFechaActual());
-            usuario.setApproved(true);
-            
-           boolean res= usuarioDAL.Insert(usuario);
-            if (res) {
-                JOptionPane.showMessageDialog(null, "Ingresado");
-            }
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
-        }
+//        UsuarioDAL usuarioDAL = new UsuarioDAL();
+//        Usuarios usuario = new Usuarios();
+//        JOptionPane.showMessageDialog(null, "Prueba");
+//        try {
+//            usuario.setNombreUsuario(txtCedula.getText());
+//            usuario.setEmail(txtEmail.getText());
+//            usuario.setCreated( getFechaActual());
+//            usuario.setApproved(true);
+//            
+//           boolean res= usuarioDAL.Insert(usuario);
+//            if (res) {
+//                JOptionPane.showMessageDialog(null, "Ingresado");
+//            }
+//            
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
+//        } catch (ParseException ex) {
+//            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
+//      }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     public void limpiarContorles(){

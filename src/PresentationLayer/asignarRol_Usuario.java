@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CapaPresentacion;
+package PresentationLayer;
 
-import ObjetoNegocios.Enumeraciones;
+import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 
 /**

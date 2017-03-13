@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ObjetoNegocios;
+package BusinessObjects;
 
 /**
  *
  * @author Wilmer Oñate
  */
 public class Enumeraciones {
-    public enum EstadoVentanas
-{
-    cerrado,abierto
-}
+
+    public enum EstadoVentanas {
+        cerrado, abierto
+    }
 }
