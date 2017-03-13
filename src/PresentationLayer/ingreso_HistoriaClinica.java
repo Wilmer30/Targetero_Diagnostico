@@ -1,10 +1,12 @@
 package PresentationLayer;
 
-import BusinessObjects.Enfermedades;
 import BusinessObjects.Enumeraciones;
+import BusinessObjects.Historicos;
 import DataAccessLayer.EnfermedadesDAL;
+import DataAccessLayer.HistoricosDAL;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
 import javax.swing.JOptionPane;
 
 /*
@@ -24,22 +26,14 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     public ingreso_HistoriaClinica() {
         initComponents();
         cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {  
+            public void keyReleased(KeyEvent e) {
                 //JOptionPane.showMessageDialog(null, e.getKeyCode());
-                if ((e.getKeyCode()>= 48 && e.getKeyCode() <= 57 ) || (e.getKeyCode()>= 65 && e.getKeyCode() <=90 )|| e.getKeyCode()==8|| e.getKeyCode()==127) {
-                    EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-                    String textoBusqueda=(String) cbCodigo.getEditor().getItem();
-                cbCodigo.setModel(enfermedades.SelelctPrimaryKey(textoBusqueda));
-                cbCodigo.getEditor().setItem(textoBusqueda);
-                
-             ; 
+                if ((e.getKeyCode() >= 48 && e.getKeyCode() <= 57) || (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) || e.getKeyCode() == 8 || e.getKeyCode() == 127) {
+                    BusquedaEnfermedad();
                 }
-                
-
-            }
+              }
         });
-        
-         
+
     }
 
     /**
@@ -60,10 +54,10 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         txtHistoriaClinica = new javax.swing.JTextField();
-        txtFechaIngreso = new javax.swing.JTextField();
         cbCodigo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         cbEstado = new javax.swing.JComboBox<>();
+        dcFecha = new com.toedter.calendar.JDateChooser();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -126,8 +120,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             }
         });
 
-        txtFechaIngreso.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
         cbCodigo.setEditable(true);
         cbCodigo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -146,7 +138,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         jLabel4.setText("Estado del paciente");
 
         cbEstado.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vivo", "Muerto+48", "Muerto-48" }));
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VIVO", "MUERTO+48", "MUERTO-48" }));
+
+        dcFecha.setDateFormatString("YYYY-MM-dd");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -168,9 +162,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtHistoriaClinica)
-                            .addComponent(txtFechaIngreso)
                             .addComponent(cbCodigo, 0, 164, Short.MAX_VALUE)
-                            .addComponent(cbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -178,23 +172,23 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(cbCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtHistoriaClinica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
+                            .addComponent(jLabel2)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(cbCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
@@ -228,7 +222,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        if (!txtHistoriaClinica.getText().equals("") || !txtFechaIngreso.getText().equals("")) {
+        if (!txtHistoriaClinica.getText().equals("") || dcFecha.getDate() != null) {
             int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n" + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
             if (res == 1) {
@@ -266,15 +260,37 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        cbCodigo.setModel(enfermedades.SelelctPrimaryKey(txtHistoriaClinica.getText()));
+        HistoricosDAL historicoDAL = new HistoricosDAL();
+        Historicos historico = new Historicos();
+        historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
+        historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
+        historico.setFechaIngreso(dcFecha.getDate());
+        historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
+        boolean res = historicoDAL.Insert(historico);
+        if (res) {
+            JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Mensaje", "Historia no ingresada", JOptionPane.ERROR);
+        }
 
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     public void limpiarContorles() {
-        txtFechaIngreso.setText(null);
+        dcFecha.setDate(null);
         txtHistoriaClinica.setText(null);
         cbEstado.setSelectedItem(1);
+        cbCodigo.getEditor().setItem("");
+        BusquedaEnfermedad();
+        
+    }
+    public void BusquedaEnfermedad(){
+        
+                    EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+                    String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+                    cbCodigo.setModel(enfermedades.SelelctPrimaryKey(textoBusqueda));
+                    cbCodigo.getEditor().setItem(textoBusqueda);
+
+                
     }
 
     /**
@@ -317,6 +333,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cbCodigo;
     private javax.swing.JComboBox<String> cbEstado;
+    private com.toedter.calendar.JDateChooser dcFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -324,7 +341,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JTextField txtFechaIngreso;
     private javax.swing.JTextField txtHistoriaClinica;
     // End of variables declaration//GEN-END:variables
 }

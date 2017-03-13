@@ -41,11 +41,9 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtNombreRol = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDesfripcionRol = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        btnBuscarRol = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         btbAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -87,8 +85,10 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         btnBuscarUsuario.setText("Buscar");
 
         txtCedulaUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtCedulaUsuario.setEnabled(false);
 
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtNombreUsuario.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -140,17 +140,18 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Descripción");
 
-        txtNombreRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
         txtaDesfripcionRol.setColumns(20);
         txtaDesfripcionRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtaDesfripcionRol.setRows(5);
+        txtaDesfripcionRol.setEnabled(false);
         jScrollPane1.setViewportView(txtaDesfripcionRol);
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel8.setText("Buscar Rol");
-
-        btnBuscarRol.setText("Buscar");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", ".." }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -160,15 +161,12 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel8)
                     .addComponent(jLabel4))
                 .addGap(41, 41, 41)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombreRol, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscarRol))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -177,21 +175,13 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(btnBuscarRol))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNombreRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addGap(25, 25, 25))))
+                    .addComponent(jLabel5)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btbAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -221,7 +211,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btbAceptar)
-                        .addGap(18, 18, 18)
+                        .addGap(26, 26, 26)
                         .addComponent(btnCancelar)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -231,9 +221,9 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btbAceptar)
                     .addComponent(btnCancelar))
@@ -250,7 +240,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        if (!txtCedulaUsuario.getText().equals("") || !txtNombreRol.getText().equals("") ) {
+        if (!txtCedulaUsuario.getText().equals("")) {
             int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
             if (res == 1) {
@@ -266,10 +256,14 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     public void limpiarContorles() {
         txtCedulaUsuario.setText(null);
         txtNombreUsuario.setText(null);
-        txtNombreRol.setText(null);
+        
         txtaDesfripcionRol.setText(null);
     }
 
@@ -310,21 +304,19 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btbAceptar;
-    private javax.swing.JButton btnBuscarRol;
     private javax.swing.JButton btnBuscarUsuario;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCedulaUsuario;
-    private javax.swing.JTextField txtNombreRol;
     private javax.swing.JTextField txtNombreUsuario;
     private javax.swing.JTextArea txtaDesfripcionRol;
     // End of variables declaration//GEN-END:variables

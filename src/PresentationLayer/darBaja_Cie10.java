@@ -6,6 +6,8 @@
 package PresentationLayer;
 
 import BusinessObjects.Enumeraciones;
+import DataAccessLayer.EnfermedadesDAL;
+
 
 /**
  *
@@ -18,6 +20,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
      */
     public darBaja_Cie10() {
         initComponents();
+        CargarCIE10();
     }
 
     /**
@@ -88,6 +91,17 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         jLabel2.setText("Código CIE1");
 
         txtBusqueda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -145,7 +159,8 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        txtBusqueda.setText(null);
+        CargarCIE10();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -153,9 +168,30 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+        
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtBusquedaKeyPressed
+
+    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
+        // TODO add your handling code here:
+        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+         tbCie10.setModel(enfermedades.SelelctPrimaryKeyTabla(txtBusqueda.getText()));
+    }//GEN-LAST:event_txtBusquedaKeyReleased
+
      public void limpiarContorles(){
         txtBusqueda.setText(null);        
     }
+     public void CargarCIE10(){
+         EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+         tbCie10.setModel(enfermedades.Selelct());
+         
+        
+     }
     /**
      * @param args the command line arguments
      */
