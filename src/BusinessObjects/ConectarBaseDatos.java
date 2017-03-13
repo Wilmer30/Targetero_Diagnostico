@@ -8,6 +8,7 @@ package BusinessObjects;
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 import org.postgresql.util.PSQLException;
 
 /**
@@ -16,14 +17,10 @@ import org.postgresql.util.PSQLException;
  */
 public class ConectarBaseDatos {
 
-    private Connection connect;
-    private String cadenaConexion;
-    private static  String usuario;
-
-    public static String getUsuario() {
-        return usuario;
-    }
-    private String clave;
+    private static Connection connect;
+    private static String cadenaConexion;
+    private  String usuario;
+    private  String clave;
     private String error;
 
     public ConectarBaseDatos() {
@@ -36,13 +33,18 @@ public class ConectarBaseDatos {
         if (error == null) {
             try {
                 Class.forName("org.postgresql.Driver");
-                connect = DriverManager.getConnection(cadenaConexion, usuario, clave);
+                
+                connect = DriverManager.getConnection(cadenaConexion, usuario, clave );
+               
             } catch (PSQLException ex) {
                 error = "La base de datos no existe";
+                JOptionPane.showMessageDialog(null, ex);
             } catch (SQLException ex) {
                 error = "Usuario o contraseña incorrecto";
+                JOptionPane.showMessageDialog(null, ex);
             } catch (ClassNotFoundException ex) {
                 error = "No se ha podido establecer la conexión";
+                JOptionPane.showMessageDialog(null, ex);
             }
         }
         return connect;
@@ -66,6 +68,6 @@ public class ConectarBaseDatos {
             return "No se ha encontrado el archivo para cargar la configuración";
         } catch (IOException ex) {
             return "No se ha podido cargar la configuración";
-        }        
+        }
     }
 }
