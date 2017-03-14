@@ -27,11 +27,14 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         initComponents();
         cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                //JOptionPane.showMessageDialog(null, e.getKeyCode());
+
                 if ((e.getKeyCode() >= 48 && e.getKeyCode() <= 57) || (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) || e.getKeyCode() == 8 || e.getKeyCode() == 127) {
                     BusquedaEnfermedad();
+                } else {
+                    //e.consume();
                 }
-              }
+            }
+
         });
 
     }
@@ -115,6 +118,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
         txtHistoriaClinica.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtHistoriaClinica.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtHistoriaClinicaKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtHistoriaClinicaKeyTyped(evt);
             }
@@ -255,25 +261,48 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void txtHistoriaClinicaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyTyped
         // TODO add your handling code here:
-
+        Character c = evt.getKeyChar();
+        if (!(Character.isDigit(c))) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtHistoriaClinicaKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        HistoricosDAL historicoDAL = new HistoricosDAL();
-        Historicos historico = new Historicos();
-        historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
-        historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
-        historico.setFechaIngreso(dcFecha.getDate());
-        historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
-        boolean res = historicoDAL.Insert(historico);
-        if (res) {
-            JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
+        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+        if (txtHistoriaClinica.getText().length() >= 6) {
+            if (enfermedades.VerificarEnfermedad(cbCodigo.getSelectedItem().toString())) { // verificamos si la enfermedad existe en la base de datos
+                if (dcFecha.getDate() != null) {
+                    HistoricosDAL historicoDAL = new HistoricosDAL();
+                    Historicos historico = new Historicos();
+                    historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
+                    historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
+                    historico.setFechaIngreso(dcFecha.getDate());
+                    historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
+                    boolean res = historicoDAL.Insert(historico);
+
+                    if (res) {
+                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia no ingresada", JOptionPane.ERROR);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se ha ingresado una fecha valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingresar el codigo de enfermedad valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         } else {
-            JOptionPane.showMessageDialog(null, "Mensaje", "Historia no ingresada", JOptionPane.ERROR);
+            JOptionPane.showMessageDialog(null, "Ingresar el número de historia clinica", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
 
+
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtHistoriaClinicaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyPressed
+
+    }//GEN-LAST:event_txtHistoriaClinicaKeyPressed
 
     public void limpiarContorles() {
         dcFecha.setDate(null);
@@ -281,16 +310,16 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         cbEstado.setSelectedItem(1);
         cbCodigo.getEditor().setItem("");
         BusquedaEnfermedad();
-        
-    }
-    public void BusquedaEnfermedad(){
-        
-                    EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-                    String textoBusqueda = (String) cbCodigo.getEditor().getItem();
-                    cbCodigo.setModel(enfermedades.SelelctPrimaryKey(textoBusqueda));
-                    cbCodigo.getEditor().setItem(textoBusqueda);
 
-                
+    }
+
+    public void BusquedaEnfermedad() {
+
+        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+        String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+        cbCodigo.setModel(enfermedades.SelelctPrimaryKey(textoBusqueda));
+        cbCodigo.getEditor().setItem(textoBusqueda);
+
     }
 
     /**
