@@ -60,6 +60,9 @@ public class menu extends javax.swing.JFrame {
         mnReportes = new javax.swing.JMenu();
         mnConfiguraciones = new javax.swing.JMenu();
         miCambioClave = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -179,6 +182,16 @@ public class menu extends javax.swing.JFrame {
         mnConfiguraciones.add(miCambioClave);
 
         jMenuBar1.add(mnConfiguraciones);
+
+        jMenu2.setText("Ayuda");
+
+        jMenu3.setText("Manual");
+        jMenu2.add(jMenu3);
+
+        jMenuItem1.setText("Acerca de");
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -333,10 +346,13 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCedulaUsuario;
     private javax.swing.JMenuItem miAsignarRol;
