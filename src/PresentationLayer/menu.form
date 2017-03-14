@@ -50,6 +50,9 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="miIngresoUsuario">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+U"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Ingreso"/>
                   </Properties>
                   <Events>
@@ -58,6 +61,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="miDarBajaUsuario">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+S"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Dar de baja"/>
                   </Properties>
                   <Events>
@@ -73,6 +79,9 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="miAsignarRol">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+A"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Asignar"/>
                   </Properties>
                   <Events>
@@ -91,7 +100,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="miIngresarCIE10">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+E"/>
+                  <KeyStroke key="Ctrl+I"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ingresar"/>
               </Properties>
@@ -101,6 +110,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miDarBajaCIE10">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+D"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Dar de baja"/>
               </Properties>
               <Events>
@@ -164,6 +176,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
