@@ -7,7 +7,7 @@ package PresentationLayer;
 
 import BusinessObjects.Usuarios;
 import BusinessObjects.Enumeraciones;
-import DataAccessLayer.UsuarioDAL;
+import DataAccessLayer.UsuariosDAL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
