@@ -5,7 +5,6 @@
  */
 package PresentationLayer;
 
-import  BusinessObjects.ConectarBaseDatos;
 import BusinessObjects.Enumeraciones.*;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -22,11 +21,12 @@ public class menu extends javax.swing.JFrame {
         menu.estadoVentana = estadoVentana;       
     }
 
-    public menu() {
-        initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);
+    public menu(String usuario) {
+        initComponents();        
+        setExtendedState(MAXIMIZED_BOTH);
+        lblUsuario.setText(usuario);
         estadoVentana = EstadoVentanas.cerrado;
-         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/cie10.png")).getImage());
+         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
         //lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
     }
 
@@ -46,7 +46,7 @@ public class menu extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         dpPrincipal = new javax.swing.JDesktopPane();
-        lbCedulaUsuario = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnAdministrador = new javax.swing.JMenu();
         smRol = new javax.swing.JMenu();
@@ -95,8 +95,7 @@ public class menu extends javax.swing.JFrame {
             .addGap(0, 392, Short.MAX_VALUE)
         );
 
-        lbCedulaUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lbCedulaUsuario.setText("jLabel2");
+        lblUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jMenuBar1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -225,8 +224,8 @@ public class menu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbCedulaUsuario)
-                .addContainerGap(531, Short.MAX_VALUE))
+                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(469, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +234,7 @@ public class menu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(lbCedulaUsuario)))
+                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -381,7 +380,7 @@ public class menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu().setVisible(true);
+                new menu("").setVisible(true);
             }
         });
     }
@@ -400,7 +399,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lbCedulaUsuario;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem miAsignarRol;
     private javax.swing.JMenuItem miCambioClave;
     private javax.swing.JMenuItem miDarBajaCIE10;

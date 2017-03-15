@@ -22,7 +22,7 @@ public class UsuariosDAL {
         return cambiarfecha.format(now);
     }
 
-    public boolean verificarUsuario(String usuario) {        
+    public String verificarUsuario(String usuario) {        
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
@@ -32,12 +32,15 @@ public class UsuariosDAL {
                 comando.setString(1, usuario);
                 comando.setBoolean(2, true);
                 ResultSet lector = comando.executeQuery();
-                return lector.next();
+                if (lector.next()) {
+                    return null;
+                }
+                return "El usuario no existe";
             } catch (Exception e) {
-                return false;
+                return e.getMessage();
             }
         }
-        return false;
+        return connect.getError();
     }
     
     public boolean buscarUsuario(String usuario) {        

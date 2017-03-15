@@ -16,8 +16,8 @@ import org.postgresql.util.PSQLException;
  */
 public class ConectarBaseDatos {
 
-    private static Connection connect;
-    private static String cadenaConexion;
+    private Connection connect;
+    private String cadenaConexion;
     private String usuario;
     private String clave;
     private String error;
@@ -34,7 +34,7 @@ public class ConectarBaseDatos {
                 Class.forName("org.postgresql.Driver");
                 connect = DriverManager.getConnection(cadenaConexion, usuario, clave);
             } catch (PSQLException ex) {
-                error = "La base de datos no existe";                
+                error = "La base de datos no existe";
             } catch (SQLException ex) {
                 error = "Usuario o contraseña incorrecto";                
             } catch (ClassNotFoundException ex) {
