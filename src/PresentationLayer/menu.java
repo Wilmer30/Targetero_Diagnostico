@@ -7,6 +7,7 @@ package PresentationLayer;
 
 import  BusinessObjects.ConectarBaseDatos;
 import BusinessObjects.Enumeraciones.*;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,13 +19,14 @@ public class menu extends javax.swing.JFrame {
     static EstadoVentanas estadoVentana;
 
     public static void setEstadoVentana(EstadoVentanas estadoVentana) {
-        menu.estadoVentana = estadoVentana;
+        menu.estadoVentana = estadoVentana;       
     }
 
     public menu() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         estadoVentana = EstadoVentanas.cerrado;
+         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/cie10.png")).getImage());
         //lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
     }
 
@@ -55,6 +57,7 @@ public class menu extends javax.swing.JFrame {
         mnCIE10 = new javax.swing.JMenu();
         miIngresarCIE10 = new javax.swing.JMenuItem();
         miDarBajaCIE10 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         mnHistoriaClinica = new javax.swing.JMenu();
         miIngresarHC = new javax.swing.JMenuItem();
         mnReportes = new javax.swing.JMenu();
@@ -101,6 +104,7 @@ public class menu extends javax.swing.JFrame {
 
         smRol.setText("Usuarios");
 
+        miIngresoUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         miIngresoUsuario.setText("Ingreso");
         miIngresoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +113,7 @@ public class menu extends javax.swing.JFrame {
         });
         smRol.add(miIngresoUsuario);
 
+        miDarBajaUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         miDarBajaUsuario.setText("Dar de baja");
         miDarBajaUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +126,7 @@ public class menu extends javax.swing.JFrame {
 
         jMenu10.setText("Roles");
 
+        miAsignarRol.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         miAsignarRol.setText("Asignar");
         miAsignarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +141,7 @@ public class menu extends javax.swing.JFrame {
 
         mnCIE10.setText("CIE10");
 
-        miIngresarCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        miIngresarCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         miIngresarCIE10.setText("Ingresar");
         miIngresarCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +150,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnCIE10.add(miIngresarCIE10);
 
+        miDarBajaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         miDarBajaCIE10.setText("Dar de baja");
         miDarBajaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,6 +158,15 @@ public class menu extends javax.swing.JFrame {
             }
         });
         mnCIE10.add(miDarBajaCIE10);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Dar de alta");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        mnCIE10.add(jMenuItem2);
 
         jMenuBar1.add(mnCIE10);
 
@@ -189,6 +205,11 @@ public class menu extends javax.swing.JFrame {
         jMenu2.add(jMenu3);
 
         jMenuItem1.setText("Acerca de");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
@@ -306,6 +327,30 @@ public class menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miDarBajaUsuarioActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            AcercaDe ventana = new AcercaDe();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            darAlta_Cie10 ventana = new darAlta_Cie10();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,6 +398,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCedulaUsuario;
     private javax.swing.JMenuItem miAsignarRol;

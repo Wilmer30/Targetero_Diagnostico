@@ -15,18 +15,16 @@ import javax.swing.JTable;
  *
  * @author Wilmer Oñate
  */
-public class darBaja_Cie10 extends javax.swing.JInternalFrame {
+public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form DarBaja_Cie10
+     * Creates new form darAlta_Cie10
      */
     boolean filaSeleccionada = false;
 
-    public darBaja_Cie10() {
+    public darAlta_Cie10() {
         initComponents();
         CargarCIE10();
-        tbCie10.getTableHeader().setReorderingAllowed(false);
-
     }
 
     /**
@@ -52,11 +50,12 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("DAR DE BAJA CIE10");
+        setTitle("DAR DE ALTA CIE10");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
@@ -85,11 +84,6 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         tbCie10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbCie10MouseClicked(evt);
-            }
-        });
-        tbCie10.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tbCie10KeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tbCie10);
@@ -135,7 +129,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -157,7 +151,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
@@ -185,6 +179,36 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        //Pedimos confirmación para dar de baja. devuelve 0= si 1=no
+        if (filaSeleccionada) {
+            int res = JOptionPane.showConfirmDialog(null,
+                    "Desea dar de alta a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
+                    "BAR DE ALTA",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);
+
+            if (res == 0) {
+
+                //Procedemos a actualizar el estado de la enfermedad de activa a inactiva            
+                EnfermedadesDAL enfermedadesDAL = new EnfermedadesDAL();
+                String codigo = String.valueOf(tbCie10.getValueAt(tbCie10.getSelectedRow(), 0));
+                int num = enfermedadesDAL.DarAlta(codigo); //Ejecutamos la actualización
+                if (num > 0) {
+                    JOptionPane.showMessageDialog(null, "Enfermedad dada de alta correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Enfermedad no se dio de alta", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                }
+                txtBusqueda.setText(null);
+                CargarCIE10();
+                filaSeleccionada = false;
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,  "Seleccione suna enfermedad","Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         txtBusqueda.setText(null);
@@ -192,18 +216,8 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         filaSeleccionada = false;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        // TODO add your handling code here:
-        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-    }//GEN-LAST:event_formInternalFrameClosing
-
-    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
-
-    }//GEN-LAST:event_txtBusquedaKeyTyped
-
     private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
         // TODO add your handling code here:
-
     }//GEN-LAST:event_txtBusquedaKeyPressed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
@@ -214,47 +228,28 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         }
         //Se realiza la busqueda inteligente
         EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        tbCie10.setModel(enfermedades.SelelctPrimaryKeyTablaActivas(txtBusqueda.getText()));
+        tbCie10.setModel(enfermedades.SelelctPrimaryKeyTablaInactivas(txtBusqueda.getText()));
         filaSeleccionada = false;
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        //Pedimos confirmación para dar de baja. devuelve 0= si 1=no
-        if (filaSeleccionada) {
-            int res = JOptionPane.showConfirmDialog(null,
-                    "Desea dar de baja a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
-                    "BAR DE BAJA",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
 
-            if (res == 0) {
-                //Procedemos a actualizar el estado de la enfermedad de activa a inactiva
-                Enfermedades enfermedades = new Enfermedades();
-                EnfermedadesDAL enfermedadesDAL = new EnfermedadesDAL();
-                String codigo = String.valueOf(tbCie10.getValueAt(tbCie10.getSelectedRow(), 0));
-                int num = enfermedadesDAL.DarBaja(codigo); //Ejecutamos la actualización
-                if (num > 0) {
-                    JOptionPane.showMessageDialog(null, "Enfermedad dada de baja correctamente","Mensaje",  JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null,  "Enfermedad no se dio de baja", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                }
-                txtBusqueda.setText(null);
-                CargarCIE10();
-                filaSeleccionada=false;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null,  "Seleccione una enfermedad", "Mensaje",JOptionPane.INFORMATION_MESSAGE);
-        }
-
-
-    }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void tbCie10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbCie10KeyReleased
-
-    }//GEN-LAST:event_tbCie10KeyReleased
+    }//GEN-LAST:event_txtBusquedaKeyTyped
 
     private void tbCie10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCie10MouseClicked
-        filaSeleccionada = true;
+        // TODO add your handling code here:
+        filaSeleccionada=true;
     }//GEN-LAST:event_tbCie10MouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     public void limpiarContorles() {
         txtBusqueda.setText(null);
@@ -262,7 +257,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
 
     public void CargarCIE10() {
         EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        tbCie10.setModel(enfermedades.SelelctEnfermedadesActivas());
+        tbCie10.setModel(enfermedades.SelelctEnfermedadesInactivas());
 
     }
 
@@ -283,21 +278,20 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Cie10.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new darBaja_Cie10().setVisible(true);
+                new darAlta_Cie10().setVisible(true);
             }
         });
     }

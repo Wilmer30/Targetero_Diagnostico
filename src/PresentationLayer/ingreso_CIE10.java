@@ -5,7 +5,9 @@
  */
 package PresentationLayer;
 
+import BusinessObjects.Enfermedades;
 import BusinessObjects.Enumeraciones;
+import DataAccessLayer.EnfermedadesDAL;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,15 +77,47 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
                 txtCodigoActionPerformed(evt);
             }
         });
+        txtCodigo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtCodigoPropertyChange(evt);
+            }
+        });
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
 
         txtDiagnostico.setColumns(20);
         txtDiagnostico.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtDiagnostico.setRows(5);
+        txtDiagnostico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDiagnosticoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDiagnosticoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDiagnosticoKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtDiagnostico);
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
@@ -167,8 +201,8 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        if (!txtCodigo.getText().equals("") || !txtDiagnostico.getText().equals("") ) {
-            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (!txtCodigo.getText().equals("") || !txtDiagnostico.getText().equals("")) {
+            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n" + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
             if (res == 1) {
                 this.setDefaultCloseOperation(0); // no cierra la ventana
@@ -182,11 +216,113 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameClosing
 
-    public void limpiarContorles(){
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        if (!txtCodigo.getText().equals("") && txtCodigo.getText().length()>=4 ) {
+            if (!txtDiagnostico.getText().equals("")&& txtCodigo.getText().length()>=4) {
+                Enfermedades enfermedades = new Enfermedades();
+                EnfermedadesDAL enfermedadesDAL = new EnfermedadesDAL();
+                enfermedades.setCodigoCie10(txtCodigo.getText());
+                enfermedades.setDescripcion(txtDiagnostico.getText());
+                enfermedades.setEstado("ACTIVO");
+                int num = enfermedadesDAL.Insert(enfermedades);
+                if (num > 0) {
+                    JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Enfermedad no ingresada", "Mensaje", JOptionPane.ERROR);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingresar una descripcion a la enfermedad", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Ingresar un código de la enfermedad validao", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtDiagnosticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyTyped
+        // TODO add your handling code here:
+        controlDescripcion(evt);
+    }//GEN-LAST:event_txtDiagnosticoKeyTyped
+
+    private void txtDiagnosticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyReleased
+       char c = evt.getKeyChar();
+         if (Character.isLetter(c)) {
+            txtDiagnostico.setText(txtDiagnostico.getText().toUpperCase());
+            //JOptionPane.showMessageDialog(null, "ento");
+        }
+    }//GEN-LAST:event_txtDiagnosticoKeyReleased
+
+    private void txtDiagnosticoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyPressed
+        // TODO add your handling code here:
+  controlDescripcionEnter(evt);
+    }//GEN-LAST:event_txtDiagnosticoKeyPressed
+
+    private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
+        // TODO add your handling code here:
+        
+
+    }//GEN-LAST:event_txtCodigoKeyPressed
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        controlCodigo(evt);
+        controlLimiteCaracterCodigo(evt);
+         
+        
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        // TODO add your handling code here:
+       char c = evt.getKeyChar();
+         if (Character.isLetter(c)) {
+            txtCodigo.setText(txtCodigo.getText().toUpperCase());
+            //JOptionPane.showMessageDialog(null, "ento");
+        }
+    }//GEN-LAST:event_txtCodigoKeyReleased
+
+    private void txtCodigoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCodigoPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoPropertyChange
+
+    public void limpiarContorles() {
         txtCodigo.setText(null);
         txtDiagnostico.setText(null);
-        
+
     }
+
+    public void controlDescripcion(java.awt.event.KeyEvent evt) {
+        
+        char c = evt.getKeyChar();
+        if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == 44 || c == 46 || Character.isDigit(c) || c == 8 || c==32 )) {
+            evt.consume();
+        }
+    }
+     public void controlDescripcionEnter(java.awt.event.KeyEvent evt) {
+        
+        char c = evt.getKeyChar();
+        if ((c==  java.awt.event.KeyEvent.VK_TAB || c== java.awt.event.KeyEvent.VK_ENTER )) {
+            evt.consume();
+        }
+    }
+     public void controlCodigo(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || Character.isDigit(c) )) {
+            evt.consume();
+        }
+    }
+     public void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt){
+         char c = evt.getKeyChar();
+         
+         
+          
+        if ( txtCodigo.getText().toString().length() >=4  ) {
+            evt.consume();
+        }
+     }
+
     /**
      * @param args the command line arguments
      */
