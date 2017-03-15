@@ -25,16 +25,20 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
      */
     public ingreso_HistoriaClinica() {
         initComponents();
-        cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+        cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() { //Obtenemos el editor del cbCodigo
             public void keyReleased(KeyEvent e) {
-
-                if ((e.getKeyCode() >= 48 && e.getKeyCode() <= 57) || (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) || e.getKeyCode() == 8 || e.getKeyCode() == 127) {
-                    BusquedaEnfermedad();
+                if ((e.getKeyCode() >= 48 && e.getKeyCode() <= 57) || (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) || e.getKeyCode() == 8 || e.getKeyCode() == 127) { // Sejecunta cuando es una letra un numero delete, suprimir
+                    //Comprobamos si es una letra
+                    if (Character.isLetter(e.getKeyChar())) {
+                        //Obtenemos lo ingresado y lo convertimos a mayuscula
+                        String textoBusqueda = ((String) cbCodigo.getEditor().getItem()).toUpperCase();
+                        cbCodigo.getEditor().setItem(textoBusqueda); //Agremamos convertido a mayuscula en el cbCodigo
+                    }
+                    BusquedaEnfermedad(); //Ejeculamos la consulta y cargamos al cbCodigo
                 } else {
                     //e.consume();
                 }
             }
-
         });
 
     }
@@ -168,10 +172,10 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtHistoriaClinica)
-                            .addComponent(cbCodigo, 0, 164, Short.MAX_VALUE)
                             .addComponent(cbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(86, Short.MAX_VALUE))
+                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbCodigo, 0, 164, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +198,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
@@ -207,8 +211,8 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,29 +261,27 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void cbCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyTyped
 
+
     }//GEN-LAST:event_cbCodigoKeyTyped
 
     private void txtHistoriaClinicaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyTyped
-        // TODO add your handling code here:
-        Character c = evt.getKeyChar();
-        if (!(Character.isDigit(c))) {
-            evt.consume();
-        }
+        controlNumeroHC(evt);
+
     }//GEN-LAST:event_txtHistoriaClinicaKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        if (txtHistoriaClinica.getText().length() >= 6) {
+        if (txtHistoriaClinica.getText().length() == 6) { //Verificamos que el numero HC sea igual a 6 digitos
             if (enfermedades.VerificarEnfermedad(cbCodigo.getSelectedItem().toString())) { // verificamos si la enfermedad existe en la base de datos
-                if (dcFecha.getDate() != null) {
+                if (dcFecha.getDate() != null) { //Verificar que la fecha este ingresada
                     HistoricosDAL historicoDAL = new HistoricosDAL();
                     Historicos historico = new Historicos();
                     historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
                     historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
                     historico.setFechaIngreso(dcFecha.getDate());
                     historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
-                    boolean res = historicoDAL.Insert(historico);
+                    boolean res = historicoDAL.Insert(historico); //Ejecutamos la inserción
 
                     if (res) {
                         JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
@@ -294,7 +296,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Ingresar el número de historia clinica", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresar el número de historia clinica (6 numeros) ", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
@@ -317,8 +319,17 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
         EnfermedadesDAL enfermedades = new EnfermedadesDAL();
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
-        cbCodigo.setModel(enfermedades.SelelctPrimaryKey(textoBusqueda));
+        cbCodigo.setModel(enfermedades.SelelctPrimaryKeyActivas(textoBusqueda));
         cbCodigo.getEditor().setItem(textoBusqueda);
+
+    }
+
+    public void controlNumeroHC(java.awt.event.KeyEvent evt) {
+        Character c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) && txtHistoriaClinica.getText().length() < 6)) {
+            evt.consume();
+        }
 
     }
 

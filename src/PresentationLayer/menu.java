@@ -57,6 +57,7 @@ public class menu extends javax.swing.JFrame {
         mnCIE10 = new javax.swing.JMenu();
         miIngresarCIE10 = new javax.swing.JMenuItem();
         miDarBajaCIE10 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         mnHistoriaClinica = new javax.swing.JMenu();
         miIngresarHC = new javax.swing.JMenuItem();
         mnReportes = new javax.swing.JMenu();
@@ -157,6 +158,15 @@ public class menu extends javax.swing.JFrame {
             }
         });
         mnCIE10.add(miDarBajaCIE10);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Dar de alta");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        mnCIE10.add(jMenuItem2);
 
         jMenuBar1.add(mnCIE10);
 
@@ -329,6 +339,18 @@ public class menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            darAlta_Cie10 ventana = new darAlta_Cie10();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        }else{
+            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -376,6 +398,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCedulaUsuario;
     private javax.swing.JMenuItem miAsignarRol;

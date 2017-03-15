@@ -27,16 +27,10 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Ministerio-Salud.jpg")).getImage());
-//        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagenes/Logo_MSP.png"));
-//        setIconImage(icon);
-//        setVisible(true);
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/cie10.png")).getImage());
     }
 
-//    public Image GetIconeImage() {
-//        Image refValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("/Recursos/Logo_MSP.png"));
-//        return refValue;
-//    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -269,8 +263,7 @@ public class login extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)
                 || (c == java.awt.event.KeyEvent.VK_BACK_SPACE)
-                || (c == java.awt.event.KeyEvent.VK_DELETE))) {
-            getToolkit().beep();
+                || (c == java.awt.event.KeyEvent.VK_DELETE))) {           
             evt.consume();
         }
     }
