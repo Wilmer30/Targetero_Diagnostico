@@ -5,10 +5,14 @@
  */
 package SecurityLayer;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  *
  * @author Erick
  */
 public class Encriptacion {
-    
+    public String encriptar(String cadena){
+        return DigestUtils.md5Hex(cadena);
+    }
 }

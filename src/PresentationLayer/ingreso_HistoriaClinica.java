@@ -269,33 +269,33 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        if (txtHistoriaClinica.getText().length() >= 6) {
-            if (enfermedades.VerificarEnfermedad(cbCodigo.getSelectedItem().toString())) { // verificamos si la enfermedad existe en la base de datos
-                if (dcFecha.getDate() != null) {
-                    HistoricosDAL historicoDAL = new HistoricosDAL();
-                    Historicos historico = new Historicos();
-                    historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
-                    historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
-                    historico.setFechaIngreso(dcFecha.getDate());
-                    historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
-                    boolean res = historicoDAL.Insert(historico);
-
-                    if (res) {
-                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia no ingresada", JOptionPane.ERROR);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se ha ingresado una fecha valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Ingresar el codigo de enfermedad valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingresar el número de historia clinica", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-        }
+//        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+//        if (txtHistoriaClinica.getText().length() >= 6) {
+//            if (enfermedades.VerificarEnfermedad(cbCodigo.getSelectedItem().toString())) { // verificamos si la enfermedad existe en la base de datos
+//                if (dcFecha.getDate() != null) {
+//                    HistoricosDAL historicoDAL = new HistoricosDAL();
+//                    Historicos historico = new Historicos();
+//                    historico.setCodigoCie10((String) cbCodigo.getSelectedItem());
+//                    historico.setNumeroHistoriaClinica(txtHistoriaClinica.getText());
+//                    historico.setFechaIngreso(dcFecha.getDate());
+//                    historico.setEstadoPaciente((String) cbEstado.getSelectedItem());
+//                    boolean res = historicoDAL.Insert(historico);
+//
+//                    if (res) {
+//                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia ingresada correctamente", JOptionPane.INFORMATION_MESSAGE);
+//                    } else {
+//                        JOptionPane.showMessageDialog(null, "Mensaje", "Historia no ingresada", JOptionPane.ERROR);
+//                    }
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "No se ha ingresado una fecha valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Ingresar el codigo de enfermedad valida", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+//            }
+//
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Ingresar el número de historia clinica", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+//        }
 
 
     }//GEN-LAST:event_btnAceptarActionPerformed

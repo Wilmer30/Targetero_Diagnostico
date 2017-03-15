@@ -5,12 +5,7 @@
  */
 package PresentationLayer;
 
-import BusinessObjects.ConectarBaseDatos;
-import DataAccessLayer.*;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,7 +18,8 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
-        this.setLocationRelativeTo(null);
+//        setIconImage(new ImageIcon(getClass().getResource("/imagenes/Wait.png")).getImage());//Revisar
+        setLocationRelativeTo(null);
     }
 
     /**
