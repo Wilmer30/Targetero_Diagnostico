@@ -26,10 +26,10 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         usuarioBL = new UsuariosBL();
-        validar=new Validaciones();
+        validar = new Validaciones();
         initComponents();
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());//Revisar
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
     }
 
     private void limpiarControles() {
@@ -37,18 +37,38 @@ public class login extends javax.swing.JFrame {
         txtClave.setText("");
         txtUsuario.requestFocus();
     }
-    
-    private void ingreso(){
-        String mensaje=usuarioBL.validarIngreso(txtUsuario.getText(), String.valueOf(txtClave.getPassword()));
-        if (mensaje!=null) {
-            JOptionPane.showMessageDialog(null,mensaje,"ADVERTENCIA",JOptionPane.WARNING_MESSAGE);
-            limpiarControles();
-        }else{
-            menu menu=new menu(txtUsuario.getText());
-            menu.setVisible(true);
-            usuarioBL.ultimaConexion(txtUsuario.getText());
-            this.dispose();
+
+    private void ingreso() {
+        if (controlLogin()) {
+            String mensaje = usuarioBL.validarIngreso(txtUsuario.getText(), String.valueOf(txtClave.getPassword()));
+            if (mensaje != null) {
+                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarControles();
+            } else {
+                String message = usuarioBL.ultimaConexion(txtUsuario.getText());
+                if (message != null) {
+                    JOptionPane.showMessageDialog(null, message, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    limpiarControles();
+                } else {
+                    menu menu = new menu(txtUsuario.getText());
+                    menu.setVisible(true);
+                    this.dispose();
+                }
+            }
         }
+    }
+
+    public boolean controlLogin() {
+        if (txtUsuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            txtUsuario.requestFocus();
+            return false;
+        } else if (String.valueOf(txtClave.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar la contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            txtClave.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -68,6 +88,7 @@ public class login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         txtClave = new javax.swing.JPasswordField();
+        lblRecuperarClave = new javax.swing.JLabel();
         lblLogoIngreso = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblLogoMSP = new javax.swing.JLabel();
@@ -121,6 +142,15 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        lblRecuperarClave.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblRecuperarClave.setForeground(new java.awt.Color(0, 51, 255));
+        lblRecuperarClave.setText("¿Ha olvidado la contraseña?");
+        lblRecuperarClave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblRecuperarClaveMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -129,18 +159,20 @@ public class login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnAceptar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                            .addComponent(txtClave))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblRecuperarClave)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(txtClave)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -154,7 +186,9 @@ public class login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblRecuperarClave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -247,6 +281,13 @@ public class login extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void lblRecuperarClaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRecuperarClaveMouseClicked
+        // TODO add your handling code here:
+        recuperarClave cambio=new recuperarClave();
+        cambio.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblRecuperarClaveMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -301,6 +342,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblLogoIngreso;
     private javax.swing.JLabel lblLogoMSP;
+    private javax.swing.JLabel lblRecuperarClave;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloGeneral1;
     private javax.swing.JLabel lblTituloGeneral2;

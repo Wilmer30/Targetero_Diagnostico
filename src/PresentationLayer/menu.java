@@ -26,8 +26,7 @@ public class menu extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         lblUsuario.setText(usuario);
         estadoVentana = EstadoVentanas.cerrado;
-         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
-        //lbCedulaUsuario.setText(ConectarBaseDatos.getUsuario());
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());        
     }
 
     /**
@@ -52,6 +51,7 @@ public class menu extends javax.swing.JFrame {
         smRol = new javax.swing.JMenu();
         miIngresoUsuario = new javax.swing.JMenuItem();
         miDarBajaUsuario = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         miAsignarRol = new javax.swing.JMenuItem();
         mnCIE10 = new javax.swing.JMenu();
@@ -120,6 +120,9 @@ public class menu extends javax.swing.JFrame {
             }
         });
         smRol.add(miDarBajaUsuario);
+
+        jMenuItem3.setText("Reiniciar clave");
+        smRol.add(jMenuItem3);
 
         mnAdministrador.add(smRol);
 
@@ -398,6 +401,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem miAsignarRol;

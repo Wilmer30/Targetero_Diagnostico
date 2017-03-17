@@ -27,10 +27,9 @@ public class UsuariosDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT UserID FROM Usuarios WHERE UserName=? AND Approved=?";
+                String sentencia = "SELECT UserID FROM Usuarios WHERE UserName=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, usuario);
-                comando.setBoolean(2, true);
+                comando.setString(1, usuario);                
                 ResultSet lector = comando.executeQuery();
                 if (lector.next()) {
                     return null;
@@ -158,7 +157,7 @@ public class UsuariosDAL {
                 if (registrosAfectados > 0) {
                     return null;
                 }
-                return "No se ha podido actualizar el password";
+                return "No se ha podido cambiar el password";
             } catch (Exception e) {
                 return e.getMessage();
             }
@@ -187,7 +186,7 @@ public class UsuariosDAL {
         return connect.getError();
     }
     
-    public boolean ultimoLogin(String usuario){
+    public String ultimoLogin(String usuario){
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
@@ -197,12 +196,15 @@ public class UsuariosDAL {
                 comando.setTimestamp(1, Timestamp.valueOf(fechaHora()));
                 comando.setString(2, usuario);
                 int registrosAfectados = comando.executeUpdate();
-                return registrosAfectados > 0;
+                if (registrosAfectados>0) {
+                    return null;
+                }
+                return "No se ha podido ingresar al sistema";
             } catch (Exception e) {
-                return false;
+                return e.getMessage();
             }
         }
-        return false;
+        return connect.getError();
     }
     
     public String updateSeguridad(String usuario,String pregunta,String respuesta){
@@ -225,5 +227,46 @@ public class UsuariosDAL {
             }
         }
         return connect.getError();
+    }
+    
+    public String recuperarPregunta(String usuario) {        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT PasswordQuestion FROM Usuarios WHERE UserName=? AND Approved=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, usuario);
+                comando.setBoolean(2, true);
+                ResultSet lector = comando.executeQuery();
+                if (lector.next()) {
+                    return lector.getString("PasswordQuestion");
+                }
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public String recuperarRespuesta(String usuario) {        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT PasswordAnswer FROM Usuarios WHERE UserName=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, usuario);                
+                ResultSet lector = comando.executeQuery();
+                if (lector.next()) {
+                    return lector.getString("PasswordAnswer");
+                }
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
     }
 }

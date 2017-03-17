@@ -5,21 +5,91 @@
  */
 package PresentationLayer;
 
-import BusinessObjects.Enumeraciones;
+import BusinessLayer.UsuariosBL;
+import BusinessLayer.Validaciones;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Wilmer Oñate
+ * @author Erick
  */
-public class cambioClave extends javax.swing.JInternalFrame {
+public class recuperarClave extends javax.swing.JFrame {
+
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    UsuariosBL usuarioBL;
+    Validaciones validar;
+    // </editor-fold>
 
     /**
-     * Creates new form cambioClave
+     * Creates new form recuperarClave
      */
-    public cambioClave() {
+    public recuperarClave() {
+        validar = new Validaciones();
+        usuarioBL = new UsuariosBL();
         initComponents();
-       
+        setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
+        txtUsuario.requestFocus();
+        btnAceptar.setEnabled(false);
+    }
+
+    public void limpiarControles() {
+        txtUsuario.setText("");
+        txtPregunta.setText("");
+        txtRespuesta.setText("");
+    }
+
+    public boolean controlUsuario() {
+        if (txtUsuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            txtUsuario.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    public void setPregunta() {
+        if (controlUsuario()) {
+            String mensaje = usuarioBL.seguridad(txtUsuario.getText());
+            if (mensaje == null) {
+                String pregunta = usuarioBL.pregunta(txtUsuario.getText());
+                if (pregunta != null) {
+                    txtPregunta.setText(pregunta);
+                    btnAceptar.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario no puede recuperar la contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    limpiarControles();
+                    txtUsuario.requestFocus();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarControles();
+                txtUsuario.requestFocus();
+            }
+        }
+    }
+
+    public void reiniciarClave() {
+        String mensaje = usuarioBL.validarRecuperacion(txtUsuario.getText(), txtRespuesta.getText());
+        if (mensaje == null) {
+            String cambio = usuarioBL.cambiarClave(txtUsuario.getText(), txtUsuario.getText());
+            if (cambio == null) {
+                JOptionPane.showMessageDialog(null, "Su nueva contraseña es su usuario\n"+
+                        "La aplicación se va a cerrar", "CONTRASEÑA RECUPERADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            } else {
+                JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarControles();
+                txtUsuario.requestFocus();
+                btnAceptar.setEnabled(false);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            limpiarControles();
+            txtUsuario.requestFocus();
+            btnAceptar.setEnabled(false);
+        }
     }
 
     /**
@@ -31,6 +101,7 @@ public class cambioClave extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -38,30 +109,14 @@ public class cambioClave extends javax.swing.JInternalFrame {
         txtUsuario = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtClave = new javax.swing.JPasswordField();
-        txtRepetirClave = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
+        txtPregunta = new javax.swing.JTextField();
+        txtRespuesta = new javax.swing.JTextField();
 
-        setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("CAMBIO DE CLAVE");
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RECUPERAR CONTRASEÑA");
+        setResizable(false);
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/recuperar_clave.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setFocusable(false);
@@ -70,13 +125,22 @@ public class cambioClave extends javax.swing.JInternalFrame {
         jLabel1.setText("Usuario");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Contraseña");
+        jLabel2.setText("Pregunta de seguridad");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel3.setText("Repetir contraseña");
+        jLabel3.setText("Respuesta");
 
-        txtUsuario.setEditable(false);
         txtUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsuarioFocusLost(evt);
+            }
+        });
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
+        });
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
@@ -96,18 +160,16 @@ public class cambioClave extends javax.swing.JInternalFrame {
             }
         });
 
-        txtClave.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        txtRepetirClave.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtPregunta.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -115,12 +177,14 @@ public class cambioClave extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuario)
-                            .addComponent(txtClave)
-                            .addComponent(txtRepetirClave)))
+                            .addComponent(txtPregunta)
+                            .addComponent(txtRespuesta)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
                         .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)))
+                        .addGap(31, 31, 31)
+                        .addComponent(btnCancelar)
+                        .addGap(0, 39, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,19 +197,17 @@ public class cambioClave extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtRepetirClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cambio_clave.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,17 +216,16 @@ public class cambioClave extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(8, 8, 8))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel4)))
@@ -174,37 +235,26 @@ public class cambioClave extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        limpiarContorles();        
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        reiniciarClave();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-          if (!txtClave.getText().equals("") || !txtRepetirClave.getText().equals("") ) {
-            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            //res=0 si//res=1 =no                  
-            if (res == 1) {
-                this.setDefaultCloseOperation(0); // no cierra la ventana
-            } else {
-                this.setDefaultCloseOperation(1);//  cierra la ventana
-                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-            }
-        } else {
-            this.setDefaultCloseOperation(1);//cierra la ventana
-            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-        }
-    }//GEN-LAST:event_formInternalFrameClosing
+        System.exit(0);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    public void limpiarContorles(){
-        
-        txtClave.setText(null);
-        txtRepetirClave.setText(null);       
-    }
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
+    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
+        // TODO add your handling code here:
+        setPregunta();
+    }//GEN-LAST:event_txtUsuarioFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -222,20 +272,20 @@ public class cambioClave extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cambioClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(recuperarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cambioClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(recuperarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cambioClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(recuperarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cambioClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(recuperarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cambioClave().setVisible(true);
+                new recuperarClave().setVisible(true);
             }
         });
     }
@@ -248,8 +298,8 @@ public class cambioClave extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField txtClave;
-    private javax.swing.JPasswordField txtRepetirClave;
+    private javax.swing.JTextField txtPregunta;
+    private javax.swing.JTextField txtRespuesta;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

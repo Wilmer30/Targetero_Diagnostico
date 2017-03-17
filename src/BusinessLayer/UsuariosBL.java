@@ -25,8 +25,8 @@ public class UsuariosBL {
     }
 
     public String validarIngreso(String usuario, String clave) {
-        String mensaje=usuarioDAL.verificarUsuario(usuario);
-        if (mensaje==null) {
+        String mensaje = usuarioDAL.verificarUsuario(usuario);
+        if (mensaje == null) {
             String password = usuarioDAL.recuperarContraseña(usuario);
             if (password != null) {
                 if (password.equals(encriptar.encriptar(clave))) {
@@ -38,9 +38,44 @@ public class UsuariosBL {
         }
         return mensaje;
     }
-    
-    public void ultimaConexion(String usuario){//Revisar
-        usuarioDAL.ultimoLogin(usuario);
+
+    public String ultimaConexion(String usuario) {
+        String mensaje = usuarioDAL.ultimoLogin(usuario);
+        if (mensaje == null) {
+            return null;
+        }
+        return mensaje;
     }
 
+    public String seguridad(String usuario) {
+        String mensaje = usuarioDAL.verificarUsuario(usuario);
+        if (mensaje == null) {
+            return null;
+        }
+        return mensaje;
+    }
+
+    public String pregunta(String usuario) {
+        String pregunta = usuarioDAL.recuperarPregunta(usuario);
+        if (pregunta != null) {
+            return pregunta;
+        }
+        return null;
+    }
+    
+    public String validarRecuperacion(String usuario,String respuesta){
+        String answer=usuarioDAL.recuperarRespuesta(usuario);
+        if (answer.equals(encriptar.encriptar(respuesta))) {
+            return null;
+        }
+        return "Respuesta incorrecta";
+    }
+    
+    public String cambiarClave(String usuario,String nuevaClave){
+        String mensaje=usuarioDAL.updatePassword(usuario, encriptar.encriptar(nuevaClave));
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
 }
