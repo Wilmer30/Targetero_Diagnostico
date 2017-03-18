@@ -51,7 +51,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="miIngresoUsuario">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+U"/>
+                      <KeyStroke key="Ctrl+N"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Ingreso"/>
                   </Properties>
@@ -62,7 +62,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="miDarBajaUsuario">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+S"/>
+                      <KeyStroke key="Ctrl+B"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Dar de baja"/>
                   </Properties>
@@ -72,6 +72,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+R"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Reiniciar clave"/>
                   </Properties>
                 </MenuItem>
@@ -127,7 +130,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+A"/>
+                  <KeyStroke key="Ctrl+U"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Dar de alta"/>
               </Properties>
@@ -178,16 +181,16 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="mnAyuda">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenu3">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Manual"/>
               </Properties>
-            </Menu>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de"/>

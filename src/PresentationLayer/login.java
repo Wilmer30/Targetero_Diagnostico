@@ -58,7 +58,7 @@ public class login extends javax.swing.JFrame {
         }
     }
 
-    public boolean controlLogin() {
+    private boolean controlLogin() {
         if (txtUsuario.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
             txtUsuario.requestFocus();
