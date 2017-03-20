@@ -15,26 +15,6 @@ import java.util.ArrayList;
  */
 public class RolesDAL {
     
-    public ArrayList SelectRoles(){
-        ArrayList<String> roles=new ArrayList<>();
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT RoleName FROM Roles";
-                Statement comando = connection.createStatement();                
-                ResultSet lector = comando.executeQuery(sentencia);
-                while(lector.next()) {
-                    roles.add(lector.getString("RoleName"));
-                }
-                return roles;
-            } catch (Exception e) {
-                return null;
-            }
-        }        
-        return null;
-    }
-    
     public int SelectRolPorNombre(String rol){        
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
@@ -53,5 +33,25 @@ public class RolesDAL {
             }
         }        
         return -1;
+    }
+    
+    public String SelectRolPorCodigo(int codigoRol){        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT RoleName FROM Roles WHERE RoleID=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setInt(1, codigoRol);
+                ResultSet lector = comando.executeQuery();
+                if(lector.next()) {
+                    return lector.getString("RoleName");
+                }
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }        
+        return null;
     }
 }

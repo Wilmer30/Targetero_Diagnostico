@@ -22,6 +22,26 @@ public class UsuariosDAL {
         return cambiarfecha.format(now);
     }
 
+    public int idUsuario(String usuario){
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT UserID FROM Usuarios WHERE UserName=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, usuario);                
+                ResultSet lector = comando.executeQuery();
+                if (lector.next()) {
+                    return lector.getInt("UserID");
+                }
+                return -1;
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+        return -1;
+    }
+    
     public String verificarUsuario(String usuario) {        
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
@@ -42,7 +62,7 @@ public class UsuariosDAL {
         return connect.getError();
     }
     
-    public boolean buscarUsuario(String usuario) {        
+    public String buscarUsuario(String usuario) {        
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
@@ -51,12 +71,15 @@ public class UsuariosDAL {
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, usuario);                
                 ResultSet lector = comando.executeQuery();
-                return lector.next();
+                if (lector.next()) {
+                    return "El usuario ya existe";
+                }
+                return null;
             } catch (Exception e) {
-                return false;
+                return e.getMessage();
             }
         }
-        return false;
+        return connect.getError();
     }
 
     public String recuperarContraseña(String usuario) {        
