@@ -20,12 +20,14 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
     /**
      * Creates new form DarBaja_Cie10
      */
+    
     boolean filaSeleccionada = false;
 
     public darBaja_Cie10() {
         initComponents();
         CargarCIE10();
         tbCie10.getTableHeader().setReorderingAllowed(false);
+        
 
     }
 

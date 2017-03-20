@@ -20,11 +20,14 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     /**
      * Creates new form darAlta_Cie10
      */
-    boolean filaSeleccionada = false;
+    boolean filaSeleccionada;
 
     public darAlta_Cie10() {
         initComponents();
-        CargarCIE10();
+        tbCie10.getTableHeader().setReorderingAllowed(false); //Poner las columnas estaticas
+        CargarCIE10(); //Carga todos los codigos CIE10 activos
+        btnAceptar.setEnabled(false);
+        filaSeleccionada = false;
     }
 
     /**
@@ -180,6 +183,78 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+
+        darAltaCIE1();
+
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiarContorles(); //Limpiamos el txtBusqueda
+        CargarCIE10();             //Cargamos todas las enfermedades que esten dadas de baja
+        filaSeleccionada = false;  //Fila no seleccionada (Se utiliza para la confirmación)
+        btnAceptar.setEnabled(false); //Desabiliramos el boton de aceptar
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyPressed
+
+    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
+        // TODO add your handling code here:
+        convertirMayusculas(evt); //Covertir a mayusculas OJO REVISAR
+        CargarCIE10PrimaryKey(); //Busqueda por completación
+    }//GEN-LAST:event_txtBusquedaKeyReleased
+
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void tbCie10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCie10MouseClicked
+        // TODO add your handling code here:
+        filaSeleccionada = true;
+        btnAceptar.setEnabled(true);
+        btnAceptar.setEnabled(true);
+    }//GEN-LAST:event_tbCie10MouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    // <editor-fold defaultstate="collapsed" desc="Metodos">
+    
+    public void limpiarContorles() {
+        txtBusqueda.setText(null);
+    }
+
+    public void convertirMayusculas(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (Character.isLetter(c)) {
+            txtBusqueda.setText(txtBusqueda.getText().toUpperCase());
+        }
+    }
+
+    public void CargarCIE10() {
+        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+        tbCie10.setModel(enfermedades.SelelctEnfermedadesInactivas());
+
+    }
+
+    public void CargarCIE10PrimaryKey() {
+        //Se realiza la busqueda inteligente
+        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
+        tbCie10.setModel(enfermedades.SelelctPrimaryKeyTablaInactivas(txtBusqueda.getText()));
+        filaSeleccionada = false;
+        btnAceptar.setEnabled(false);
+
+    }
+
+    public void darAltaCIE1() {
         //Pedimos confirmación para dar de baja. devuelve 0= si 1=no
         if (filaSeleccionada) {
             int res = JOptionPane.showConfirmDialog(null,
@@ -204,62 +279,11 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
             }
         } else {
-            JOptionPane.showMessageDialog(null,  "Seleccione suna enfermedad","Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Seleccione suna enfermedad", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         }
-
-    }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        txtBusqueda.setText(null);
-        CargarCIE10();
-        filaSeleccionada = false;
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBusquedaKeyPressed
-
-    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            txtBusqueda.setText(txtBusqueda.getText().toUpperCase());
-        }
-        //Se realiza la busqueda inteligente
-        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        tbCie10.setModel(enfermedades.SelelctPrimaryKeyTablaInactivas(txtBusqueda.getText()));
-        filaSeleccionada = false;
-    }//GEN-LAST:event_txtBusquedaKeyReleased
-
-    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
-
-    }//GEN-LAST:event_txtBusquedaKeyTyped
-
-    private void tbCie10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCie10MouseClicked
-        // TODO add your handling code here:
-        filaSeleccionada=true;
-    }//GEN-LAST:event_tbCie10MouseClicked
-
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_formInternalFrameClosed
-
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        // TODO add your handling code here:
-        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-    }//GEN-LAST:event_formInternalFrameClosing
-
-    public void limpiarContorles() {
-        txtBusqueda.setText(null);
     }
-
-    public void CargarCIE10() {
-        EnfermedadesDAL enfermedades = new EnfermedadesDAL();
-        tbCie10.setModel(enfermedades.SelelctEnfermedadesInactivas());
-
-    }
+    // </editor-fold>
+    
 
     /**
      * @param args the command line arguments

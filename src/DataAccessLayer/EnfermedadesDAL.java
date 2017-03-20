@@ -21,28 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EnfermedadesDAL {
 
-    public boolean VerificarEnfermedad(String codigo) {
-        
-        boolean res = false;
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie =  ? and est_cie=?";
-                //String sentencia = "SELECT  cod_cie from enfermedades ";
-                PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo);
-                comando.setString(2, "ACTIVO");
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    res=true;
-                }
-
-            } catch (Exception e) {
-            }
-        }
-        return res;
-    }
+    
     
     public DefaultComboBoxModel SelelctPrimaryKeyActivas(String codigo) {
         DefaultComboBoxModel com = new DefaultComboBoxModel();
