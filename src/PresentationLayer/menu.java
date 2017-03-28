@@ -99,6 +99,7 @@ public class menu extends javax.swing.JFrame {
         smRol = new javax.swing.JMenu();
         miIngresoUsuario = new javax.swing.JMenuItem();
         miDarBajaUsuario = new javax.swing.JMenuItem();
+        miDarAltaUsuario = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         miAsignarRol = new javax.swing.JMenuItem();
@@ -168,6 +169,9 @@ public class menu extends javax.swing.JFrame {
             }
         });
         smRol.add(miDarBajaUsuario);
+
+        miDarAltaUsuario.setText("Dar de alta");
+        smRol.add(miDarAltaUsuario);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Reiniciar clave");
@@ -454,6 +458,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem miAsignarRol;
     private javax.swing.JMenuItem miCambioClave;
+    private javax.swing.JMenuItem miDarAltaUsuario;
     private javax.swing.JMenuItem miDarBajaCIE10;
     private javax.swing.JMenuItem miDarBajaUsuario;
     private javax.swing.JMenuItem miIngresarCIE10;

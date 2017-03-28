@@ -5,8 +5,13 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.UsuariosBL;
+import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,13 +19,83 @@ import javax.swing.JOptionPane;
  */
 public class darBaja_Usuario extends javax.swing.JInternalFrame {
 
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    UsuariosBL usuarioBL;
+    Validaciones validar;    
+    // </editor-fold>
+    
     /**
      * Creates new form darBaja_Usuario
      */
     public darBaja_Usuario() {
+        usuarioBL = new UsuariosBL();
+        validar = new Validaciones();
         initComponents();
+        txtBusquedaCedula.requestFocus();
+        cargarDatos();
+        cargarTabla();
     }
-
+    
+    private void limpiarControles(){
+        txtCedula.setText("");
+        txtNombreUsuario.setText("");
+        txtEmail.setText("");
+        txtBusquedaCedula.setText("");
+        txtBusquedaCedula.requestFocus();
+    }
+    
+    private void cargarDatos(){
+        tblUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if(tblUsuarios.getSelectedRow()!=-1){
+                    int fila=tblUsuarios.getSelectedRow();
+                    txtCedula.setText(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
+                    txtNombreUsuario.setText(String.valueOf(tblUsuarios.getValueAt(fila, 1)));
+                    txtEmail.setText(String.valueOf(tblUsuarios.getValueAt(fila, 2)));                    
+                }
+            }
+        });
+    }
+    
+    private void cargarTabla(){
+        DefaultTableModel modelo=usuarioBL.usuarios();
+        if (modelo!=null) {
+            tblUsuarios.setModel(modelo);
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void cargarTabla(String usuario){
+        DefaultTableModel modelo=usuarioBL.busquedaInteligenteUsuarios(usuario);
+        if (modelo!=null) {
+            tblUsuarios.setModel(modelo);
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private boolean control(){
+        return !txtCedula.getText().isEmpty();
+    }
+    
+    private void darBaja(){
+        if (control()) {
+            String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), false);
+            if (mensaje==null) {
+                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de baja",
+                        "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);                
+            }else{
+                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de baja",
+                        "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            }
+            limpiarControles();
+            cargarTabla();
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario antes de continuar","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,18 +116,17 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbUsuario = new javax.swing.JTable();
+        tblUsuarios = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtBusquedaCedula = new javax.swing.JTextField();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DAR DE BAJA USUARIOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baja_usuario.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
@@ -79,17 +153,19 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         jLabel3.setText("Número de cédula");
 
         txtCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtCedula.setEnabled(false);
 
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtNombreUsuario.setEnabled(false);
 
         txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtEmail.setEnabled(false);
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
@@ -106,21 +182,20 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(60, 60, 60)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCedula)
-                            .addComponent(txtNombreUsuario)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)))
+                        .addGap(34, 34, 34)
+                        .addComponent(btnAceptar)))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtCedula)
+                        .addComponent(txtNombreUsuario)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,21 +222,29 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tbUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbUsuario.setModel(new javax.swing.table.DefaultTableModel(
+        tblUsuarios.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Número de cédula", "Nombre de usuario", "Email"
+
             }
         ));
-        jScrollPane1.setViewportView(tbUsuario);
+        jScrollPane1.setViewportView(tblUsuarios);
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText("Número de cédula");
 
         txtBusquedaCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtBusquedaCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -197,7 +280,9 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -206,7 +291,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -214,8 +299,8 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // limpiar txtcedula,txtnombreUsuario,txtEmail
-        limpiarContorles();
+        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -223,15 +308,21 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        
-    }//GEN-LAST:event_formInternalFrameClosed
+    private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
-    public void limpiarContorles(){
-        txtCedula.setText(null);
-        txtNombreUsuario.setText(null);
-        txtEmail.setText(null);        
-    }
+    private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
+        // TODO add your handling code here:
+        cargarTabla(txtBusquedaCedula.getText());
+    }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        darBaja();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -277,7 +368,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbUsuario;
+    private javax.swing.JTable tblUsuarios;
     private javax.swing.JTextField txtBusquedaCedula;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtEmail;

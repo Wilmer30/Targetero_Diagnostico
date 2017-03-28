@@ -7,6 +7,8 @@ package BusinessLayer;
 
 import DataAccessLayer.UsuariosDAL;
 import SecurityLayer.Encriptacion;
+import BusinessObjects.Usuarios;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +19,13 @@ public class UsuariosBL {
     // <editor-fold defaultstate="collapsed" desc="Datos">
     UsuariosDAL usuarioDAL;
     Encriptacion encriptar;
+    Usuarios nuevoUsuario;
     // </editor-fold>
 
     public UsuariosBL() {
         usuarioDAL = new UsuariosDAL();
         encriptar = new Encriptacion();
+        nuevoUsuario=new Usuarios();
     }
 
     public String validarIngreso(String usuario, String clave) {
@@ -29,8 +33,7 @@ public class UsuariosBL {
         if (mensaje == null) {
             String password = usuarioDAL.recuperarContraseña(usuario);
             if (password != null) {
-                if (password.equals(encriptar.encriptar(clave))) {
-               //if (password.equals((clave))) {
+                if (password.equals(encriptar.encriptar(clave))) {               
                     return null;
                 }
                 return "Contraseña incorrecta";
@@ -74,6 +77,50 @@ public class UsuariosBL {
     
     public String cambiarClave(String usuario,String nuevaClave){
         String mensaje=usuarioDAL.updatePassword(usuario, encriptar.encriptar(nuevaClave));
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
+    
+    public String nuevoUsuario(String usuario,String email){
+        nuevoUsuario.setNombreUsuario(usuario);
+        nuevoUsuario.setEmail(email);
+        nuevoUsuario.setPassword(encriptar.encriptar(usuario));
+        String mensaje=usuarioDAL.insert(nuevoUsuario);
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
+    
+    public boolean buscarUsuario(String usuario){
+        String mensaje=usuarioDAL.buscarUsuario(usuario);
+        return mensaje!=null;
+    }
+    
+    public int idUsuario(String usuario){
+        return usuarioDAL.idUsuario(usuario);        
+    }
+    
+    public DefaultTableModel usuarios(){
+        DefaultTableModel modelo=usuarioDAL.selectUsuarios();
+        if (modelo==null) {
+            return null;
+        }
+        return modelo;
+    }
+    
+    public DefaultTableModel busquedaInteligenteUsuarios(String usuario){
+        DefaultTableModel modelo=usuarioDAL.selectUsuarios(usuario);
+        if (modelo==null) {
+            return null;
+        }
+        return modelo;
+    }
+    
+    public String cambiarEstado(String usuario,boolean estado){
+        String mensaje=usuarioDAL.updateEstado(usuario, estado);
         if (mensaje!=null) {
             return mensaje;
         }

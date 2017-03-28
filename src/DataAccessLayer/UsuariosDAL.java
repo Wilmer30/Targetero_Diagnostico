@@ -9,6 +9,7 @@ import BusinessObjects.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -286,6 +287,58 @@ public class UsuariosDAL {
                     return lector.getString("PasswordAnswer");
                 }
                 return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public DefaultTableModel selectUsuarios(){
+        String []titulos={"Número de Cédula","Nombre de Usuario","Email"};
+        String [] registros=new String [3];        
+        DefaultTableModel model= new DefaultTableModel(null,titulos);        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Approved='true'";
+                Statement comando = connection.createStatement();
+                ResultSet lector = comando.executeQuery(sentencia);
+                while (lector.next()) {
+                    registros[0]=lector.getString("UserName");
+                    registros[1]=lector.getString("UserName");
+                    registros[2]=lector.getString("Email");
+                    model.addRow(registros);
+                }
+                return model;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public DefaultTableModel selectUsuarios(String usuario){
+        String []titulos={"Número de Cédula","Nombre de Usuario","Email"};
+        String [] registros=new String [3];        
+        DefaultTableModel model= new DefaultTableModel(null,titulos);        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE '%?%' AND Approved=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, usuario);
+                comando.setBoolean(2, true);
+                ResultSet lector = comando.executeQuery();
+                while (lector.next()) {
+                    registros[0]=lector.getString("UserName");
+                    registros[1]=lector.getString("UserName");
+                    registros[2]=lector.getString("Email");
+                    model.addRow(registros);
+                }
+                return model;
             } catch (Exception e) {
                 return null;
             }

@@ -5,16 +5,10 @@
  */
 package PresentationLayer;
 
-import BusinessObjects.Usuarios;
+import BusinessLayer.UsuariosBL;
+import BusinessLayer.UsuariosRolesBL;
+import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
-import DataAccessLayer.UsuariosDAL;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,11 +17,123 @@ import javax.swing.JOptionPane;
  */
 public class ingresoUsuarios extends javax.swing.JInternalFrame {
 
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    UsuariosBL usuarioBL;
+    Validaciones validar;
+    UsuariosRolesBL userrolBL;
+    // </editor-fold>
+
     /**
      * Creates new form ingresoUsuarios
      */
     public ingresoUsuarios() {
+        usuarioBL = new UsuariosBL();
+        validar = new Validaciones();
+        userrolBL=new UsuariosRolesBL();
         initComponents();
+    }
+
+    private void limpiarCedula() {
+        txtCedula.setText("");
+        txtCedula.requestFocus();
+    }
+
+    private void limpiarMail() {
+        txtEmail.setText("");
+        txtEmail.requestFocus();
+    }
+
+    private void limpiarControles() {
+        txtCedula.setText("");
+        txtEmail.setText("");
+        txtCedula.requestFocus();
+    }
+
+    private void nuevoUsuario() {
+        if (controlCedula()) {
+            if (controlMail()) {
+                if (controlRol()) {
+                    if (!usuarioBL.buscarUsuario(txtCedula.getText())) {
+                        String mensaje = usuarioBL.nuevoUsuario(txtCedula.getText(), txtEmail.getText());
+                        if (mensaje == null) {                            
+                            //Asignar rol
+                            int idUser = usuarioBL.idUsuario(txtCedula.getText());
+                            int idRol=cbRol.getSelectedIndex();
+                            if (idUser!=-1) {
+                                String message=userrolBL.asignarRol(idUser, idRol);
+                                if (message==null) {
+                                    JOptionPane.showMessageDialog(null, "Usuario ingresado correctamente\n"+
+                                            "Rol asignado correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                                    limpiarControles();
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "Usuario ingresado correctamente\n"+
+                                            "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                                    limpiarControles();
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Usuario ingresado correctamente\n"+
+                                            "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                                    limpiarControles();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                            limpiarControles();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El usuario ya existe en el sistema", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        limpiarControles();
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean controlCedula() {
+        if (txtCedula.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una cédula", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            txtCedula.requestFocus();
+            return false;
+        } else if (!validar.validarCedula(txtCedula.getText())) {
+            JOptionPane.showMessageDialog(null, "La cédula ingresada es incorrecta", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            limpiarCedula();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean controlMail() {
+        if (!txtEmail.getText().isEmpty()) {
+            if (!validar.validarMail(txtEmail.getText())) {
+                JOptionPane.showMessageDialog(null, "El email ingresado es incorrecto", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarMail();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean controlRol() {
+        if (cbRol.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Debe escoger un rol de la lista", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private void confirmarCierre() {
+        if (!txtCedula.getText().isEmpty() || !txtEmail.getText().isEmpty()) {
+            int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"
+                    + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            //res=0 si//res=1 =no
+            if (resultado == 0) {//cierra la ventana
+                this.dispose();
+                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+            }
+        } else {
+            this.dispose();//cierra la ventana
+            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
     }
 
     /**
@@ -46,15 +152,17 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
         txtEmail = new javax.swing.JTextField();
         btnCrear = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cbRol = new javax.swing.JComboBox<>();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("CREAR USUARIO");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("NUEVO USUARIO");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_usuario.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
@@ -68,11 +176,6 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                formMouseExited(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -83,6 +186,11 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
         jLabel3.setText("Número de cédula");
 
         txtCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyTyped(evt);
+            }
+        });
 
         txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -104,26 +212,34 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel1.setText("Rol");
+
+        cbRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un rol --", "Coordinador", "Digitador" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCrear)
+                .addGap(27, 27, 27)
+                .addComponent(btnCancelar)
+                .addGap(30, 30, 30))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCedula)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnCrear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(txtCedula)
+                    .addComponent(txtEmail)
+                    .addComponent(cbRol, 0, 153, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,11 +252,15 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear)
                     .addComponent(btnCancelar))
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,78 +276,33 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // Limpiamos los txtcedula, txtnombreUsuario,txtEmail
-        limpiarContorles();
+        // TODO add your handling code here:
+        confirmarCierre();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formMouseExited
-
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        // TODO add your handling code here:       
-
-        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-    }//GEN-LAST:event_formInternalFrameClosed
-
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if (!txtCedula.getText().equals("") || !txtEmail.getText().equals("") ) {
-            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            //res=0 si//res=1 =no                  
-            if (res == 1) {
-                this.setDefaultCloseOperation(0); // no cierra la ventana
-            } else {
-                this.setDefaultCloseOperation(1);//  cierra la ventana
-                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-            }
-        } else {
-            this.setDefaultCloseOperation(1);//cierra la ventana
-            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-        }
+        // TODO add your handling code here:
+        confirmarCierre();
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-       
-//        UsuarioDAL usuarioDAL = new UsuarioDAL();
-//        Usuarios usuario = new Usuarios();
-//        JOptionPane.showMessageDialog(null, "Prueba");
-//        try {
-//            usuario.setNombreUsuario(txtCedula.getText());
-//            usuario.setEmail(txtEmail.getText());
-//            usuario.setCreated( getFechaActual());
-//            usuario.setApproved(true);
-//            
-//           boolean res= usuarioDAL.Insert(usuario);
-//            if (res) {
-//                JOptionPane.showMessageDialog(null, "Ingresado");
-//            }
-//            
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
-//        } catch (ParseException ex) {
-//            JOptionPane.showMessageDialog(null, "No se ha podido realizar el INSERT" + ex);
-//      }
+        nuevoUsuario();
     }//GEN-LAST:event_btnCrearActionPerformed
 
-    public void limpiarContorles(){
-        txtCedula.setText(null);        
-        txtEmail.setText(null);
-    }
-    
-    public Date  getFechaActual() throws ParseException {
-    Date ahora = new Date();
-    SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-    return formateador.parse(ahora.toString());
-}
+    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtCedulaKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -266,6 +341,8 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrear;
+    private javax.swing.JComboBox<String> cbRol;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

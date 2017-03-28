@@ -164,7 +164,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Código CIE1");
+        jLabel2.setText("Código CIE10");
 
         txtBusqueda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
