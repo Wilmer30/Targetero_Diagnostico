@@ -6,6 +6,7 @@ import BusinessObjects.Enumeraciones;
 import BusinessObjects.Historicos;
 import DataAccessLayer.EnfermedadesDAL;
 import DataAccessLayer.HistoricosDAL;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
@@ -13,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
@@ -61,12 +61,25 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     }
 
-    private String fechaHora(Date fecha) {
-
-        SimpleDateFormat cambiarfecha = new SimpleDateFormat("YYYY-MM-dd");//revisar        
-        return String.valueOf(cambiarfecha.format(fecha));
-
+    public String getFecha(JDateChooser jd) {
+        SimpleDateFormat Formato = new SimpleDateFormat("YYYY-MM-dd");
+        if (jd.getDate() != null) {
+            return Formato.format(jd.getDate());
+        } else {
+            return null;
+        }
     }
+
+    public java.util.Date StringADate(String fecha) { //Revisar
+        SimpleDateFormat formato_del_Texto = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaE = null;
+        try {
+            fechaE = formato_del_Texto.parse(fecha);
+            return fechaE;
+        } catch (ParseException ex) {
+            return null;
+        }
+    }    
 
     private Date convertirFechaStringDate(String fecha) {
         Date date = null;
@@ -180,10 +193,10 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             if (controlTablaRepetidos(cbCodigo.getSelectedItem().toString())) {
                 String[] fila = new String[4];
                 fila[0] = txtHistoriaClinica.getText();
-                fila[1] = (String) cbCodigo.getSelectedItem();
-                fila[2] = fechaHora(dcFecha.getDate());  //Revisar no toma fechha correcta
+                fila[1] = (String) cbCodigo.getSelectedItem();                
+                fila[2] = getFecha(dcFecha);  
                 fila[3] = cbEstado.getSelectedItem().toString();
-                modelo.addRow(fila);
+                modelo.addRow(fila); 
                 tbHistorias.setModel(modelo);
                 btnAceptar.setEnabled(true);
                 //Limpiar
