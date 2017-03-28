@@ -181,6 +181,7 @@ public class EnfermedadesDAL {
         int registrosAfectados=0;
         if (connection != null) {
             try {
+                
                 String sentencia = "INSERT INTO Enfermedades(cod_cie,desc_cie,est_cie) "
                         + "VALUES(?,?,?)";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
