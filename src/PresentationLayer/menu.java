@@ -36,7 +36,7 @@ public class menu extends javax.swing.JFrame {
         lblUsuario.setText(usuario);
         estadoVentana = EstadoVentanas.cerrado;
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
-        cargarMenu(usuario);
+       //cargarMenu(usuario);
     }
 
     private void cargarMenu(String user) {

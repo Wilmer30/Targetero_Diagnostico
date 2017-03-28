@@ -30,7 +30,7 @@ public class UsuariosBL {
             String password = usuarioDAL.recuperarContraseña(usuario);
             if (password != null) {
                 if (password.equals(encriptar.encriptar(clave))) {
-                //if (password.equals((clave))) {
+               //if (password.equals((clave))) {
                     return null;
                 }
                 return "Contraseña incorrecta";

@@ -29,7 +29,7 @@ public class HistoricosDAL {
         return timestamp;
     }
 
-    public boolean Insert(Historicos historico) {
+    public boolean Insert(Historicos historico) {  //revisar hacer con  transacciones
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         boolean respuesta = false;

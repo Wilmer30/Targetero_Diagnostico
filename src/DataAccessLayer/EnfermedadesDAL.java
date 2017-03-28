@@ -21,7 +21,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EnfermedadesDAL {
 
-    
+    public String SelelctPrimaryDesciprcion(String codigo) {        
+        String desc=null ;
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT  desc_cie from enfermedades where cod_cie =  ? and est_cie=?";               
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, codigo);
+                comando.setString(2, "ACTIVO");
+                ResultSet rs = comando.executeQuery();
+                while (rs.next()) {
+                    desc=(rs.getString("desc_cie"));
+                }
+            } catch (Exception e) {
+                
+            }
+        }
+        return desc;
+    }
     
     public DefaultComboBoxModel SelelctPrimaryKeyActivas(String codigo) {
         DefaultComboBoxModel com = new DefaultComboBoxModel();
@@ -46,8 +65,6 @@ public class EnfermedadesDAL {
         return com;
     }
     
-   
-
     public DefaultTableModel SelelctPrimaryKeyTablaActivas(String codigo) {
         DefaultTableModel com = new DefaultTableModel();
         String[] fila = new String[2];
