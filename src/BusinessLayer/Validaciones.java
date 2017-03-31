@@ -63,4 +63,12 @@ public class Validaciones {
         Matcher comparar=patron.matcher(email);
         return  comparar.matches();
     }
+    
+    
+     public void controlLongitudMaximoSeis(java.awt.event.KeyEvent evt , String texto) {
+        if (!(texto.length() < 6)) {
+            evt.consume();
+        }
+
+    }
 }
