@@ -31,10 +31,11 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         enfermedadesBL = new EnfermedadesBL();
         enfermedadesDAL = new EnfermedadesDAL();
         enfermedades = new Enfermedades();
-
     }
-
-    public void controlDescripcion(java.awt.event.KeyEvent evt) {
+    
+// <editor-fold defaultstate="collapsed" desc="Metodos">   
+    
+    private void controlDescripcion(java.awt.event.KeyEvent evt) {
 
         char c = evt.getKeyChar();
         if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == 44 || c == 46 || Character.isDigit(c) || c == 8 || c == 32)) {
@@ -42,7 +43,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    public void controlDescripcionEnter(java.awt.event.KeyEvent evt) {
+    private void controlDescripcionEnter(java.awt.event.KeyEvent evt) {
 
         char c = evt.getKeyChar();
         if ((c == java.awt.event.KeyEvent.VK_TAB || c == java.awt.event.KeyEvent.VK_ENTER)) {
@@ -50,14 +51,14 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    public void controlCodigo(java.awt.event.KeyEvent evt) {
+    private void controlCodigo(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || Character.isDigit(c))) {
             evt.consume();
         }
     }
 
-    public void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt) {
+    private void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
 
         if (txtCodigo.getText().toString().length() >= 4) {
@@ -65,13 +66,13 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    public void limpiarContorles() {
+    private void limpiarContorles() {
         txtCodigo.setText(null);
         txtDiagnostico.setText(null);
 
     }
 
-    public void controlVentana() {
+    private void controlVentana() {
         if (!txtCodigo.getText().isEmpty() || !txtDiagnostico.getText().isEmpty()) {
             int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n" + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
@@ -87,42 +88,49 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    public boolean controlIngreso() {
+    private boolean controlIngreso() {
         if (!txtCodigo.getText().isEmpty() && txtCodigo.getText().length() >= 4) {
             if (!txtDiagnostico.getText().isEmpty() && txtCodigo.getText().length() >= 4) {
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Ingresar una descripcion a la enfermedad", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                return false;
+                JOptionPane.showMessageDialog(null, "Ingresar una descripcion a la enfermedad", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                txtDiagnostico.requestFocus();
+                return false;                
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Ingresar un código de la enfermedad validao", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresar un código de la enfermedad validao", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            txtCodigo.requestFocus();
             return false;
         }
     }
 
-    public void ingresoUsuario() {
+    private void ingresoUsuario() {
         if (controlIngreso()) {
-            if (!(enfermedadesBL.VerificarEnfermedad(txtCodigo.getText()))) {
+            String mensaje = enfermedadesBL.buscarEnfermedad(txtCodigo.getText());
+//            if (!(enfermedadesDAL.VerificarEnfermedad(txtCodigo.getText()))) {
+                if (mensaje ==null) { 
+//                enfermedades.setCodigoCie10(txtCodigo.getText());
+//                enfermedades.setDescripcion(txtDiagnostico.getText());
+//                enfermedades.setEstado("ACTIVO");
 
-                enfermedades.setCodigoCie10(txtCodigo.getText());
-                enfermedades.setDescripcion(txtDiagnostico.getText());
-                enfermedades.setEstado("ACTIVO");
+                String mensajeIngreso = enfermedadesBL.InsertEnfermedad(txtCodigo.getText(),txtDiagnostico.getText());
 
-                int num = enfermedadesDAL.Insert(enfermedades);
-
-                if (num > 0) {
-                    JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                if (mensajeIngreso ==null) {
+                    JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarContorles();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Enfermedad no ingresada", "Mensaje", JOptionPane.ERROR);
+                    JOptionPane.showMessageDialog(null, mensajeIngreso, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    limpiarContorles();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Ingresar un código diferente de enfermedad/n Esté código ya existe", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarContorles();
                 txtCodigo.requestFocus();
             }
 
         }
     }
+    // </editor-fold>
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -168,20 +176,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         jLabel2.setText("Diagnostico");
 
         txtCodigo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
-            }
-        });
-        txtCodigo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                txtCodigoPropertyChange(evt);
-            }
-        });
         txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCodigoKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyReleased(evt);
             }
@@ -286,10 +281,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         limpiarContorles();
@@ -324,12 +315,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         controlDescripcionEnter(evt);
     }//GEN-LAST:event_txtDiagnosticoKeyPressed
 
-    private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_txtCodigoKeyPressed
-
     private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
         controlCodigo(evt);
         controlLimiteCaracterCodigo(evt);
@@ -345,10 +330,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
             //JOptionPane.showMessageDialog(null, "ento");
         }
     }//GEN-LAST:event_txtCodigoKeyReleased
-
-    private void txtCodigoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCodigoPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoPropertyChange
 
     /**
      * @param args the command line arguments
