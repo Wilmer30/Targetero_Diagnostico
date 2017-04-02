@@ -7,7 +7,6 @@ package PresentationLayer;
 
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
-import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -15,19 +14,19 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Wilmer Oñate
+ * @author Erick
  */
-public class darBaja_Usuario extends javax.swing.JInternalFrame {
+public class reiniciarClave extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     UsuariosBL usuarioBL;
-    Validaciones validar;    
+    Validaciones validar;
     // </editor-fold>
-    
+
     /**
-     * Creates new form darBaja_Usuario
+     * Creates new form reiniciarClave
      */
-    public darBaja_Usuario() {
+    public reiniciarClave() {
         usuarioBL = new UsuariosBL();
         validar = new Validaciones();
         initComponents();
@@ -35,67 +34,80 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         cargarDatos();
         cargarTabla();
     }
-    
-    private void limpiarControles(){
+
+    private void limpiarControles() {
         txtCedula.setText("");
         txtNombreUsuario.setText("");
         txtEmail.setText("");
         txtBusquedaCedula.setText("");
         txtBusquedaCedula.requestFocus();
     }
-    
-    private void cargarDatos(){
+
+    private void cargarDatos() {
         tblUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
-                if(tblUsuarios.getSelectedRow()!=-1){
-                    int fila=tblUsuarios.getSelectedRow();
+                if (tblUsuarios.getSelectedRow() != -1) {
+                    int fila = tblUsuarios.getSelectedRow();
                     txtCedula.setText(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
                     txtNombreUsuario.setText(String.valueOf(tblUsuarios.getValueAt(fila, 1)));
-                    txtEmail.setText(String.valueOf(tblUsuarios.getValueAt(fila, 2)));                    
+                    txtEmail.setText(String.valueOf(tblUsuarios.getValueAt(fila, 2)));
                 }
             }
         });
     }
-    
-    private void cargarTabla(){
-        DefaultTableModel modelo=usuarioBL.usuarios();
-        if (modelo!=null) {
+
+    private void cargarTabla() {
+        DefaultTableModel modelo = usuarioBL.usuarios();
+        if (modelo != null) {
             tblUsuarios.setModel(modelo);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private void cargarTabla(String usuario){
-        DefaultTableModel modelo=usuarioBL.busquedaInteligenteUsuarios(usuario);
-        if (modelo!=null) {
+
+    private void cargarTabla(String usuario) {
+        DefaultTableModel modelo = usuarioBL.busquedaInteligenteUsuarios(usuario);
+        if (modelo != null) {
             tblUsuarios.setModel(modelo);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private boolean control(){
+
+    private boolean control() {
         return !txtCedula.getText().isEmpty();
     }
-    
-    private void darBaja(){
+
+    private void reiniciarClave() {
         if (control()) {
-            String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), false);
-            if (mensaje==null) {
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de baja",
-                        "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);                
-            }else{
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de baja",
-                        "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            String cambio = usuarioBL.cambiarClave(txtNombreUsuario.getText(), txtNombreUsuario.getText());
+            if (cambio == null) {
+                JOptionPane.showMessageDialog(null, "La contraseña ha sido reiniciada",
+                        "CONTRASEÑA REINICIADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                txtBusquedaCedula.requestFocus();
             }
             limpiarControles();
             cargarTabla();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario antes de continuar","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario antes de continuar", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
+
+    private void controlReinicio() {
+        int resultado = JOptionPane.showConfirmDialog(null, "Está seguro de reiniciar la contraseña al usuario "
+                + txtNombreUsuario.getText(), "CONFIRMACIÓN", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        //res=0 si//res=1 =no
+        if (resultado == 0) {
+            reiniciarClave();
+        }else{
+            limpiarControles();
+            cargarTabla();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,6 +117,11 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        txtBusquedaCedula = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -114,32 +131,63 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         txtEmail = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        txtBusquedaCedula = new javax.swing.JTextField();
 
         setClosable(true);
-        setTitle("DAR DE BAJA USUARIOS");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baja_usuario.png"))); // NOI18N
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("REINICIAR CLAVE DE USUARIO");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cambiar_clave.png"))); // NOI18N
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        tblUsuarios.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
             }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+        ));
+        jScrollPane1.setViewportView(tblUsuarios);
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setText("Número de cédula");
+
+        txtBusquedaCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtBusquedaCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyReleased(evt);
             }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyTyped(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -220,58 +268,6 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        tblUsuarios.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(tblUsuarios);
-
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel4.setText("Número de cédula");
-
-        txtBusquedaCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtBusquedaCedula.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBusquedaCedulaKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtBusquedaCedulaKeyTyped(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -291,38 +287,33 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
         // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        // Al cerrar la ventana pasamos la enumeración a el estado de cerrado
-        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-    }//GEN-LAST:event_formInternalFrameClosing
+        cargarTabla(txtBusquedaCedula.getText());
+    }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
 
     private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
     }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
-    private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
-        // TODO add your handling code here:
-        cargarTabla(txtBusquedaCedula.getText());
-    }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
-
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        darBaja();
+        controlReinicio();
     }//GEN-LAST:event_btnAceptarActionPerformed
-    
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -340,20 +331,20 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reiniciarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reiniciarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reiniciarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reiniciarClave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new darBaja_Usuario().setVisible(true);
+                new reiniciarClave().setVisible(true);
             }
         });
     }

@@ -5,7 +5,9 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.UsuariosBL;
 import BusinessObjects.Enumeraciones;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +16,63 @@ import javax.swing.JOptionPane;
  */
 public class cambioClave extends javax.swing.JInternalFrame {
 
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    UsuariosBL usuarioBL;
+    // </editor-fold>
+
     /**
      * Creates new form cambioClave
      */
     public cambioClave() {
+        usuarioBL = new UsuariosBL();
         initComponents();
-       
+        txtUsuario.setText(menu.usuario());
+        txtClave.requestFocus();
+    }
+
+    private void confirmarCierre() {
+        if (!(String.valueOf(txtClave.getPassword())).isEmpty() || !(String.valueOf(txtRepetirClave.getPassword())).isEmpty()) {
+            int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"
+                    + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            //res=0 si//res=1 =no
+            if (resultado == 0) {//cierra la ventana
+                this.dispose();
+                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+            }
+        } else {
+            this.dispose();//cierra la ventana
+            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
+    }
+
+    private boolean controlClave() {
+        return Arrays.equals(txtClave.getPassword(), txtRepetirClave.getPassword());
+    }
+
+    private void cambiarClave() {
+        if (controlClave()) {
+            String cambio = usuarioBL.cambiarClave(txtUsuario.getText(), String.valueOf(txtClave.getPassword()));
+            if (cambio == null) {
+                JOptionPane.showMessageDialog(null, "Su contraseña ha sido cambiada", "CONTRASEÑA CAMBIADA CON ÉXITO",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limpiarControles();
+                this.dispose();
+                
+            } else {
+                JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarControles();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Las contraseñas deben coincidir", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);            
+            txtRepetirClave.requestFocus();
+        }
+    }
+
+    private void limpiarControles() {
+        txtClave.setText("");
+        txtRepetirClave.setText("");
+        txtClave.requestFocus();
     }
 
     /**
@@ -43,8 +96,9 @@ public class cambioClave extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("CAMBIO DE CLAVE");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cambiar_clave.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -77,6 +131,7 @@ public class cambioClave extends javax.swing.JInternalFrame {
 
         txtUsuario.setEditable(false);
         txtUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtUsuario.setEnabled(false);
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
@@ -176,35 +231,19 @@ public class cambioClave extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        limpiarContorles();        
+        confirmarCierre();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        cambiarClave();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-          if (!txtClave.getText().equals("") || !txtRepetirClave.getText().equals("") ) {
-            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            //res=0 si//res=1 =no                  
-            if (res == 1) {
-                this.setDefaultCloseOperation(0); // no cierra la ventana
-            } else {
-                this.setDefaultCloseOperation(1);//  cierra la ventana
-                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-            }
-        } else {
-            this.setDefaultCloseOperation(1);//cierra la ventana
-            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-        }
+        confirmarCierre();
     }//GEN-LAST:event_formInternalFrameClosing
 
-    public void limpiarContorles(){
-        
-        txtClave.setText(null);
-        txtRepetirClave.setText(null);       
-    }
     /**
      * @param args the command line arguments
      */

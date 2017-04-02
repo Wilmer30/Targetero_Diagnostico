@@ -7,7 +7,6 @@ package PresentationLayer;
 
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
-import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -15,9 +14,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Wilmer Oñate
+ * @author Erick
  */
-public class darBaja_Usuario extends javax.swing.JInternalFrame {
+public class darAlta_Usuario extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     UsuariosBL usuarioBL;
@@ -25,9 +24,9 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     // </editor-fold>
     
     /**
-     * Creates new form darBaja_Usuario
+     * Creates new form darAlta_Usuario
      */
-    public darBaja_Usuario() {
+    public darAlta_Usuario() {
         usuarioBL = new UsuariosBL();
         validar = new Validaciones();
         initComponents();
@@ -59,7 +58,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     }
     
     private void cargarTabla(){
-        DefaultTableModel modelo=usuarioBL.usuarios();
+        DefaultTableModel modelo=usuarioBL.usuariosAlta();
         if (modelo!=null) {
             tblUsuarios.setModel(modelo);
         }else{
@@ -68,7 +67,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     }
     
     private void cargarTabla(String usuario){
-        DefaultTableModel modelo=usuarioBL.busquedaInteligenteUsuarios(usuario);
+        DefaultTableModel modelo=usuarioBL.busquedaInteligente(usuario);
         if (modelo!=null) {
             tblUsuarios.setModel(modelo);
         }else{
@@ -80,14 +79,14 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         return !txtCedula.getText().isEmpty();
     }
     
-    private void darBaja(){
+    private void darAlta(){
         if (control()) {
-            String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), false);
+            String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), true);
             if (mensaje==null) {
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de baja",
+                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de alta",
                         "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);                
             }else{
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de baja",
+                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de alta",
                         "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
             }
             limpiarControles();
@@ -121,25 +120,9 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
         txtBusquedaCedula = new javax.swing.JTextField();
 
         setClosable(true);
-        setTitle("DAR DE BAJA USUARIOS");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baja_usuario.png"))); // NOI18N
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("DAR DE ALTA USUARIOS");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_usuario.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -268,8 +251,8 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -291,38 +274,33 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        darAlta();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        // Al cerrar la ventana pasamos la enumeración a el estado de cerrado
-        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-    }//GEN-LAST:event_formInternalFrameClosing
-
-    private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
-        // TODO add your handling code here:
-        validar.soloNumeros(evt);
-    }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
     private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
         // TODO add your handling code here:
         cargarTabla(txtBusquedaCedula.getText());
     }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+    private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
         // TODO add your handling code here:
-        darBaja();
-    }//GEN-LAST:event_btnAceptarActionPerformed
-    
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -340,20 +318,20 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(darBaja_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(darAlta_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new darBaja_Usuario().setVisible(true);
+                new darAlta_Usuario().setVisible(true);
             }
         });
     }

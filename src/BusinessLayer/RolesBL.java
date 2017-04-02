@@ -43,4 +43,11 @@ public class RolesBL {
         return null;
     }
     
+    public int recuperarID(String rol){
+        int roleID=rolDAL.SelectRolPorNombre(rol);
+        if (roleID!=-1) {
+            return roleID;
+        }
+        return -1;
+    }
 }

@@ -5,8 +5,16 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.RolesBL;
+import BusinessLayer.UsuariosBL;
+import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import BusinessLayer.UsuariosRolesBL;
 
 /**
  *
@@ -14,11 +22,137 @@ import javax.swing.JOptionPane;
  */
 public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    UsuariosBL usuarioBL;
+    Validaciones validar;
+    RolesBL rolBL;
+    UsuariosRolesBL userrolBL;
+    // </editor-fold>
+
     /**
      * Creates new form asignarRol_Usuario
      */
     public asignarRol_Usuario() {
+        usuarioBL = new UsuariosBL();
+        validar = new Validaciones();
+        rolBL = new RolesBL();
         initComponents();
+        cargarDatos();
+    }
+
+    private void cargarTabla() {
+        DefaultTableModel modelo = usuarioBL.usuarios();
+        if (modelo != null) {
+            tblUsuarios.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void cargarTabla(String usuario) {
+        DefaultTableModel modelo = usuarioBL.busquedaInteligenteUsuarios(usuario);
+        if (modelo != null) {
+            tblUsuarios.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void cargarDatos() {
+        tblUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                if (tblUsuarios.getSelectedRow() != -1) {
+                    dgBuscarUsuario.dispose();
+                    int fila = tblUsuarios.getSelectedRow();
+                    txtCedulaUsuario.setText(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
+                    txtNombreUsuario.setText(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
+                    String rol=rolBL.recuperarRol(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
+                    if (rol!=null) {
+                        txtRol.setText(rol);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido cargar el rol para el usuario\n"
+                    + "La ventana se va a cerrar", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        limpiarControles();
+                        dispose();
+                    }                    
+                }
+            }
+        });
+    }
+
+    private void confirmarCierre() {
+        if (!txtCedulaUsuario.getText().isEmpty()) {
+            int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"
+                    + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            //res=0 si//res=1 =no
+            if (resultado == 0) {//cierra la ventana
+                this.dispose();
+                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+            }
+        } else {
+            this.dispose();//cierra la ventana
+            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
+    }
+
+    private void abrirBusqueda() {
+        dgBuscarUsuario.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/buscar_usuario.png")).getImage());
+        dgBuscarUsuario.setBounds(0, 0, 285, 455);
+        dgBuscarUsuario.setLocationRelativeTo(null);
+        dgBuscarUsuario.setVisible(true);
+        txtBusquedaCedula.requestFocus();
+        cargarTabla();
+    }
+
+    private boolean controlRol() {
+        if (cbRol.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Debe escoger un rol de la lista", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (cbRol.getSelectedItem().equals(txtRol.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe escoger un rol diferente del que actualmente se encuentra asignado", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean controlCedula() {
+        if (txtCedulaUsuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe buscar un usuario para asignar un rol", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private void cambiarRol() {
+        if (controlCedula()) {
+            if (controlRol()) {
+                int idRol = cbRol.getSelectedIndex();
+                int idUser = usuarioBL.idUsuario(txtCedulaUsuario.getText());
+                if (idUser != -1) {
+                    String message = userrolBL.cambiarRol(idUser, idRol);
+                    if (message == null) {
+                        JOptionPane.showMessageDialog(null, "Rol asignado correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                        limpiarControles();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        limpiarControles();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo encontrar al usuario\n"
+                            + "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    limpiarControles();
+                }
+            }
+        }
+    }
+
+    private void limpiarControles() {
+        txtCedulaUsuario.setText("");
+        txtNombreUsuario.setText("");
+        txtRol.setText("");
+        cbRol.setSelectedIndex(0);
     }
 
     /**
@@ -30,7 +164,12 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel7 = new javax.swing.JLabel();
+        dgBuscarUsuario = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        txtBusquedaCedula = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -38,20 +177,91 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         btnBuscarUsuario = new javax.swing.JButton();
         txtCedulaUsuario = new javax.swing.JTextField();
         txtNombreUsuario = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtRol = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtaDesfripcionRol = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        btbAceptar = new javax.swing.JButton();
+        cbRol = new javax.swing.JComboBox<>();
+        btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        jLabel7.setText("jLabel7");
+        dgBuscarUsuario.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        dgBuscarUsuario.setTitle("BUSCAR USUARIO");
+        dgBuscarUsuario.setModal(true);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        tblUsuarios.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tblUsuarios);
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setText("Número de cédula");
+
+        txtBusquedaCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtBusquedaCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaCedulaKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+
+        javax.swing.GroupLayout dgBuscarUsuarioLayout = new javax.swing.GroupLayout(dgBuscarUsuario.getContentPane());
+        dgBuscarUsuario.getContentPane().setLayout(dgBuscarUsuarioLayout);
+        dgBuscarUsuarioLayout.setHorizontalGroup(
+            dgBuscarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dgBuscarUsuarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        dgBuscarUsuarioLayout.setVerticalGroup(
+            dgBuscarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dgBuscarUsuarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("ASIGNACIÓN DE ROLES");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rol.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -82,13 +292,24 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText("BUSCAR USUARIO");
 
+        btnBuscarUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnBuscarUsuario.setText("Buscar");
+        btnBuscarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarUsuarioActionPerformed(evt);
+            }
+        });
 
+        txtCedulaUsuario.setEditable(false);
         txtCedulaUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtCedulaUsuario.setEnabled(false);
 
+        txtNombreUsuario.setEditable(false);
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtNombreUsuario.setEnabled(false);
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel3.setText("Rol Actual");
+
+        txtRol.setEditable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -97,21 +318,24 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscarUsuario))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(22, 22, 22)))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnBuscarUsuario))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(22, 22, 22)))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtCedulaUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                                .addComponent(txtNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                                .addComponent(txtRol))))
+                    .addComponent(jLabel3))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -121,7 +345,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(btnBuscarUsuario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCedulaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -129,7 +353,11 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -137,21 +365,8 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText("Nombre del rol");
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel5.setText("Descripción");
-
-        txtaDesfripcionRol.setColumns(20);
-        txtaDesfripcionRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtaDesfripcionRol.setRows(5);
-        txtaDesfripcionRol.setEnabled(false);
-        jScrollPane1.setViewportView(txtaDesfripcionRol);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", ".." }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+        cbRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un rol --", "Coordinador", "Digitador" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -159,16 +374,10 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel4)
                 .addGap(41, 41, 41)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,17 +385,18 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btbAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btbAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
-        btbAceptar.setText("Aceptar");
+        btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
@@ -208,26 +418,27 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btbAceptar)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnCancelar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(btnAceptar)
+                .addGap(26, 26, 26)
+                .addComponent(btnCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btbAceptar)
+                    .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -235,37 +446,33 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        limpiarContorles();
+        confirmarCierre();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         // TODO add your handling code here:
-        if (!txtCedulaUsuario.getText().equals("")) {
-            int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"+"¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            //res=0 si//res=1 =no                  
-            if (res == 1) {
-                this.setDefaultCloseOperation(0); // no cierra la ventana
-            } else {
-                this.setDefaultCloseOperation(1);//  cierra la ventana
-                menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-            }
-        } else {
-            this.setDefaultCloseOperation(1);//cierra la ventana
-            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
-        }
-        
+        confirmarCierre();
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void btnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        abrirBusqueda();
+    }//GEN-LAST:event_btnBuscarUsuarioActionPerformed
 
-    public void limpiarContorles() {
-        txtCedulaUsuario.setText(null);
-        txtNombreUsuario.setText(null);
-        
-        txtaDesfripcionRol.setText(null);
-    }
+    private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
+        // TODO add your handling code here:
+        cargarTabla(txtBusquedaCedula.getText());
+    }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
+
+    private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        cambiarRol();
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,16 +488,24 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(asignarRol_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(asignarRol_Usuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(asignarRol_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(asignarRol_Usuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(asignarRol_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(asignarRol_Usuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(asignarRol_Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(asignarRol_Usuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -303,21 +518,25 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btbAceptar;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarUsuario;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbRol;
+    private javax.swing.JDialog dgBuscarUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTextField txtBusquedaCedula;
     private javax.swing.JTextField txtCedulaUsuario;
     private javax.swing.JTextField txtNombreUsuario;
-    private javax.swing.JTextArea txtaDesfripcionRol;
+    private javax.swing.JTextField txtRol;
     // End of variables declaration//GEN-END:variables
 }

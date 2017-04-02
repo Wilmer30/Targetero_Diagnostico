@@ -28,4 +28,12 @@ public class UsuariosRolesBL {
         }
         return null;
     }
+    
+    public String cambiarRol(int userID,int roleID){
+        String mensaje=userrolDAL.updateRol(userID, roleID);
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
 }

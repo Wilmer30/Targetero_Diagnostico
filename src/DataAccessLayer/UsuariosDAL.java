@@ -345,4 +345,56 @@ public class UsuariosDAL {
         }
         return null;
     }
+    
+    public DefaultTableModel selectUsuariosAlta(){
+        String []titulos={"Número de Cédula","Nombre de Usuario","Email"};
+        String [] registros=new String [3];        
+        DefaultTableModel model= new DefaultTableModel(null,titulos);        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Approved='false'";
+                Statement comando = connection.createStatement();
+                ResultSet lector = comando.executeQuery(sentencia);
+                while (lector.next()) {
+                    registros[0]=lector.getString("UserName");
+                    registros[1]=lector.getString("UserName");
+                    registros[2]=lector.getString("Email");
+                    model.addRow(registros);
+                }
+                return model;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public DefaultTableModel selectUsuariosAlta(String usuario){
+        String []titulos={"Número de Cédula","Nombre de Usuario","Email"};
+        String [] registros=new String [3];        
+        DefaultTableModel model= new DefaultTableModel(null,titulos);        
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE '%?%' AND Approved=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, usuario);
+                comando.setBoolean(2, false);
+                ResultSet lector = comando.executeQuery();
+                while (lector.next()) {
+                    registros[0]=lector.getString("UserName");
+                    registros[1]=lector.getString("UserName");
+                    registros[2]=lector.getString("Email");
+                    model.addRow(registros);
+                }
+                return model;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
 }

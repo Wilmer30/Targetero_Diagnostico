@@ -126,4 +126,20 @@ public class UsuariosBL {
         }
         return null;
     }
+    
+    public DefaultTableModel usuariosAlta(){
+        DefaultTableModel modelo=usuarioDAL.selectUsuariosAlta();
+        if (modelo==null) {
+            return null;
+        }
+        return modelo;
+    }
+    
+    public DefaultTableModel busquedaInteligente(String usuario){
+        DefaultTableModel modelo=usuarioDAL.selectUsuariosAlta(usuario);
+        if (modelo==null) {
+            return null;
+        }
+        return modelo;
+    }
 }

@@ -6,7 +6,6 @@
 package PresentationLayer;
 
 import BusinessLayer.RolesBL;
-import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones.*;
 import javax.swing.ImageIcon;
@@ -36,7 +35,7 @@ public class menu extends javax.swing.JFrame {
         lblUsuario.setText(usuario);
         estadoVentana = EstadoVentanas.cerrado;
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
-       //cargarMenu(usuario);
+        cargarMenu(usuario);
     }
 
     private void cargarMenu(String user) {
@@ -76,7 +75,10 @@ public class menu extends javax.swing.JFrame {
             System.exit(0);
         }
     }
-
+    
+    public static String usuario(){
+        return lblUsuario.getText();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,6 +114,7 @@ public class menu extends javax.swing.JFrame {
         mnReportes = new javax.swing.JMenu();
         mnConfiguraciones = new javax.swing.JMenu();
         miCambioClave = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         mnAyuda = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -171,10 +174,20 @@ public class menu extends javax.swing.JFrame {
         smRol.add(miDarBajaUsuario);
 
         miDarAltaUsuario.setText("Dar de alta");
+        miDarAltaUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miDarAltaUsuarioActionPerformed(evt);
+            }
+        });
         smRol.add(miDarAltaUsuario);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Reiniciar clave");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         smRol.add(jMenuItem3);
 
         mnAdministrador.add(smRol);
@@ -252,6 +265,9 @@ public class menu extends javax.swing.JFrame {
         });
         mnConfiguraciones.add(miCambioClave);
 
+        jMenuItem5.setText("Actualizar correo");
+        mnConfiguraciones.add(jMenuItem5);
+
         jMenuBar1.add(mnConfiguraciones);
 
         mnAyuda.setText("Ayuda");
@@ -316,7 +332,7 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miIngresarHCActionPerformed
 
@@ -328,7 +344,7 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miCambioClaveActionPerformed
 
@@ -340,7 +356,7 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miDarBajaCIE10ActionPerformed
 
@@ -352,22 +368,20 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miAsignarRolActionPerformed
 
     private void miIngresoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miIngresoUsuarioActionPerformed
         // TODO add your handling code here:
-
         if (!estadoVentana.name().equals("abierto")) {
             ingresoUsuarios ventana = new ingresoUsuarios();
             dpPrincipal.add(ventana);
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
-
     }//GEN-LAST:event_miIngresoUsuarioActionPerformed
 
     private void miDarBajaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarBajaUsuarioActionPerformed
@@ -378,7 +392,7 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miDarBajaUsuarioActionPerformed
 
@@ -390,7 +404,7 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -402,9 +416,33 @@ public class menu extends javax.swing.JFrame {
             ventana.setVisible(true);
             estadoVentana = EstadoVentanas.abierto;
         } else {
-            JOptionPane.showMessageDialog(null, "Cerrar las ventana abirta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void miDarAltaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarAltaUsuarioActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            darAlta_Usuario ventana = new darAlta_Usuario();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_miDarAltaUsuarioActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            reiniciarClave ventana = new reiniciarClave();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -454,8 +492,9 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblUsuario;
+    private static javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem miAsignarRol;
     private javax.swing.JMenuItem miCambioClave;
     private javax.swing.JMenuItem miDarAltaUsuario;
