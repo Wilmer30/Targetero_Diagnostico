@@ -51,20 +51,20 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    private void controlCodigo(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || Character.isDigit(c))) {
-            evt.consume();
-        }
-    }
+//    private void controlCodigo(java.awt.event.KeyEvent evt) {
+//        char c = evt.getKeyChar();
+//        if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || Character.isDigit(c))) {
+//            evt.consume();
+//        }
+//    }
 
-    private void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-
-        if (txtCodigo.getText().toString().length() >= 4) {
-            evt.consume();
-        }
-    }
+//    private void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt) {
+//        char c = evt.getKeyChar();
+//
+//        if (txtCodigo.getText().toString().length() >= 4) {
+//            evt.consume();
+//        }
+//    }
 
     private void limpiarContorles() {
         txtCodigo.setText(null);
@@ -300,14 +300,13 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     private void txtDiagnosticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyTyped
         // TODO add your handling code here:
         controlDescripcion(evt);
+        validar.convertirMayusculas(evt);
 
     }//GEN-LAST:event_txtDiagnosticoKeyTyped
 
     private void txtDiagnosticoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyReleased
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            txtDiagnostico.setText(txtDiagnostico.getText().toUpperCase());
-        }
+
+
     }//GEN-LAST:event_txtDiagnosticoKeyReleased
 
     private void txtDiagnosticoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyPressed
@@ -316,19 +315,18 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtDiagnosticoKeyPressed
 
     private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
-        controlCodigo(evt);
-        controlLimiteCaracterCodigo(evt);
+//        controlCodigo(evt);
+        validar.soloNumerosLetras(evt);
+        validar.longitudMaximoCuatro(evt, txtCodigo.getText());
+        validar.convertirMayusculas(evt);
+        //controlLimiteCaracterCodigo(evt);
+
 
 
     }//GEN-LAST:event_txtCodigoKeyTyped
 
     private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            txtCodigo.setText(txtCodigo.getText().toUpperCase());
-            //JOptionPane.showMessageDialog(null, "ento");
-        }
     }//GEN-LAST:event_txtCodigoKeyReleased
 
     /**

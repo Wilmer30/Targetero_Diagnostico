@@ -22,6 +22,7 @@ public class EnfermedadesBL {
     // </editor-fold>
     public EnfermedadesBL() {
         enfermedadesDAL = new EnfermedadesDAL();
+        enfermedades= new Enfermedades();
     }
 
     public String validarEnfermedad(String enfermedad) {

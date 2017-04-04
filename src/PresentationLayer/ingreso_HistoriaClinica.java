@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     EnfermedadesBL enfermedadesBL;
-    Validaciones validar;    
+    Validaciones validar;
     HistoriasBL historicoBL;
     Historicos historico;
     EnfermedadesBL enfermedadesBl;
@@ -46,21 +47,26 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         tbHistorias.getTableHeader().setReorderingAllowed(false);
 
         cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() { //Obtenemos el editor del cbCodigo
+
             public void keyReleased(KeyEvent e) {
-                if ((e.getKeyCode() >= 48 && e.getKeyCode() <= 57) || (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) || e.getKeyCode() == 8 || e.getKeyCode() == 127) { // Sejecunta cuando es una letra un numero delete, suprimir
-                    //Comprobamos si es una letra
-                    if (Character.isLetter(e.getKeyChar())) {
-                        //Obtenemos lo ingresado y lo convertimos a mayuscula
-                        String textoBusqueda = ((String) cbCodigo.getEditor().getItem()).toUpperCase();
-                        cbCodigo.getEditor().setItem(textoBusqueda); //Agremamos convertido a mayuscula en el cbCodigo
-                    }
-                    BusquedaEnfermedad(); //Ejeculamos la consulta y cargamos al cbCodigo
-                    busquedaEnfermedadDescripcion();
-                } else {
-                    //e.consume();
+                BusquedaEnfermedad(); //Ejeculamos la consulta y cargamos al cbCodigo
+                busquedaEnfermedadDescripcion();
+                if (cbCodigo.getItemCount() > 0) {
+                    cbCodigo.showPopup();
                 }
-            } //Revisar
+
+            }
+
+            public void keyTyped(KeyEvent e) {
+                validar.convertirMayusculas(e);
+                String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+                validar.longitudMaximoCuatro(e, textoBusqueda);
+                validar.soloNumerosLetras(e);
+
+            }
+
         });
+
     }
 
     private String getFecha(JDateChooser jd) {
@@ -121,7 +127,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         txtHistoriaClinica.setEnabled(true);
         dcFecha.setEnabled(true);
         cbEstado.setEnabled(true);
-        txtHistoriaClinica.requestFocus();   
+        txtHistoriaClinica.requestFocus();
 
     }
 
@@ -216,6 +222,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private void busquedaEnfermedadDescripcion() {
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
         txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(textoBusqueda, "ACTIVO"));
+
     }
 
     private void HistoriaClinicaTabla() {
@@ -371,6 +378,21 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         cbCodigo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbCodigoItemStateChanged(evt);
+            }
+        });
+        cbCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCodigoActionPerformed(evt);
+            }
+        });
+        cbCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbCodigoFocusGained(evt);
+            }
+        });
+        cbCodigo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbCodigoPropertyChange(evt);
             }
         });
         cbCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -535,11 +557,11 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //TODO add your handling code here:
-        
+
         limpiarContorles();
         ActivarDesactivarBtnGuardar();
         ActivarControles();
-   
+
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -554,14 +576,16 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void cbCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyReleased
         // TODO add your handling code here:
+
     }//GEN-LAST:event_cbCodigoKeyReleased
 
     private void cbCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyTyped
+
     }//GEN-LAST:event_cbCodigoKeyTyped
 
     private void txtHistoriaClinicaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyTyped
         validar.soloNumeros(evt);
-        validar.controlLongitudMaximoSeis(evt, txtHistoriaClinica.getText());
+        validar.longitudMaximoSeis(evt, txtHistoriaClinica.getText());
 
     }//GEN-LAST:event_txtHistoriaClinicaKeyTyped
 
@@ -581,11 +605,14 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void cbCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbCodigoMouseClicked
         // TODO add your handling code here:
+
     }//GEN-LAST:event_cbCodigoMouseClicked
 
     private void cbCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCodigoItemStateChanged
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         busquedaEnfermedadDescripcion();
+
+
     }//GEN-LAST:event_cbCodigoItemStateChanged
 
     private void tbHistoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHistoriasMouseClicked
@@ -597,6 +624,24 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         EliminarFila();
     }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void cbCodigoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbCodigoFocusGained
+
+    }//GEN-LAST:event_cbCodigoFocusGained
+
+    private void cbCodigoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCodigoPropertyChange
+        // TODO add your handling code here:
+//        busquedaEnfermedadDescripcion();
+//        String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+//        JOptionPane.showMessageDialog(null, textoBusqueda);
+    }//GEN-LAST:event_cbCodigoPropertyChange
+
+    private void cbCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCodigoActionPerformed
+        // TODO add your handling code here:       
+        if (cbCodigo.getSelectedIndex() == 0) {
+            txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(cbCodigo.getSelectedItem().toString(), "ACTIVO"));
+        }
+    }//GEN-LAST:event_cbCodigoActionPerformed
 
     /**
      * @param args the command line arguments
