@@ -7,7 +7,7 @@ package PresentationLayer;
 
 import BusinessLayer.RolesBL;
 import BusinessLayer.Validaciones;
-import BusinessObjects.Enumeraciones.*;
+import BusinessObjects.Enumeraciones.EstadoVentanas;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -78,6 +78,13 @@ public class menu extends javax.swing.JFrame {
     
     public static String usuario(){
         return lblUsuario.getText();
+    }
+    
+    public static void agregarVentana(){
+        preguntasSeguridad seguridad=new preguntasSeguridad();        
+        dpPrincipal.add(seguridad);
+        seguridad.setVisible(true);
+        estadoVentana=EstadoVentanas.abierto;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -480,7 +487,7 @@ public class menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane dpPrincipal;
+    private static javax.swing.JDesktopPane dpPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;

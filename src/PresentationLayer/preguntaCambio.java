@@ -6,27 +6,29 @@
 package PresentationLayer;
 
 import BusinessLayer.UsuariosBL;
-import BusinessObjects.Enumeraciones;
-import java.util.Arrays;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Erick
  */
-public class preguntasSeguridad extends javax.swing.JInternalFrame {
+public class preguntaCambio extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     UsuariosBL usuarioBL;
     // </editor-fold>
-
+    
     /**
-     * Creates new form preguntasSeguridad
+     * Creates new form preguntaCambio
+     * @param usuario
      */
-    public preguntasSeguridad() {
+    public preguntaCambio(String usuario) {
         usuarioBL = new UsuariosBL();
         initComponents();
-        txtUsuario.setText(menu.usuario());
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/seguridad.png")).getImage());
+        setLocationRelativeTo(null);
+        txtUsuario.setText(usuario);
         txtPregunta.requestFocus();
         txtMostrarRespuesta.setVisible(false);
         txtRespuesta.setVisible(true);
@@ -59,9 +61,10 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
                 if (cambio == null) {
                     JOptionPane.showMessageDialog(null, "Su pregunta y respuesta de seguridad han sido modificadas", "SEGURIDAD MODIFICADA CON ÉXITO",
                             JOptionPane.INFORMATION_MESSAGE);
-                    limpiarControles();
+                    limpiarControles();                    
+                    menu menu = new menu(txtUsuario.getText());
+                    menu.setVisible(true);
                     this.dispose();
-                    menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
                 } else {
                     JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarControles();
@@ -88,7 +91,7 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
         txtMostrarRespuesta.setVisible(false);
         txtRespuesta.setVisible(true);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,7 +115,7 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("PREGUNTA DE SEGURIDAD");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seguridad.png"))); // NOI18N
+        setResizable(false);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Security_Question.png"))); // NOI18N
 
@@ -267,20 +270,20 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(preguntasSeguridad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(preguntaCambio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(preguntasSeguridad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(preguntaCambio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(preguntasSeguridad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(preguntaCambio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(preguntasSeguridad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(preguntaCambio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new preguntasSeguridad().setVisible(true);
+                new preguntaCambio("").setVisible(true);
             }
         });
     }

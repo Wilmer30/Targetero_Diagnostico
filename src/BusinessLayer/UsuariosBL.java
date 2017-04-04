@@ -142,4 +142,27 @@ public class UsuariosBL {
         }
         return modelo;
     }
+    
+    public String cambiarSeguridad(String usuario,String pregunta,String respuesta){
+        String mensaje=usuarioDAL.updateSeguridad(usuario, pregunta, encriptar.encriptar(respuesta));
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
+    
+    public String claveUsuario(String usuario) {
+        String mensaje = usuarioDAL.verificarUsuario(usuario);
+        if (mensaje == null) {
+            String password = usuarioDAL.recuperarContraseña(usuario);
+            if (password != null) {
+                if (password.equals(encriptar.encriptar(usuario))) {               
+                    return null;
+                }
+                return "Primer ingreso";
+            }
+            return "El usuario no tiene acceso al sistema";
+        }
+        return mensaje;
+    }
 }

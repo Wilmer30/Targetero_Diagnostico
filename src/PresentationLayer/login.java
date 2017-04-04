@@ -50,9 +50,7 @@ public class login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, message, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarControles();
                 } else {
-                    menu menu = new menu(txtUsuario.getText());
-                    menu.setVisible(true);
-                    this.dispose();
+                    iniciarAplicacion();
                 }
             }
         }
@@ -69,6 +67,18 @@ public class login extends javax.swing.JFrame {
             return false;
         }
         return true;
+    }
+
+    private void iniciarAplicacion() {
+        String mensaje = usuarioBL.claveUsuario(txtUsuario.getText());
+        if (mensaje==null) {
+            claveCambio cambio=new claveCambio(txtUsuario.getText());
+            cambio.setVisible(true);
+        } else {
+            menu menu = new menu(txtUsuario.getText());
+            menu.setVisible(true);            
+        }
+        this.dispose();
     }
 
     /**
@@ -275,8 +285,8 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
         //ingreso();
         menu menu = new menu(txtUsuario.getText());
-                    menu.setVisible(true);
-                    this.dispose();
+        menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -286,7 +296,7 @@ public class login extends javax.swing.JFrame {
 
     private void lblRecuperarClaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRecuperarClaveMouseClicked
         // TODO add your handling code here:
-        recuperarClave cambio=new recuperarClave();
+        recuperarClave cambio = new recuperarClave();
         cambio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblRecuperarClaveMouseClicked
