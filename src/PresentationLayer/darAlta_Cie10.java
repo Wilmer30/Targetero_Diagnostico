@@ -6,6 +6,7 @@
 package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
+import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 
@@ -17,10 +18,12 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
 // <editor-fold defaultstate="collapsed" desc="Datos">
     EnfermedadesBL enfermedadesBL;
+    Validaciones validar;
 //</editor-fold>       
     public darAlta_Cie10() {
         initComponents();
         enfermedadesBL = new EnfermedadesBL();
+        validar= new Validaciones();
         tbCie10.getTableHeader().setReorderingAllowed(false); //Poner las columnas estaticas
         CargarCIE10(); //Carga todos los codigos CIE10 activos
         ActivarDesactivarBtnAceptar();
@@ -39,12 +42,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
         txtBusqueda.setText(null);
     }
 
-    public void convertirMayusculas(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            txtBusqueda.setText(txtBusqueda.getText().toUpperCase());
-        }
-    }
+ 
 
     private void CargarCIE10() {
         tbCie10.setModel(enfermedadesBL.SelectCIE10Inactivas());
@@ -166,6 +164,9 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBusquedaKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -238,8 +239,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-        // TODO add your handling code here:
-        convertirMayusculas(evt); //Covertir a mayusculas OJO REVISAR
+        // TODO add your handling code here:       
         CargarCIE10PrimaryKey(); //Busqueda por completación        
         ActivarDesactivarBtnAceptar();
     }//GEN-LAST:event_txtBusquedaKeyReleased
@@ -252,6 +252,11 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+        // TODO add your handling code here:
+        validar.convertirMayusculas(evt); //Covertir a mayusculas 
+    }//GEN-LAST:event_txtBusquedaKeyTyped
 
     /**
      * @param args the command line arguments
