@@ -32,6 +32,9 @@ public class recuperarClave extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
         txtUsuario.requestFocus();
         btnAceptar.setEnabled(false);
+        txtMostrarRespuesta.setVisible(false);
+        txtRespuesta.setVisible(true);
+
     }
 
     public void limpiarControles() {
@@ -71,25 +74,47 @@ public class recuperarClave extends javax.swing.JFrame {
     }
 
     public void reiniciarClave() {
-        String mensaje = usuarioBL.validarRecuperacion(txtUsuario.getText(), txtRespuesta.getText());
-        if (mensaje == null) {
-            String cambio = usuarioBL.cambiarClave(txtUsuario.getText(), txtUsuario.getText());
-            if (cambio == null) {
-                JOptionPane.showMessageDialog(null, "Su nueva contraseña es su usuario\n"+
-                        "La aplicación se va a cerrar", "CONTRASEÑA RECUPERADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+        if (controlRespuesta()) {
+            String mensaje = usuarioBL.validarRecuperacion(txtUsuario.getText(), String.valueOf(txtRespuesta.getPassword()));
+            if (mensaje == null) {
+                String cambio = usuarioBL.cambiarClave(txtUsuario.getText(), txtUsuario.getText());
+                if (cambio == null) {
+                    JOptionPane.showMessageDialog(null, "Su nueva contraseña es su usuario\n"
+                            + "La aplicación se va a cerrar", "CONTRASEÑA RECUPERADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    limpiarControles();
+                    txtUsuario.requestFocus();
+                    btnAceptar.setEnabled(false);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 limpiarControles();
                 txtUsuario.requestFocus();
                 btnAceptar.setEnabled(false);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-            limpiarControles();
-            txtUsuario.requestFocus();
-            btnAceptar.setEnabled(false);
         }
+    }
+
+    private boolean controlRespuesta() {
+        if (String.valueOf(txtRespuesta.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una respuesta", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private void mostrar() {
+        txtMostrarRespuesta.setText(String.valueOf(txtRespuesta.getPassword()));
+        txtMostrarRespuesta.setVisible(true);
+        txtRespuesta.setVisible(false);
+    }
+
+    private void ocultar() {
+        txtMostrarRespuesta.setText("");
+        txtMostrarRespuesta.setVisible(false);
+        txtRespuesta.setVisible(true);
     }
 
     /**
@@ -110,7 +135,9 @@ public class recuperarClave extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         txtPregunta = new javax.swing.JTextField();
-        txtRespuesta = new javax.swing.JTextField();
+        txtRespuesta = new javax.swing.JPasswordField();
+        lblMostrar = new javax.swing.JLabel();
+        txtMostrarRespuesta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RECUPERAR CONTRASEÑA");
@@ -162,51 +189,73 @@ public class recuperarClave extends javax.swing.JFrame {
 
         txtPregunta.setEditable(false);
 
+        txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        lblMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
+        lblMostrar.setToolTipText("Mostrar respuesta de seguridad.");
+        lblMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMostrarMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lblMostrarMouseReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(btnAceptar)
+                .addGap(31, 31, 31)
+                .addComponent(btnCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUsuario)
+                    .addComponent(txtPregunta)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario)
-                            .addComponent(txtPregunta)
-                            .addComponent(txtRespuesta)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(btnAceptar)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnCancelar)
-                        .addGap(0, 39, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(txtRespuesta, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMostrar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblMostrar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -223,13 +272,12 @@ public class recuperarClave extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jLabel4)
+                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,6 +302,16 @@ public class recuperarClave extends javax.swing.JFrame {
         // TODO add your handling code here:
         setPregunta();
     }//GEN-LAST:event_txtUsuarioFocusLost
+
+    private void lblMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMouseClicked
+        // TODO add your handling code here:
+        mostrar();
+    }//GEN-LAST:event_lblMostrarMouseClicked
+
+    private void lblMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMouseReleased
+        // TODO add your handling code here:
+        ocultar();
+    }//GEN-LAST:event_lblMostrarMouseReleased
 
     /**
      * @param args the command line arguments
@@ -298,8 +356,10 @@ public class recuperarClave extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblMostrar;
+    private javax.swing.JTextField txtMostrarRespuesta;
     private javax.swing.JTextField txtPregunta;
-    private javax.swing.JTextField txtRespuesta;
+    private javax.swing.JPasswordField txtRespuesta;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
