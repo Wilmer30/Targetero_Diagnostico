@@ -103,8 +103,8 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
         txtUsuario = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         txtPregunta = new javax.swing.JTextField();
-        txtMostrarRespuesta = new javax.swing.JTextField();
         txtRespuesta = new javax.swing.JPasswordField();
+        txtMostrarRespuesta = new javax.swing.JTextField();
         btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -140,14 +140,14 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
 
         txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         txtMostrarRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtMostrarRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMostrarRespuestaFocusGained(evt);
             }
         });
-
-        txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
         btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
