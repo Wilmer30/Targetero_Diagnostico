@@ -18,9 +18,9 @@ import javax.swing.JOptionPane;
 public class ingresoUsuarios extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;
-    UsuariosRolesBL userrolBL;
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;
+    private UsuariosRolesBL userrolBL;
     // </editor-fold>
 
     /**
@@ -301,6 +301,7 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt, txtCedula.getText());
     }//GEN-LAST:event_txtCedulaKeyTyped
 
     /**

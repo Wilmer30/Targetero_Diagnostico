@@ -7,6 +7,7 @@ package PresentationLayer;
 
 import BusinessLayer.RolesBL;
 import BusinessLayer.Validaciones;
+import BusinessObjects.Enumeraciones;
 import BusinessObjects.Enumeraciones.EstadoVentanas;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -86,6 +87,15 @@ public class menu extends javax.swing.JFrame {
         seguridad.setVisible(true);
         estadoVentana=EstadoVentanas.abierto;
     }
+    private void confirmarCierre() {
+        if (estadoVentana.name().equals("abierto")) {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para cerrar el sistema",
+                    "INFORMACIÓN",JOptionPane.OK_OPTION);            
+        } else {
+            this.dispose();
+            menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,9 +144,14 @@ public class menu extends javax.swing.JFrame {
         jMenu6.setText("Edit");
         jMenuBar2.add(jMenu6);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("MENÚ PRINCIPAL");
         setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText("Usuario:");
@@ -450,6 +465,11 @@ public class menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+       confirmarCierre();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

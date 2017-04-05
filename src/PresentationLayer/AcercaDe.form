@@ -143,7 +143,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Este sistema fue realizado como proyecto de vinvulaci&#xf3;n de la Universidad T&#xe9;cnica de Ambato "/>
+            <Property name="text" type="java.lang.String" value="Este sistema fue realizado como proyecto de vinculaci&#xf3;n de la Universidad T&#xe9;cnica de Ambato "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">

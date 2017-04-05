@@ -83,7 +83,7 @@ public class AcercaDe extends javax.swing.JInternalFrame {
         jLabel3.setText("código CIE-10 en el Área de Docencia del Hospital General Docente Ambato");
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel4.setText("Este sistema fue realizado como proyecto de vinvulación de la Universidad Técnica de Ambato ");
+        jLabel4.setText("Este sistema fue realizado como proyecto de vinculación de la Universidad Técnica de Ambato ");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Autores: Gamboa Erick, Oñate Wilmer, Zambrano Wendy");

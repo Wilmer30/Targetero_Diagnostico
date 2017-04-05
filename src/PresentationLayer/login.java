@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 public class login extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;
     // </editor-fold>
 
     /**
@@ -152,7 +152,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        lblRecuperarClave.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblRecuperarClave.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lblRecuperarClave.setForeground(new java.awt.Color(0, 51, 255));
         lblRecuperarClave.setText("¿Ha olvidado la contraseña?");
         lblRecuperarClave.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -279,14 +279,12 @@ public class login extends javax.swing.JFrame {
     private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt,txtUsuario.getText());
     }//GEN-LAST:event_txtUsuarioKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        //ingreso();
-        menu menu = new menu(txtUsuario.getText());
-        menu.setVisible(true);
-        this.dispose();
+        ingreso();        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -296,7 +294,7 @@ public class login extends javax.swing.JFrame {
 
     private void lblRecuperarClaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRecuperarClaveMouseClicked
         // TODO add your handling code here:
-        recuperarClave cambio = new recuperarClave();
+        recuperarClave cambio = new recuperarClave();        
         cambio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblRecuperarClaveMouseClicked

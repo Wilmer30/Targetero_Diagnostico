@@ -23,10 +23,10 @@ import BusinessLayer.UsuariosRolesBL;
 public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;
-    RolesBL rolBL;
-    UsuariosRolesBL userrolBL;
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;
+    private RolesBL rolBL;
+    private UsuariosRolesBL userrolBL;
     // </editor-fold>
 
     /**
@@ -38,6 +38,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         rolBL = new RolesBL();
         initComponents();
         cargarDatos();
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);
     }
 
     private void cargarTabla() {
@@ -310,6 +311,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         jLabel3.setText("Rol Actual");
 
         txtRol.setEditable(false);
+        txtRol.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -467,6 +469,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
     private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt, txtBusquedaCedula.getText());
     }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed

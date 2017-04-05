@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class claveCambio extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
+    private UsuariosBL usuarioBL;
     // </editor-fold>
     
     /**

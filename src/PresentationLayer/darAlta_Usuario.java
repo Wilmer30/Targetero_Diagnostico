@@ -19,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
 public class darAlta_Usuario extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;    
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;    
     // </editor-fold>
     
     /**
@@ -33,6 +33,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
         txtBusquedaCedula.requestFocus();
         cargarDatos();
         cargarTabla();
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);
     }
     
     private void limpiarControles(){
@@ -135,10 +136,13 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText("Número de cédula");
 
+        txtCedula.setEditable(false);
         txtCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        txtNombreUsuario.setEditable(false);
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        txtEmail.setEditable(false);
         txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -274,7 +278,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -299,6 +303,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
     private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt, txtBusquedaCedula.getText());
     }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
     /**

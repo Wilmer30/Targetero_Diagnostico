@@ -19,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
 public class reiniciarClave extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;
     // </editor-fold>
 
     /**
@@ -33,6 +33,7 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
         txtBusquedaCedula.requestFocus();
         cargarDatos();
         cargarTabla();
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);
     }
 
     private void limpiarControles() {
@@ -302,6 +303,7 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
     private void txtBusquedaCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt, txtBusquedaCedula.getText());
     }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed

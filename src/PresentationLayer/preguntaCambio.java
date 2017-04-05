@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public class preguntaCambio extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
+    private UsuariosBL usuarioBL;
     // </editor-fold>
     
     /**
@@ -29,9 +29,7 @@ public class preguntaCambio extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/seguridad.png")).getImage());
         setLocationRelativeTo(null);
         txtUsuario.setText(usuario);
-        txtPregunta.requestFocus();
-        txtMostrarRespuesta.setVisible(false);
-        txtRespuesta.setVisible(true);
+        txtPregunta.requestFocus();        
     }
 
     private boolean controlPregunta() {
@@ -110,8 +108,8 @@ public class preguntaCambio extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
         txtRespuesta = new javax.swing.JPasswordField();
         txtPregunta = new javax.swing.JTextField();
-        lblMostrar = new javax.swing.JLabel();
         txtMostrarRespuesta = new javax.swing.JTextField();
+        btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("PREGUNTA DE SEGURIDAD");
@@ -145,21 +143,25 @@ public class preguntaCambio extends javax.swing.JFrame {
         });
 
         txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        lblMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
-        lblMostrar.setToolTipText("Mostrar respuesta de seguridad.");
-        lblMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lblMostrarMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblMostrarMouseReleased(evt);
+        txtRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtRespuestaFocusGained(evt);
             }
         });
 
+        txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         txtMostrarRespuesta.setEditable(false);
+
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
+        btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMostrarMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMostrarMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,11 +181,11 @@ public class preguntaCambio extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtRespuesta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMostrar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
+                .addContainerGap(128, Short.MAX_VALUE)
                 .addComponent(btnAceptar)
                 .addGap(92, 92, 92))
         );
@@ -191,21 +193,20 @@ public class preguntaCambio extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblMostrar))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnMostrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAceptar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -243,15 +244,21 @@ public class preguntaCambio extends javax.swing.JFrame {
         cambiarSeguridad();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void lblMostrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMousePressed
+    private void btnMostrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMousePressed
         // TODO add your handling code here:
         mostrar();
-    }//GEN-LAST:event_lblMostrarMousePressed
+    }//GEN-LAST:event_btnMostrarMousePressed
 
-    private void lblMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMouseReleased
+    private void btnMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseReleased
         // TODO add your handling code here:
         ocultar();
-    }//GEN-LAST:event_lblMostrarMouseReleased
+    }//GEN-LAST:event_btnMostrarMouseReleased
+
+    private void txtRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRespuestaFocusGained
+        // TODO add your handling code here:
+        ocultar();
+        txtRespuesta.requestFocus();
+    }//GEN-LAST:event_txtRespuestaFocusGained
 
     /**
      * @param args the command line arguments
@@ -290,12 +297,12 @@ public class preguntaCambio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblMostrar;
     private javax.swing.JTextField txtMostrarRespuesta;
     private javax.swing.JTextField txtPregunta;
     private javax.swing.JPasswordField txtRespuesta;

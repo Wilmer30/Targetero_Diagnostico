@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 public class recuperarClave extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    UsuariosBL usuarioBL;
-    Validaciones validar;
+    private UsuariosBL usuarioBL;
+    private Validaciones validar;
     // </editor-fold>
 
     /**
@@ -31,19 +31,16 @@ public class recuperarClave extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage());
         txtUsuario.requestFocus();
-        btnAceptar.setEnabled(false);
-        txtMostrarRespuesta.setVisible(false);
-        txtRespuesta.setVisible(true);
-
+        btnAceptar.setEnabled(false);        
     }
 
-    public void limpiarControles() {
+    private void limpiarControles() {
         txtUsuario.setText("");
         txtPregunta.setText("");
         txtRespuesta.setText("");
     }
 
-    public boolean controlUsuario() {
+    private boolean controlUsuario() {
         if (txtUsuario.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
             txtUsuario.requestFocus();
@@ -52,7 +49,7 @@ public class recuperarClave extends javax.swing.JFrame {
         return true;
     }
 
-    public void setPregunta() {
+    private void setPregunta() {
         if (controlUsuario()) {
             String mensaje = usuarioBL.seguridad(txtUsuario.getText());
             if (mensaje == null) {
@@ -65,15 +62,15 @@ public class recuperarClave extends javax.swing.JFrame {
                     limpiarControles();
                     txtUsuario.requestFocus();
                 }
-            } else {
+            } else {                
                 JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                limpiarControles();
+                limpiarControles();                
                 txtUsuario.requestFocus();
             }
         }
     }
 
-    public void reiniciarClave() {
+    private void reiniciarClave() {
         if (controlRespuesta()) {
             String mensaje = usuarioBL.validarRecuperacion(txtUsuario.getText(), String.valueOf(txtRespuesta.getPassword()));
             if (mensaje == null) {
@@ -105,10 +102,10 @@ public class recuperarClave extends javax.swing.JFrame {
         return true;
     }
 
-    private void mostrar() {
-        txtMostrarRespuesta.setText(String.valueOf(txtRespuesta.getPassword()));
-        txtMostrarRespuesta.setVisible(true);
+    private void mostrar() {       
         txtRespuesta.setVisible(false);
+        txtMostrarRespuesta.setVisible(true);        
+        txtMostrarRespuesta.setText(String.valueOf(txtRespuesta.getPassword()));        
     }
 
     private void ocultar() {
@@ -136,8 +133,8 @@ public class recuperarClave extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         txtPregunta = new javax.swing.JTextField();
         txtRespuesta = new javax.swing.JPasswordField();
-        lblMostrar = new javax.swing.JLabel();
         txtMostrarRespuesta = new javax.swing.JTextField();
+        btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RECUPERAR CONTRASEÑA");
@@ -158,11 +155,6 @@ public class recuperarClave extends javax.swing.JFrame {
         jLabel3.setText("Respuesta");
 
         txtUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtUsuarioFocusLost(evt);
-            }
-        });
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyTyped(evt);
@@ -188,17 +180,29 @@ public class recuperarClave extends javax.swing.JFrame {
         });
 
         txtPregunta.setEditable(false);
+        txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtRespuestaFocusGained(evt);
+            }
+        });
 
-        lblMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
-        lblMostrar.setToolTipText("Mostrar respuesta de seguridad.");
-        lblMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblMostrarMouseClicked(evt);
+        txtMostrarRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMostrarRespuestaFocusGained(evt);
+            }
+        });
+
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
+        btnMostrar.setToolTipText("Mostrar respuesta");
+        btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMostrarMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lblMostrarMouseReleased(evt);
+                btnMostrarMouseReleased(evt);
             }
         });
 
@@ -206,12 +210,6 @@ public class recuperarClave extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(btnAceptar)
-                .addGap(31, 31, 31)
-                .addComponent(btnCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,14 +220,19 @@ public class recuperarClave extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtUsuario)
                     .addComponent(txtPregunta)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(txtRespuesta, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRespuesta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMostrar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addComponent(btnAceptar)
+                .addGap(31, 31, 31)
+                .addComponent(btnCancelar)
+                .addGap(65, 65, 65))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,15 +250,14 @@ public class recuperarClave extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
+                            .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblMostrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMostrarRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addComponent(btnMostrar))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -266,18 +268,20 @@ public class recuperarClave extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel4)
-                .addContainerGap(59, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -296,22 +300,36 @@ public class recuperarClave extends javax.swing.JFrame {
     private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
         // TODO add your handling code here:
         validar.soloNumeros(evt);
+        validar.longitudCedula(evt, txtUsuario.getText());
     }//GEN-LAST:event_txtUsuarioKeyTyped
 
-    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        // TODO add your handling code here:
-        setPregunta();
-    }//GEN-LAST:event_txtUsuarioFocusLost
-
-    private void lblMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMouseClicked
-        // TODO add your handling code here:
-        mostrar();
-    }//GEN-LAST:event_lblMostrarMouseClicked
-
-    private void lblMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMostrarMouseReleased
+    private void btnMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseReleased
         // TODO add your handling code here:
         ocultar();
-    }//GEN-LAST:event_lblMostrarMouseReleased
+    }//GEN-LAST:event_btnMostrarMouseReleased
+
+    private void txtRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRespuestaFocusGained
+        // TODO add your handling code here:
+        if (txtPregunta.getText().isEmpty()) {
+            setPregunta();
+        }        
+    }//GEN-LAST:event_txtRespuestaFocusGained
+
+    private void btnMostrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMousePressed
+        // TODO add your handling code here:        
+        mostrar();
+    }//GEN-LAST:event_btnMostrarMousePressed
+
+    private void txtMostrarRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMostrarRespuestaFocusGained
+        // TODO add your handling code here:        
+        if (txtUsuario.getText().isEmpty()) {
+            txtUsuario.requestFocus();
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }else{
+            ocultar();
+            txtRespuesta.requestFocus();
+        }        
+    }//GEN-LAST:event_txtMostrarRespuestaFocusGained
 
     /**
      * @param args the command line arguments
@@ -351,12 +369,12 @@ public class recuperarClave extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblMostrar;
     private javax.swing.JTextField txtMostrarRespuesta;
     private javax.swing.JTextField txtPregunta;
     private javax.swing.JPasswordField txtRespuesta;
