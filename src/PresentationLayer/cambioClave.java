@@ -140,7 +140,6 @@ public class cambioClave extends javax.swing.JInternalFrame {
 
         txtUsuario.setEditable(false);
         txtUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtUsuario.setEnabled(false);
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N

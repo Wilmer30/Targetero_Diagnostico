@@ -184,9 +184,6 @@
               <Font name="Arial" size="12" style="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtRespuestaFocusGained"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPregunta">
           <Properties>
@@ -199,6 +196,9 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtMostrarRespuestaFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnMostrar">
           <Properties>

@@ -142,15 +142,15 @@ public class preguntaCambio extends javax.swing.JFrame {
         });
 
         txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtRespuestaFocusGained(evt);
-            }
-        });
 
         txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         txtMostrarRespuesta.setEditable(false);
+        txtMostrarRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMostrarRespuestaFocusGained(evt);
+            }
+        });
 
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
         btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,11 +253,11 @@ public class preguntaCambio extends javax.swing.JFrame {
         ocultar();
     }//GEN-LAST:event_btnMostrarMouseReleased
 
-    private void txtRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRespuestaFocusGained
+    private void txtMostrarRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMostrarRespuestaFocusGained
         // TODO add your handling code here:
         ocultar();
         txtRespuesta.requestFocus();
-    }//GEN-LAST:event_txtRespuestaFocusGained
+    }//GEN-LAST:event_txtMostrarRespuestaFocusGained
 
     /**
      * @param args the command line arguments

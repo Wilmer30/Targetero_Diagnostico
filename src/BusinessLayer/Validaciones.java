@@ -96,7 +96,7 @@ public class Validaciones {
     }
     
     public void longitudCedula(java.awt.event.KeyEvent evt, String texto){
-        if ((texto.length() > 10)) {
+        if ((texto.length() > 9)) {
             evt.consume();
         }
     }
