@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43a9cb89-5f6c-4b1f-9492-3d3368148fcc">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte por Código" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43a9cb89-5f6c-4b1f-9492-3d3368148fcc">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -43,7 +43,7 @@ ORDER BY
 					<reportElement x="-20" y="33" width="595" height="1" forecolor="#666666" uuid="a30cc938-60bd-4745-9cae-4ec48c9cb0b3"/>
 				</line>
 				<textField>
-					<reportElement mode="Opaque" x="0" y="1" width="56" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="470f1255-81c0-4657-99ca-a9c2061bfcab"/>
+					<reportElement mode="Opaque" x="0" y="1" width="59" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="470f1255-81c0-4657-99ca-a9c2061bfcab"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="14" isBold="true"/>
 					</textElement>
@@ -103,7 +103,7 @@ ORDER BY
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="16" isBold="true"/>
 					</textElement>
-					<text><![CDATA[REPORTE CODIFICACIÓN DOCENCIA CIE 10]]></text>
+					<text><![CDATA[REPORTE DOCENCIA CODIFICACIÓN CIE 10]]></text>
 				</staticText>
 				<image scaleImage="FillFrame">
 					<reportElement x="20" y="34" width="86" height="58" uuid="ca9fc12d-3596-4730-b024-66dc618cadb1"/>
