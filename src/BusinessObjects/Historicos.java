@@ -13,10 +13,10 @@ import java.util.Date;
  */
 public class Historicos {
     
-    String codigoCie10;
-    String numeroHistoriaClinica;
-    Date fechaIngreso;
-    String estadoPaciente;
+    private String codigoCie10;
+    private String numeroHistoriaClinica;
+    private Date fechaIngreso;
+    private String estadoPaciente;
 
     public void setCodigoCie10(String codigoCie10) {
         this.codigoCie10 = codigoCie10;

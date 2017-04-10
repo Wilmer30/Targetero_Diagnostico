@@ -12,16 +12,16 @@ import java.util.Date;
  * @author Wilmer Oñate
  */
 public class Usuarios {
-    Integer codigoUsuario;
-    String nombreUsuario;
-    Date lastActivity;
-    Date created;
-    String email;
-    String password;
-    boolean approved;
-    Date lastLogin;
-    String passwordQuestion;
-    String passwordAnswer;
+    private Integer codigoUsuario;
+    private String nombreUsuario;
+    private Date lastActivity;
+    private Date created;
+    private String email;
+    private String password;
+    private boolean approved;
+    private Date lastLogin;
+    private String passwordQuestion;
+    private String passwordAnswer;
 
     public void setCodigoUsuario(Integer codigoUsuario) {
         this.codigoUsuario = codigoUsuario;

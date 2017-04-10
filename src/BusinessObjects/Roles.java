@@ -11,9 +11,9 @@ package BusinessObjects;
  */
 public class Roles {
 
-    Integer codigoRol;
-    String nombreRol;
-    String descripcionRol;
+    private Integer codigoRol;
+    private String nombreRol;
+    private String descripcionRol;
 
     public void setCodigoRol(Integer codigoRol) {
         this.codigoRol = codigoRol;

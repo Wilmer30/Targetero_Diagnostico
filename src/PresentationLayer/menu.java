@@ -10,6 +10,7 @@ import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import BusinessObjects.Enumeraciones.EstadoVentanas;
 import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -87,6 +88,11 @@ public class menu extends javax.swing.JFrame {
         seguridad.setVisible(true);
         estadoVentana=EstadoVentanas.abierto;
     }
+    
+    public static void agregarReporte(JInternalFrame ventana){
+        dpPrincipal.add(ventana);
+    }
+    
     private void confirmarCierre() {
         if (estadoVentana.name().equals("abierto")) {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para cerrar el sistema",
@@ -115,26 +121,28 @@ public class menu extends javax.swing.JFrame {
         lblUsuario = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnAdministrador = new javax.swing.JMenu();
-        smRol = new javax.swing.JMenu();
+        mnuUsuario = new javax.swing.JMenu();
         miIngresoUsuario = new javax.swing.JMenuItem();
         miDarBajaUsuario = new javax.swing.JMenuItem();
         miDarAltaUsuario = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu10 = new javax.swing.JMenu();
+        miReiniciarClave = new javax.swing.JMenuItem();
+        mnuRol = new javax.swing.JMenu();
         miAsignarRol = new javax.swing.JMenuItem();
         mnCIE10 = new javax.swing.JMenu();
         miIngresarCIE10 = new javax.swing.JMenuItem();
         miDarBajaCIE10 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        miDarAltaCIE10 = new javax.swing.JMenuItem();
         mnHistoriaClinica = new javax.swing.JMenu();
         miIngresarHC = new javax.swing.JMenuItem();
         mnReportes = new javax.swing.JMenu();
+        miCodigo = new javax.swing.JMenuItem();
+        miFecha = new javax.swing.JMenuItem();
         mnConfiguraciones = new javax.swing.JMenu();
         miCambioClave = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        miCambioCorreo = new javax.swing.JMenuItem();
         mnAyuda = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        miManual = new javax.swing.JMenuItem();
+        miAcercaDe = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -175,7 +183,7 @@ public class menu extends javax.swing.JFrame {
 
         mnAdministrador.setText("Usuarios");
 
-        smRol.setText("Usuarios");
+        mnuUsuario.setText("Usuarios");
 
         miIngresoUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         miIngresoUsuario.setText("Ingreso");
@@ -184,7 +192,7 @@ public class menu extends javax.swing.JFrame {
                 miIngresoUsuarioActionPerformed(evt);
             }
         });
-        smRol.add(miIngresoUsuario);
+        mnuUsuario.add(miIngresoUsuario);
 
         miDarBajaUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         miDarBajaUsuario.setText("Dar de baja");
@@ -193,7 +201,7 @@ public class menu extends javax.swing.JFrame {
                 miDarBajaUsuarioActionPerformed(evt);
             }
         });
-        smRol.add(miDarBajaUsuario);
+        mnuUsuario.add(miDarBajaUsuario);
 
         miDarAltaUsuario.setText("Dar de alta");
         miDarAltaUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -201,20 +209,20 @@ public class menu extends javax.swing.JFrame {
                 miDarAltaUsuarioActionPerformed(evt);
             }
         });
-        smRol.add(miDarAltaUsuario);
+        mnuUsuario.add(miDarAltaUsuario);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Reiniciar clave");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        miReiniciarClave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        miReiniciarClave.setText("Reiniciar clave");
+        miReiniciarClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                miReiniciarClaveActionPerformed(evt);
             }
         });
-        smRol.add(jMenuItem3);
+        mnuUsuario.add(miReiniciarClave);
 
-        mnAdministrador.add(smRol);
+        mnAdministrador.add(mnuUsuario);
 
-        jMenu10.setText("Roles");
+        mnuRol.setText("Roles");
 
         miAsignarRol.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         miAsignarRol.setText("Asignar");
@@ -223,9 +231,9 @@ public class menu extends javax.swing.JFrame {
                 miAsignarRolActionPerformed(evt);
             }
         });
-        jMenu10.add(miAsignarRol);
+        mnuRol.add(miAsignarRol);
 
-        mnAdministrador.add(jMenu10);
+        mnAdministrador.add(mnuRol);
 
         jMenuBar1.add(mnAdministrador);
 
@@ -249,14 +257,14 @@ public class menu extends javax.swing.JFrame {
         });
         mnCIE10.add(miDarBajaCIE10);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Dar de alta");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        miDarAltaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        miDarAltaCIE10.setText("Dar de alta");
+        miDarAltaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                miDarAltaCIE10ActionPerformed(evt);
             }
         });
-        mnCIE10.add(jMenuItem2);
+        mnCIE10.add(miDarAltaCIE10);
 
         jMenuBar1.add(mnCIE10);
 
@@ -274,6 +282,18 @@ public class menu extends javax.swing.JFrame {
         jMenuBar1.add(mnHistoriaClinica);
 
         mnReportes.setText("Reportes");
+
+        miCodigo.setText("Por código CIE-10");
+        miCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCodigoActionPerformed(evt);
+            }
+        });
+        mnReportes.add(miCodigo);
+
+        miFecha.setText("Por fechas");
+        mnReportes.add(miFecha);
+
         jMenuBar1.add(mnReportes);
 
         mnConfiguraciones.setText("Configuración");
@@ -287,23 +307,23 @@ public class menu extends javax.swing.JFrame {
         });
         mnConfiguraciones.add(miCambioClave);
 
-        jMenuItem5.setText("Actualizar correo");
-        mnConfiguraciones.add(jMenuItem5);
+        miCambioCorreo.setText("Actualizar correo");
+        mnConfiguraciones.add(miCambioCorreo);
 
         jMenuBar1.add(mnConfiguraciones);
 
         mnAyuda.setText("Ayuda");
 
-        jMenuItem4.setText("Manual");
-        mnAyuda.add(jMenuItem4);
+        miManual.setText("Manual");
+        mnAyuda.add(miManual);
 
-        jMenuItem1.setText("Acerca de");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        miAcercaDe.setText("Acerca de");
+        miAcercaDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                miAcercaDeActionPerformed(evt);
             }
         });
-        mnAyuda.add(jMenuItem1);
+        mnAyuda.add(miAcercaDe);
 
         jMenuBar1.add(mnAyuda);
 
@@ -418,7 +438,7 @@ public class menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miDarBajaUsuarioActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void miAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAcercaDeActionPerformed
         // TODO add your handling code here:
         if (!estadoVentana.name().equals("abierto")) {
             AcercaDe ventana = new AcercaDe();
@@ -428,9 +448,9 @@ public class menu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_miAcercaDeActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void miDarAltaCIE10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarAltaCIE10ActionPerformed
         // TODO add your handling code here:
         if (!estadoVentana.name().equals("abierto")) {
             darAlta_Cie10 ventana = new darAlta_Cie10();
@@ -440,7 +460,7 @@ public class menu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_miDarAltaCIE10ActionPerformed
 
     private void miDarAltaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDarAltaUsuarioActionPerformed
         // TODO add your handling code here:
@@ -454,7 +474,7 @@ public class menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miDarAltaUsuarioActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void miReiniciarClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReiniciarClaveActionPerformed
         // TODO add your handling code here:
         if (!estadoVentana.name().equals("abierto")) {
             reiniciarClave ventana = new reiniciarClave();
@@ -464,12 +484,24 @@ public class menu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_miReiniciarClaveActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
        confirmarCierre();
     }//GEN-LAST:event_formWindowClosing
+
+    private void miCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCodigoActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            reporteCodigo ventana = new reporteCodigo();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_miCodigoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -510,32 +542,34 @@ public class menu extends javax.swing.JFrame {
     private static javax.swing.JDesktopPane dpPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JSeparator jSeparator1;
     private static javax.swing.JLabel lblUsuario;
+    private javax.swing.JMenuItem miAcercaDe;
     private javax.swing.JMenuItem miAsignarRol;
     private javax.swing.JMenuItem miCambioClave;
+    private javax.swing.JMenuItem miCambioCorreo;
+    private javax.swing.JMenuItem miCodigo;
+    private javax.swing.JMenuItem miDarAltaCIE10;
     private javax.swing.JMenuItem miDarAltaUsuario;
     private javax.swing.JMenuItem miDarBajaCIE10;
     private javax.swing.JMenuItem miDarBajaUsuario;
+    private javax.swing.JMenuItem miFecha;
     private javax.swing.JMenuItem miIngresarCIE10;
     private javax.swing.JMenuItem miIngresarHC;
     private javax.swing.JMenuItem miIngresoUsuario;
+    private javax.swing.JMenuItem miManual;
+    private javax.swing.JMenuItem miReiniciarClave;
     private javax.swing.JMenu mnAdministrador;
     private javax.swing.JMenu mnAyuda;
     private javax.swing.JMenu mnCIE10;
     private javax.swing.JMenu mnConfiguraciones;
     private javax.swing.JMenu mnHistoriaClinica;
     private javax.swing.JMenu mnReportes;
-    private javax.swing.JMenu smRol;
+    private javax.swing.JMenu mnuRol;
+    private javax.swing.JMenu mnuUsuario;
     // End of variables declaration//GEN-END:variables
 }

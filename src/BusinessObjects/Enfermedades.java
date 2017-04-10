@@ -11,9 +11,9 @@ package BusinessObjects;
  */
 public class Enfermedades {
 
-    String codigoCie10;
-    String descripcion;
-    String estado;
+    private String codigoCie10;
+    private String descripcion;
+    private String estado;
 
     public String getCodigoCie10() {
         return codigoCie10;
@@ -38,6 +38,4 @@ public class Enfermedades {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-
 }

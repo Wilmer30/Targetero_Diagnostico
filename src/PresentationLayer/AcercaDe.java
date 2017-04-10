@@ -40,6 +40,7 @@ public class AcercaDe extends javax.swing.JInternalFrame {
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Acerca de");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/acercade.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }

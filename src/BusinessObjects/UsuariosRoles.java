@@ -11,8 +11,8 @@ package BusinessObjects;
  */
 public class UsuariosRoles {
 
-    Integer codigoUsuario;
-    Integer codigoRol;
+    private Integer codigoUsuario;
+    private Integer codigoRol;
 
     public Integer getCodigoUsuario() {
         return codigoUsuario;

@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -25,17 +24,15 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     EnfermedadesBL enfermedadesBL;
     Validaciones validar;
     HistoriasBL historicoBL;
-    Historicos historico;
-    EnfermedadesBL enfermedadesBl;
+    Historicos historico;    
     DefaultTableModel modelo;
-
     // </editor-fold>
+    
     public ingreso_HistoriaClinica() {
         initComponents();
         validar = new Validaciones();
         enfermedadesBL = new EnfermedadesBL();
-        historico = new Historicos();
-        enfermedadesBl = new EnfermedadesBL();
+        historico = new Historicos();        
         historicoBL = new HistoriasBL();
 
         setModeloTabla();
@@ -47,26 +44,23 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         tbHistorias.getTableHeader().setReorderingAllowed(false);
 
         cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() { //Obtenemos el editor del cbCodigo
-
+            @Override
             public void keyReleased(KeyEvent e) {
                 BusquedaEnfermedad(); //Ejeculamos la consulta y cargamos al cbCodigo
                 busquedaEnfermedadDescripcion();
                 if (cbCodigo.getItemCount() > 0) {
                     cbCodigo.showPopup();
                 }
-
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
                 validar.convertirMayusculas(e);
                 String textoBusqueda = (String) cbCodigo.getEditor().getItem();
                 validar.longitudMaximoCuatro(e, textoBusqueda);
                 validar.soloNumerosLetras(e);
-
             }
-
         });
-
     }
 
     private String getFecha(JDateChooser jd) {
@@ -76,18 +70,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         } else {
             return null;
         }
-    }
-
-    private Date convertirFechaStringDate(String fecha) {
-        Date date = null;
-        SimpleDateFormat cambiarfecha = new SimpleDateFormat("dd-MM-yyyy");//revisar       
-        try {
-            date = cambiarfecha.parse(fecha);
-        } catch (ParseException ex) {
-
-        }
-        return date;
-    }
+    }    
 
     private void controlVentana() {
         if (!txtHistoriaClinica.getText().equals("") || dcFecha.getDate() != null) {
@@ -105,7 +88,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         }
     }
 
-    private void limpiarContorles() {
+    private void limpiarControles() {
         dcFecha.setDate(null);
         txtHistoriaClinica.setText(null);
         cbEstado.setSelectedIndex(0);
@@ -113,14 +96,12 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         BusquedaEnfermedad();
         setModeloTabla();
         txtHistoriaClinica.requestFocus();
-
     }
 
-    private void ContorlesAgregar() {
+    private void ControlesAgregar() {
         txtHistoriaClinica.setEnabled(false);
         dcFecha.setEnabled(false);
         cbEstado.setEnabled(false);
-
     }
 
     private void ActivarControles() {
@@ -128,15 +109,12 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         dcFecha.setEnabled(true);
         cbEstado.setEnabled(true);
         txtHistoriaClinica.requestFocus();
-
     }
 
-    private void limpiarContorlesNuevo() {
-
+    private void limpiarControlesNuevo() {
         cbCodigo.getEditor().setItem("");
         txtaDescripcion.setText(null);
         BusquedaEnfermedad();
-
     }
 
     private void ActivarDesactivarBTNQuitar() {
@@ -173,12 +151,11 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         modelo.addColumn("Fecha Ingreso");
         modelo.addColumn("Estado");
         tbHistorias.setModel(modelo);
-
     }
 
     private boolean controlIngreso() {
         if (txtHistoriaClinica.getText().length() == 6) { //Verificamos que el numero HC sea igual a 6 digitos    
-            String mensaje = enfermedadesBl.validarEnfermedad(cbCodigo.getSelectedItem().toString());
+            String mensaje = enfermedadesBL.validarEnfermedad(cbCodigo.getSelectedItem().toString());
             if (mensaje == null) { // verificamos si la enfermedad existe en la base de datos
                 if (dcFecha.getDate() != null) { //Verificar que la fecha este ingresada
                     if (cbEstado.getSelectedIndex() != 0) { //Verificar que la fecha este ingresada
@@ -208,7 +185,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -216,13 +192,11 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
         cbCodigo.setModel(enfermedadesBL.SelectCodigoCIE10(textoBusqueda, "ACTIVO"));
         cbCodigo.getEditor().setItem(textoBusqueda);
-
     }
 
     private void busquedaEnfermedadDescripcion() {
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
         txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(textoBusqueda, "ACTIVO"));
-
     }
 
     private void HistoriaClinicaTabla() {
@@ -237,8 +211,8 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                 tbHistorias.setModel(modelo);
                 ActivarDesactivarBtnGuardar();
                 //Limpiar
-                limpiarContorlesNuevo();
-                ContorlesAgregar();
+                limpiarControlesNuevo();
+                ControlesAgregar();
             } else {
                 JOptionPane.showMessageDialog(null, "Está historia ya fue agregada anteriormente", "controlTablaRepetidos", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -246,32 +220,19 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     }
 
     private void InsertarHistoriaClinica() {
-
-//        Historicos[] historicoVec = new Historicos[tbHistorias.getModel().getRowCount()];
-//        for (int i = 0; i < tbHistorias.getModel().getRowCount(); i++) {
-//            historico = new Historicos();
-//            historico.setNumeroHistoriaClinica(tbHistorias.getValueAt(i, 0).toString());
-//            historico.setCodigoCie10(tbHistorias.getValueAt(i, 1).toString());
-//            historico.setFechaIngreso(convertirFechaStringDate((String) (tbHistorias.getValueAt(i, 2))));
-//            historico.setEstadoPaciente(tbHistorias.getValueAt(i, 3).toString());
-//            historicoVec[i] = historico;
-//        }
-//
-//        boolean res = historicoDAL.Insert(historicoVec); //Ejecutamos la inserción
         String mensaje = historicoBL.nuevaHistoria((DefaultTableModel) tbHistorias.getModel());
         if (mensaje == null) {
             JOptionPane.showMessageDialog(null, "Historia ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-            limpiarContorles();
+            limpiarControles();
             ActivarControles();
             ActivarDesactivarBtnGuardar();
 
         } else {
             JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-            limpiarContorles();
+            limpiarControles();
             ActivarControles();
             ActivarDesactivarBtnGuardar();
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -310,7 +271,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("INGRESO DE HISRIA CLINICA");
+        setTitle("INGRESO DE HISTORIA CLINICA");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -360,9 +321,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
         txtHistoriaClinica.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtHistoriaClinica.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtHistoriaClinicaKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtHistoriaClinicaKeyTyped(evt);
             }
@@ -370,11 +328,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
         cbCodigo.setEditable(true);
         cbCodigo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbCodigoMouseClicked(evt);
-            }
-        });
         cbCodigo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbCodigoItemStateChanged(evt);
@@ -383,27 +336,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         cbCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbCodigoActionPerformed(evt);
-            }
-        });
-        cbCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                cbCodigoFocusGained(evt);
-            }
-        });
-        cbCodigo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cbCodigoPropertyChange(evt);
-            }
-        });
-        cbCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbCodigoKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                cbCodigoKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                cbCodigoKeyTyped(evt);
             }
         });
 
@@ -436,9 +368,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tbHistorias);
 
+        txtaDescripcion.setEditable(false);
         txtaDescripcion.setColumns(20);
         txtaDescripcion.setRows(5);
-        txtaDescripcion.setEnabled(false);
         jScrollPane2.setViewportView(txtaDescripcion);
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -557,12 +489,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //TODO add your handling code here:
-
-        limpiarContorles();
+        limpiarControles();
         ActivarDesactivarBtnGuardar();
         ActivarControles();
-
-
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -570,49 +499,23 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         controlVentana();
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void cbCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbCodigoKeyPressed
-
-    private void cbCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cbCodigoKeyReleased
-
-    private void cbCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbCodigoKeyTyped
-
-    }//GEN-LAST:event_cbCodigoKeyTyped
-
     private void txtHistoriaClinicaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyTyped
         validar.soloNumeros(evt);
         validar.longitudMaximoSeis(evt, txtHistoriaClinica.getText());
-
     }//GEN-LAST:event_txtHistoriaClinicaKeyTyped
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         InsertarHistoriaClinica();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void txtHistoriaClinicaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHistoriaClinicaKeyPressed
-
-    }//GEN-LAST:event_txtHistoriaClinicaKeyPressed
-
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:    
         HistoriaClinicaTabla();
-
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void cbCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbCodigoMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cbCodigoMouseClicked
 
     private void cbCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCodigoItemStateChanged
         // TODO add your handling code here:        
         busquedaEnfermedadDescripcion();
-
-
     }//GEN-LAST:event_cbCodigoItemStateChanged
 
     private void tbHistoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHistoriasMouseClicked
@@ -624,17 +527,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         EliminarFila();
     }//GEN-LAST:event_btnQuitarActionPerformed
-
-    private void cbCodigoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbCodigoFocusGained
-
-    }//GEN-LAST:event_cbCodigoFocusGained
-
-    private void cbCodigoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCodigoPropertyChange
-        // TODO add your handling code here:
-//        busquedaEnfermedadDescripcion();
-//        String textoBusqueda = (String) cbCodigo.getEditor().getItem();
-//        JOptionPane.showMessageDialog(null, textoBusqueda);
-    }//GEN-LAST:event_cbCodigoPropertyChange
 
     private void cbCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCodigoActionPerformed
         // TODO add your handling code here:       

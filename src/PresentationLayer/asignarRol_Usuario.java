@@ -84,8 +84,8 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     private void confirmarCierre() {
         if (!txtCedulaUsuario.getText().isEmpty()) {
-            int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n"
-                    + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
+            int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contiene datos que se perderan. \n"
+                    + "¿Desea cerrar esta ventana?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no
             if (resultado == 0) {//cierra la ventana
