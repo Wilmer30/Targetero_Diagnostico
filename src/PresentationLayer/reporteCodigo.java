@@ -5,8 +5,12 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.EnfermedadesBL;
+import BusinessLayer.Validaciones;
 import BusinessObjects.ConectarBaseDatos;
 import BusinessObjects.Enumeraciones;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -27,13 +31,51 @@ import net.sf.jasperreports.view.JRViewer;
 public class reporteCodigo extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
+    EnfermedadesBL enfermedadesBL;
+    Validaciones validar;
+
     // </editor-fold>
     /**
      * Creates new form reporteCodigo
      */
     public reporteCodigo() {
         initComponents();
+        enfermedadesBL = new EnfermedadesBL();
+        validar = new Validaciones();
+        BusquedaEnfermedad();
+        cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() { //Obtenemos el editor del cbCodigo
+            @Override
+            public void keyReleased(KeyEvent e) {
+                BusquedaEnfermedad(); //Ejeculamos la consulta y cargamos al cbCodigo
+                busquedaEnfermedadDescripcion();
+                if (cbCodigo.getItemCount() > 0) {
+                    cbCodigo.showPopup();
+                }
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                validar.convertirMayusculas(e);
+                String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+                validar.longitudMaximoCuatro(e, textoBusqueda);
+                validar.soloNumerosLetras(e);
+            }
+        });
     }
+
+    private void BusquedaEnfermedad() {
+        String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+        cbCodigo.setModel(enfermedadesBL.SelectCodigoCIE10(textoBusqueda, "ACTIVO"));
+        cbCodigo.getEditor().setItem(textoBusqueda);
+    }
+
+    private void busquedaEnfermedadDescripcion() {
+        String textoBusqueda = (String) cbCodigo.getEditor().getItem();
+        txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(textoBusqueda, "ACTIVO"));
+    }
+    
+    
+    
 
     private void confirmarCierre() {
         if (!txtaDescripcion.getText().isEmpty()) {
@@ -80,18 +122,18 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
                 JInternalFrame visualizar = new JInternalFrame("Reporte por Código CIE-10");
                 visualizar.getContentPane().add(ver);
                 visualizar.setClosable(true);
-                menu.agregarReporte(visualizar);                
+                menu.agregarReporte(visualizar);
                 try {
                     visualizar.setMaximum(true);
                     this.dispose();
                 } catch (PropertyVetoException e) {
-                    JOptionPane.showMessageDialog(null, "No se pudo cargar la ventana del reporte","ERROR",
+                    JOptionPane.showMessageDialog(null, "No se pudo cargar la ventana del reporte", "ERROR",
                             JOptionPane.WARNING_MESSAGE);
                 }
                 visualizar.toFront();
                 visualizar.show();
             } catch (JRException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo visualizar el reporte","ERROR",
+                JOptionPane.showMessageDialog(null, "No se pudo visualizar el reporte", "ERROR",
                         JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -144,6 +186,11 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
 
         cbCodigo.setEditable(true);
         cbCodigo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbCodigo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbCodigoItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Descripción de código");
@@ -155,6 +202,11 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
@@ -233,6 +285,15 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         confirmarCierre();
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void cbCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCodigoItemStateChanged
+        // TODO add your handling code here:
+        busquedaEnfermedadDescripcion();
+    }//GEN-LAST:event_cbCodigoItemStateChanged
 
     /**
      * @param args the command line arguments
