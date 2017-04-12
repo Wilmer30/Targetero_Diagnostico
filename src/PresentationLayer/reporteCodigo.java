@@ -43,6 +43,7 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         enfermedadesBL = new EnfermedadesBL();
         validar = new Validaciones();
         BusquedaEnfermedad();
+        
         cbCodigo.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() { //Obtenemos el editor del cbCodigo
             @Override
             public void keyReleased(KeyEvent e) {
@@ -74,8 +75,7 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(textoBusqueda, "ACTIVO"));
     }
     
-    
-    
+       
 
     private void confirmarCierre() {
         if (!txtaDescripcion.getText().isEmpty()) {

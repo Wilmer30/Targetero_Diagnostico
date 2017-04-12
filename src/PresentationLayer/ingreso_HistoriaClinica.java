@@ -24,15 +24,15 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     EnfermedadesBL enfermedadesBL;
     Validaciones validar;
     HistoriasBL historicoBL;
-    Historicos historico;    
+    Historicos historico;
     DefaultTableModel modelo;
     // </editor-fold>
-    
+
     public ingreso_HistoriaClinica() {
         initComponents();
         validar = new Validaciones();
         enfermedadesBL = new EnfermedadesBL();
-        historico = new Historicos();        
+        historico = new Historicos();
         historicoBL = new HistoriasBL();
 
         setModeloTabla();
@@ -70,7 +70,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         } else {
             return null;
         }
-    }    
+    }
 
     private void controlVentana() {
         if (!txtHistoriaClinica.getText().equals("") || dcFecha.getDate() != null) {
@@ -101,7 +101,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private void ControlesAgregar() {
         txtHistoriaClinica.setEnabled(false);
         dcFecha.setEnabled(false);
-        cbEstado.setEnabled(false);
+        //cbEstado.setEnabled(false);
     }
 
     private void ActivarControles() {
@@ -220,18 +220,23 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     }
 
     private void InsertarHistoriaClinica() {
-        String mensaje = historicoBL.nuevaHistoria((DefaultTableModel) tbHistorias.getModel());
-        if (mensaje == null) {
-            JOptionPane.showMessageDialog(null, "Historia ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-            limpiarControles();
-            ActivarControles();
-            ActivarDesactivarBtnGuardar();
 
-        } else {
-            JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-            limpiarControles();
-            ActivarControles();
-            ActivarDesactivarBtnGuardar();
+        int res = JOptionPane.showConfirmDialog(null, "Esta seguro de ingresar esta Historia Clinica?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        //res=0 si//res=1 =no                  
+        if (res == 0) {
+            String mensaje = historicoBL.nuevaHistoria((DefaultTableModel) tbHistorias.getModel());
+            if (mensaje == null) {
+                JOptionPane.showMessageDialog(null, "Historia ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                limpiarControles();
+                ActivarControles();
+                ActivarDesactivarBtnGuardar();
+
+            } else {
+                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                limpiarControles();
+                ActivarControles();
+                ActivarDesactivarBtnGuardar();
+            }
         }
     }
 

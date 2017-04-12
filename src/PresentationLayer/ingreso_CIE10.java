@@ -32,9 +32,8 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         enfermedadesDAL = new EnfermedadesDAL();
         enfermedades = new Enfermedades();
     }
-    
+
 // <editor-fold defaultstate="collapsed" desc="Metodos">   
-    
     private void controlDescripcion(java.awt.event.KeyEvent evt) {
 
         char c = evt.getKeyChar();
@@ -57,7 +56,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 //            evt.consume();
 //        }
 //    }
-
 //    private void controlLimiteCaracterCodigo(java.awt.event.KeyEvent evt) {
 //        char c = evt.getKeyChar();
 //
@@ -65,7 +63,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 //            evt.consume();
 //        }
 //    }
-
     private void limpiarContorles() {
         txtCodigo.setText(null);
         txtDiagnostico.setText(null);
@@ -95,7 +92,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Ingresar una descripcion a la enfermedad", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 txtDiagnostico.requestFocus();
-                return false;                
+                return false;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ingresar un código de la enfermedad validao", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -106,28 +103,26 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 
     private void ingresoUsuario() {
         if (controlIngreso()) {
-            String mensaje = enfermedadesBL.buscarEnfermedad(txtCodigo.getText());
-//            if (!(enfermedadesDAL.VerificarEnfermedad(txtCodigo.getText()))) {
-                if (mensaje ==null) { 
-//                enfermedades.setCodigoCie10(txtCodigo.getText());
-//                enfermedades.setDescripcion(txtDiagnostico.getText());
-//                enfermedades.setEstado("ACTIVO");
+            int res = JOptionPane.showConfirmDialog(null, "Esta seguro de ingresar esta Historia Clinica?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            //res=0 si//res=1 =no                  
+            if (res == 0) {
+                String mensaje = enfermedadesBL.buscarEnfermedad(txtCodigo.getText());
+                if (mensaje == null) {
+                    String mensajeIngreso = enfermedadesBL.InsertEnfermedad(txtCodigo.getText(), txtDiagnostico.getText());
 
-                String mensajeIngreso = enfermedadesBL.InsertEnfermedad(txtCodigo.getText(),txtDiagnostico.getText());
-
-                if (mensajeIngreso ==null) {
-                    JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
-                    limpiarContorles();
+                    if (mensajeIngreso == null) {
+                        JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                        limpiarContorles();
+                    } else {
+                        JOptionPane.showMessageDialog(null, mensajeIngreso, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        limpiarContorles();
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, mensajeIngreso, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarContorles();
+                    txtCodigo.requestFocus();
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                limpiarContorles();
-                txtCodigo.requestFocus();
             }
-
         }
     }
     // </editor-fold>
@@ -320,7 +315,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         validar.longitudMaximoCuatro(evt, txtCodigo.getText());
         validar.convertirMayusculas(evt);
         //controlLimiteCaracterCodigo(evt);
-
 
 
     }//GEN-LAST:event_txtCodigoKeyTyped
