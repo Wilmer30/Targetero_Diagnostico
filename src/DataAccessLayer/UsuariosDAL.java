@@ -129,7 +129,7 @@ public class UsuariosDAL {
         return connect.getError();
     }
     
-    public boolean ultimaActividad(String usuario){
+    public String ultimaActividad(String usuario){
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
@@ -139,12 +139,15 @@ public class UsuariosDAL {
                 comando.setTimestamp(1, Timestamp.valueOf(fechaHora()));
                 comando.setString(2, usuario);                
                 int registrosAfectados = comando.executeUpdate();
-                return registrosAfectados > 0;
+                if (registrosAfectados>0) {
+                    return null;
+                }
+                return "Falló al intentar registrar la última actividad";
             } catch (Exception e) {
-                return false;
+                return e.getMessage();
             }
         }
-        return false;
+        return connect.getError();
     }
         
     public String updateEmail(String usuario,String email){
@@ -327,9 +330,9 @@ public class UsuariosDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE '%?%' AND Approved=?";
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE ? AND Approved=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, usuario);
+                comando.setString(1, usuario + "%");
                 comando.setBoolean(2, true);
                 ResultSet lector = comando.executeQuery();
                 while (lector.next()) {
@@ -379,9 +382,9 @@ public class UsuariosDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE '%?%' AND Approved=?";
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE ? AND Approved=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, usuario);
+                comando.setString(1, usuario + "%");
                 comando.setBoolean(2, false);
                 ResultSet lector = comando.executeQuery();
                 while (lector.next()) {

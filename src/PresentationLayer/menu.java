@@ -137,6 +137,7 @@ public class menu extends javax.swing.JFrame {
         mnReportes = new javax.swing.JMenu();
         miCodigo = new javax.swing.JMenuItem();
         miFecha = new javax.swing.JMenuItem();
+        miFechaCodigo = new javax.swing.JMenuItem();
         mnConfiguraciones = new javax.swing.JMenu();
         miCambioClave = new javax.swing.JMenuItem();
         miCambioCorreo = new javax.swing.JMenuItem();
@@ -194,7 +195,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnuUsuario.add(miIngresoUsuario);
 
-        miDarBajaUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        miDarBajaUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         miDarBajaUsuario.setText("Dar de baja");
         miDarBajaUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,6 +204,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnuUsuario.add(miDarBajaUsuario);
 
+        miDarAltaUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         miDarAltaUsuario.setText("Dar de alta");
         miDarAltaUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,7 +250,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnCIE10.add(miIngresarCIE10);
 
-        miDarBajaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        miDarBajaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         miDarBajaCIE10.setText("Dar de baja");
         miDarBajaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +259,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnCIE10.add(miDarBajaCIE10);
 
-        miDarAltaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        miDarAltaCIE10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         miDarAltaCIE10.setText("Dar de alta");
         miDarAltaCIE10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +285,7 @@ public class menu extends javax.swing.JFrame {
 
         mnReportes.setText("Reportes");
 
+        miCodigo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         miCodigo.setText("Por código CIE-10");
         miCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,8 +294,13 @@ public class menu extends javax.swing.JFrame {
         });
         mnReportes.add(miCodigo);
 
+        miFecha.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.ALT_MASK));
         miFecha.setText("Por fechas");
         mnReportes.add(miFecha);
+
+        miFechaCodigo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
+        miFechaCodigo.setText("Por Fecha/Código");
+        mnReportes.add(miFechaCodigo);
 
         jMenuBar1.add(mnReportes);
 
@@ -307,6 +315,7 @@ public class menu extends javax.swing.JFrame {
         });
         mnConfiguraciones.add(miCambioClave);
 
+        miCambioCorreo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         miCambioCorreo.setText("Actualizar correo");
         mnConfiguraciones.add(miCambioCorreo);
 
@@ -314,9 +323,11 @@ public class menu extends javax.swing.JFrame {
 
         mnAyuda.setText("Ayuda");
 
+        miManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         miManual.setText("Manual");
         mnAyuda.add(miManual);
 
+        miAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
         miAcercaDe.setText("Acerca de");
         miAcercaDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -558,6 +569,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem miDarBajaCIE10;
     private javax.swing.JMenuItem miDarBajaUsuario;
     private javax.swing.JMenuItem miFecha;
+    private javax.swing.JMenuItem miFechaCodigo;
     private javax.swing.JMenuItem miIngresarCIE10;
     private javax.swing.JMenuItem miIngresarHC;
     private javax.swing.JMenuItem miIngresoUsuario;

@@ -47,6 +47,7 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
         txtCedula.setText("");
         txtEmail.setText("");
         txtCedula.requestFocus();
+        cbRol.setSelectedIndex(0);
     }
 
     private void nuevoUsuario() {

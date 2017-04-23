@@ -5,6 +5,7 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.RolesBL;
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
@@ -21,82 +22,95 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     private UsuariosBL usuarioBL;
-    private Validaciones validar;    
+    private Validaciones validar;
+    private RolesBL rolBL;
     // </editor-fold>
-    
+
     /**
      * Creates new form darBaja_Usuario
      */
     public darBaja_Usuario() {
         usuarioBL = new UsuariosBL();
         validar = new Validaciones();
+        rolBL = new RolesBL();
         initComponents();
         txtBusquedaCedula.requestFocus();
         cargarDatos();
         cargarTabla();
-        tblUsuarios.getTableHeader().setReorderingAllowed(false);
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);        
     }
-    
-    private void limpiarControles(){
+
+    private void limpiarControles() {
         txtCedula.setText("");
         txtNombreUsuario.setText("");
         txtEmail.setText("");
         txtBusquedaCedula.setText("");
         txtBusquedaCedula.requestFocus();
     }
-    
-    private void cargarDatos(){
+
+    private void cargarDatos() {
         tblUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent lse) {
-                if(tblUsuarios.getSelectedRow()!=-1){
-                    int fila=tblUsuarios.getSelectedRow();
+                if (tblUsuarios.getSelectedRow() != -1) {
+                    int fila = tblUsuarios.getSelectedRow();
                     txtCedula.setText(String.valueOf(tblUsuarios.getValueAt(fila, 0)));
                     txtNombreUsuario.setText(String.valueOf(tblUsuarios.getValueAt(fila, 1)));
-                    txtEmail.setText(String.valueOf(tblUsuarios.getValueAt(fila, 2)));                    
+                    txtEmail.setText(String.valueOf(tblUsuarios.getValueAt(fila, 2)));
                 }
             }
         });
     }
-    
-    private void cargarTabla(){
-        DefaultTableModel modelo=usuarioBL.usuarios();
-        if (modelo!=null) {
+
+    private void cargarTabla() {
+        DefaultTableModel modelo = usuarioBL.usuarios();
+        if (modelo != null) {
             tblUsuarios.setModel(modelo);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private void cargarTabla(String usuario){
-        DefaultTableModel modelo=usuarioBL.busquedaInteligenteUsuarios(usuario);
-        if (modelo!=null) {
+
+    private void cargarTabla(String usuario) {
+        DefaultTableModel modelo = usuarioBL.busquedaInteligenteUsuarios(usuario);
+        if (modelo != null) {
             tblUsuarios.setModel(modelo);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha podido recuperar los usuarios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
-    private boolean control(){
+
+    private boolean control() {
         return !txtCedula.getText().isEmpty();
     }
-    
-    private void darBaja(){
+
+    private boolean controlRol() {
+        String rol = rolBL.recuperarRol(txtNombreUsuario.getText());
+        return !"Administrador".equals(rol);
+    }
+
+    private void darBaja() {
         if (control()) {
-            String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), false);
-            if (mensaje==null) {
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de baja",
-                        "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);                
-            }else{
-                JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de baja",
+            if (controlRol()) {
+                String mensaje = usuarioBL.cambiarEstado(txtNombreUsuario.getText(), false);
+                if (mensaje == null) {
+                    JOptionPane.showMessageDialog(null, "El usuario " + txtNombreUsuario.getText() + " ha sido dado de baja",
+                            "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El usuario " + txtNombreUsuario.getText() + " no ha podido ser dado de baja",
+                            "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El usuario " + txtNombreUsuario.getText() + " no puede ser dado de baja, es el administrador del sistema",
                         "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
             }
             limpiarControles();
             cargarTabla();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario antes de continuar","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario antes de continuar", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -305,6 +319,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -320,14 +335,18 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
 
     private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
         // TODO add your handling code here:
-        cargarTabla(txtBusquedaCedula.getText());
+        if (txtBusquedaCedula.getText().isEmpty()) {
+            cargarTabla();
+        } else {
+            cargarTabla(txtBusquedaCedula.getText());
+        }
     }//GEN-LAST:event_txtBusquedaCedulaKeyReleased
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         darBaja();
     }//GEN-LAST:event_btnAceptarActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */

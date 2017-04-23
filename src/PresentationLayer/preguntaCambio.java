@@ -146,6 +146,7 @@ public class preguntaCambio extends javax.swing.JFrame {
         txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         txtMostrarRespuesta.setEditable(false);
+        txtMostrarRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtMostrarRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMostrarRespuestaFocusGained(evt);
@@ -153,6 +154,7 @@ public class preguntaCambio extends javax.swing.JFrame {
         });
 
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
+        btnMostrar.setToolTipText("Mostrar respuesta");
         btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnMostrarMousePressed(evt);

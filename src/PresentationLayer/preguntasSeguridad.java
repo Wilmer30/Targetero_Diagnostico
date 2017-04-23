@@ -140,6 +140,7 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
         txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mostrar.png"))); // NOI18N
+        btnMostrar.setToolTipText("Mostrar respuesta");
         btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnMostrarMousePressed(evt);

@@ -100,10 +100,11 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
 
     private void abrirBusqueda() {
         dgBuscarUsuario.setIconImage(new ImageIcon(getClass().getResource("/Imagenes/buscar_usuario.png")).getImage());
-        dgBuscarUsuario.setBounds(0, 0, 285, 455);
+        dgBuscarUsuario.setBounds(0, 0, 455, 285);
         dgBuscarUsuario.setLocationRelativeTo(null);
         dgBuscarUsuario.setVisible(true);
-        txtBusquedaCedula.requestFocus();
+        dgBuscarUsuario.setModal(true);
+        txtBusquedaCedula.requestFocus();        
         cargarTabla();
     }
 
@@ -239,7 +240,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                     .addComponent(txtBusquedaCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout dgBuscarUsuarioLayout = new javax.swing.GroupLayout(dgBuscarUsuario.getContentPane());
@@ -255,8 +256,8 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             dgBuscarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dgBuscarUsuarioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setClosable(true);
@@ -378,7 +379,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addGap(41, 41, 41)
-                .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(

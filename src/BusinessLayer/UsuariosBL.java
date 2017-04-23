@@ -165,4 +165,12 @@ public class UsuariosBL {
         }
         return mensaje;
     }
+    
+    public String ultimaActividad(String usuario) {
+        String mensaje = usuarioDAL.ultimaActividad(usuario);
+        if (mensaje == null) {
+            return null;
+        }
+        return mensaje;
+    }
 }

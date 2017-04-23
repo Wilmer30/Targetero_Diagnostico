@@ -25,8 +25,7 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie =  ? and est_cie=?";
-                //String sentencia = "SELECT  cod_cie from enfermedades ";
+                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie =  ? and est_cie=?";                
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo);
                 comando.setString(2, "ACTIVO");
@@ -47,11 +46,9 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                //String sentencia = "SELECT  cod_cie from enfermedades where cod_cie =  ? and est_cie=?";
                 String sentencia = "SELECT  cod_cie ,est_cie from enfermedades where cod_cie =  ? ";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo);
-//                comando.setString(2, "ACTIVO");
                 ResultSet rs = comando.executeQuery();
                 if (rs.next()) {
                     return "La enfermedad ya existe. \n Está enfermedad esta: " + rs.getString("est_cie");
@@ -70,7 +67,7 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  desc_cie from enfermedades where cod_cie =  ? and est_cie=?";
+                String sentencia = "SELECT  desc_cie from enfermedades where cod_cie = ? and est_cie=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo);
                 comando.setString(2, estado);
@@ -92,7 +89,7 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie like  ? and est_cie=?";                
+                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie like ? and est_cie=?";                
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo + "%");
                 comando.setString(2, estado);
@@ -116,7 +113,7 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like  ? and est_cie=?";
+                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like ? and est_cie=?";
                 //String sentencia = "SELECT  cod_cie from enfermedades ";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo + "%");
@@ -143,8 +140,7 @@ public class EnfermedadesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like  ? and est_cie=?";
-                //String sentencia = "SELECT  cod_cie from enfermedades ";
+                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like ? and est_cie=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigo + "%");
                 comando.setString(2, "INACTIVO");
@@ -172,7 +168,6 @@ public class EnfermedadesDAL {
         if (connection != null) {
             try {
                 String sentencia = "SELECT  cod_cie,desc_cie from enfermedades where est_cie =?";
-                //String sentencia = "SELECT  cod_cie from enfermedades ";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, "ACTIVO");
                 ResultSet rs = comando.executeQuery();
@@ -250,7 +245,6 @@ public class EnfermedadesDAL {
                 String sentencia = "UPDATE  Enfermedades SET est_cie= ? "
                         + "Where cod_cie=? ";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                //comando.setString(1, "ACTIVO");
                 comando.setString(1, parametro);
                 comando.setString(2, codigo);
 

@@ -16,14 +16,15 @@ import javax.swing.JOptionPane;
  */
 public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
-// <editor-fold defaultstate="collapsed" desc="Datos">
-    EnfermedadesBL enfermedadesBL;
-    Validaciones validar;
-//</editor-fold>       
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    private EnfermedadesBL enfermedadesBL;
+    private Validaciones validar;
+    //</editor-fold>       
+
     public darAlta_Cie10() {
         initComponents();
         enfermedadesBL = new EnfermedadesBL();
-        validar= new Validaciones();
+        validar = new Validaciones();
         tbCie10.getTableHeader().setReorderingAllowed(false); //Poner las columnas estaticas
         CargarCIE10(); //Carga todos los codigos CIE10 activos
         ActivarDesactivarBtnAceptar();
@@ -42,19 +43,17 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
         txtBusqueda.setText(null);
     }
 
- 
-
     private void CargarCIE10() {
         tbCie10.setModel(enfermedadesBL.SelectCIE10Inactivas());
     }
 
     private void CargarCIE10PrimaryKey() {
         //Se realiza la busqueda inteligente        
-        tbCie10.setModel(enfermedadesBL.SelectCIE10PrimaryKeyInactivas(txtBusqueda.getText()));       
-       ActivarDesactivarBtnAceptar();
+        tbCie10.setModel(enfermedadesBL.SelectCIE10PrimaryKeyInactivas(txtBusqueda.getText()));
+        ActivarDesactivarBtnAceptar();
     }
 
-    private void darAltaCIE1() {
+    private void darAltaCIE10() {
         //Pedimos confirmación para dar de alta. devuelve 0= si 1=no
         if (tbCie10.getSelectedRow() >= 0) {
             int res = JOptionPane.showConfirmDialog(null,
@@ -64,8 +63,8 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
             if (res == 0) {
                 //Procedemos a actualizar el estado de la enfermedad de activa a inactiva              
                 String codigo = String.valueOf(tbCie10.getValueAt(tbCie10.getSelectedRow(), 0));//Tomamos el codigo de la enfermedad
-                String mensaje = enfermedadesBL.UpdateEstadoCIE10(codigo,"ACTIVO"); //Ejecutamos la actualización
-                
+                String mensaje = enfermedadesBL.UpdateEstadoCIE10(codigo, "ACTIVO"); //Ejecutamos la actualización
+
                 if (mensaje == null) {
                     JOptionPane.showMessageDialog(null, "Enfermedad dada de alta correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 } else {
@@ -101,7 +100,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("DAR DE ALTA CIE10");
+        setTitle("DAR DE ALTA CÓDIGO CIE-10");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -157,7 +156,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Código CIE1");
+        jLabel2.setText("Código CIE-10");
 
         txtBusqueda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -227,15 +226,12 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-        darAltaCIE1();
-
+        darAltaCIE10();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        limpiarControles(); //Limpiamos el txtBusqueda
-        CargarCIE10(); //Cargamos todas las enfermedades que esten dadas de baja
-        ActivarDesactivarBtnAceptar();//Desabiliramos el boton de aceptar
+        this.dispose();
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased

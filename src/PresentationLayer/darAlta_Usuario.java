@@ -7,6 +7,7 @@ package PresentationLayer;
 
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
+import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -33,7 +34,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
         txtBusquedaCedula.requestFocus();
         cargarDatos();
         cargarTabla();
-        tblUsuarios.getTableHeader().setReorderingAllowed(false);
+        tblUsuarios.getTableHeader().setReorderingAllowed(false);        
     }
     
     private void limpiarControles(){
@@ -124,6 +125,23 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DAR DE ALTA USUARIOS");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_usuario.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -278,7 +296,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -293,6 +311,7 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtBusquedaCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaCedulaKeyReleased
@@ -305,6 +324,11 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
         validar.soloNumeros(evt);
         validar.longitudCedula(evt, txtBusquedaCedula.getText());
     }//GEN-LAST:event_txtBusquedaCedulaKeyTyped
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     /**
      * @param args the command line arguments

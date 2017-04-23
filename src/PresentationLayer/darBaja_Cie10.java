@@ -8,7 +8,6 @@ package PresentationLayer;
 import BusinessLayer.EnfermedadesBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
-import DataAccessLayer.EnfermedadesDAL;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,23 +15,19 @@ import javax.swing.JOptionPane;
  * @author Wilmer Oñate
  */
 public class darBaja_Cie10 extends javax.swing.JInternalFrame {
-
-    //boolean filaSeleccionada = false;
-// <editor-fold defaultstate="collapsed" desc="Datos">
-    EnfermedadesBL enfermedadesBL;
-    Validaciones validar;
-//</editor-fold> 
+    
+    // <editor-fold defaultstate="collapsed" desc="Datos">
+    private EnfermedadesBL enfermedadesBL;
+    private Validaciones validar;
+    //</editor-fold> 
 
     public darBaja_Cie10() {
         initComponents();
         enfermedadesBL = new EnfermedadesBL();
         validar = new Validaciones();
         CargarCIE10();
-        tbCie10.getTableHeader().setReorderingAllowed(false);
-        // btnAceptar.setEnabled(false);
+        tbCie10.getTableHeader().setReorderingAllowed(false);        
         ActivarDesactivarBtnAceptar();
-        //filaSeleccionada = false;
-
     }
 
     /**
@@ -48,17 +43,6 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         }
     }
     
-    private void limpiarContorles() {
-        txtBusqueda.setText(null);
-    }
-    
-    private void convertirMayusculas(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            txtBusqueda.setText(txtBusqueda.getText().toUpperCase());
-        }
-    }
-    
     private void CargarCIE10() {        
         tbCie10.setModel(enfermedadesBL.SelectCIE10Activas());
     }
@@ -67,20 +51,17 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         tbCie10.setModel(enfermedadesBL.SelectCIE10PrimaryKeyActivas(txtBusqueda.getText()));
     }
     
-    private void darBajaCIE1() {
+    private void darBajaCIE10() {
         //Pedimos confirmación para dar de baja. devuelve 0= si 1=no
         if (tbCie10.getSelectedRow() >= 0) {
             int res = JOptionPane.showConfirmDialog(null,
                     "Desea dar de baja a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
                     "BAR DE BAJA",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);
-            
+                    JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);            
             if (res == 0) {
                 //Procedemos a actualizar el estado de la enfermedad de activa a inactiva                
-                String codigo = String.valueOf(tbCie10.getValueAt(tbCie10.getSelectedRow(), 0));
-                
+                String codigo = String.valueOf(tbCie10.getValueAt(tbCie10.getSelectedRow(), 0));                
                 String mensaje = enfermedadesBL.UpdateEstadoCIE10(codigo, "INACTIVO"); //Ejecutamos la actualización
-
                 if (mensaje == null) {
                     JOptionPane.showMessageDialog(null, "Enfermedad dada de baja correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 } else {
@@ -88,14 +69,12 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
                 }
                 txtBusqueda.setText(null);
                 txtBusqueda.requestFocus();
-                CargarCIE10();
-                //filaSeleccionada = false;
+                CargarCIE10();                
                 ActivarDesactivarBtnAceptar();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione una enfermedad", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-        }
-        
+        }        
     }
     
     @SuppressWarnings("unchecked")
@@ -117,7 +96,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("DAR DE BAJA CIE10");
+        setTitle("DAR DE BAJA CÓDIGO CIE-10");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -152,11 +131,6 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
                 tbCie10MouseClicked(evt);
             }
         });
-        tbCie10.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tbCie10KeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbCie10);
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -178,13 +152,10 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Código CIE10");
+        jLabel2.setText("Código CIE-10");
 
         txtBusqueda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtBusquedaKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBusquedaKeyReleased(evt);
             }
@@ -252,11 +223,8 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        txtBusqueda.setText(null);
-        CargarCIE10();
-        //filaSeleccionada = false;
-        //btnAceptar.setEnabled(false); //Desabiliramos el boton de aceptar
-        ActivarDesactivarBtnAceptar();
+        this.dispose();
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -268,35 +236,19 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
         validar.convertirMayusculas(evt);
     }//GEN-LAST:event_txtBusquedaKeyTyped
 
-    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtBusquedaKeyPressed
-
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-        //convertirMayusculas(evt);
         //Se realiza la busqueda inteligente
-        CargarCIE10PrimaryKey();
-        //filaSeleccionada = false;
-        //btnAceptar.setEnabled(false);
+        CargarCIE10PrimaryKey();        
         ActivarDesactivarBtnAceptar();
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         //Pedimos confirmación para dar de baja. devuelve 0= si 1=no
-        darBajaCIE1();
-
+        darBajaCIE10();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    private void tbCie10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbCie10KeyReleased
-
-    }//GEN-LAST:event_tbCie10KeyReleased
-
     private void tbCie10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCie10MouseClicked
-        //filaSeleccionada = true;
-        //btnAceptar.setEnabled(true);
         ActivarDesactivarBtnAceptar();
-
     }//GEN-LAST:event_tbCie10MouseClicked
 
     /**

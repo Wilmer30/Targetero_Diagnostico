@@ -8,9 +8,7 @@ import BusinessObjects.Historicos;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -76,14 +74,12 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         if (!txtHistoriaClinica.getText().equals("") || dcFecha.getDate() != null) {
             int res = JOptionPane.showConfirmDialog(null, "Esta ventana contienen datos que se perderan. \n" + "¿Desea cerrar esta ventana.?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
-            if (res == 1) {
-                this.setDefaultCloseOperation(0); // no cierra la ventana
-            } else {
-                this.setDefaultCloseOperation(1);//  cierra la ventana
+            if (res == 0) {//cierra la ventana
+                this.dispose();
                 menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
             }
         } else {
-            this.setDefaultCloseOperation(1);//cierra la ventana
+            this.dispose();//cierra la ventana
             menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
         }
     }
@@ -101,7 +97,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private void ControlesAgregar() {
         txtHistoriaClinica.setEnabled(false);
         dcFecha.setEnabled(false);
-        //cbEstado.setEnabled(false);
     }
 
     private void ActivarControles() {
@@ -115,6 +110,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         cbCodigo.getEditor().setItem("");
         txtaDescripcion.setText(null);
         BusquedaEnfermedad();
+        cbEstado.setSelectedIndex(0);
     }
 
     private void ActivarDesactivarBTNQuitar() {
@@ -158,7 +154,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
             String mensaje = enfermedadesBL.validarEnfermedad(cbCodigo.getSelectedItem().toString());
             if (mensaje == null) { // verificamos si la enfermedad existe en la base de datos
                 if (dcFecha.getDate() != null) { //Verificar que la fecha este ingresada
-                    if (cbEstado.getSelectedIndex() != 0) { //Verificar que la fecha este ingresada
+                    if (cbEstado.getSelectedIndex() != 0) { //Verificar que se haya escogido un estado
                         return true;
                     } else {
                         JOptionPane.showMessageDialog(null, "No se ha seleccionado un estado valido", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -220,7 +216,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     }
 
     private void InsertarHistoriaClinica() {
-
         int res = JOptionPane.showConfirmDialog(null, "Esta seguro de ingresar esta Historia Clinica?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         //res=0 si//res=1 =no                  
         if (res == 0) {
@@ -275,7 +270,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         jPasswordField1.setText("jPasswordField1");
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("INGRESO DE HISTORIA CLINICA");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {

@@ -7,6 +7,7 @@ package PresentationLayer;
 
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
+import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,6 +35,7 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
         cargarDatos();
         cargarTabla();
         tblUsuarios.getTableHeader().setReorderingAllowed(false);
+        txtBusquedaCedula.requestFocus();
     }
 
     private void limpiarControles() {
@@ -134,9 +136,25 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("REINICIAR CLAVE DE USUARIO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cambiar_clave.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -201,10 +219,13 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText("Número de cédula");
 
+        txtCedula.setEditable(false);
         txtCedula.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        txtNombreUsuario.setEditable(false);
         txtNombreUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        txtEmail.setEditable(false);
         txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -288,7 +309,7 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -314,7 +335,13 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     /**
      * @param args the command line arguments
