@@ -110,8 +110,9 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         Connection connection = connect.conectar();
         if (connection != null) {
             Map parametro = new HashMap();
-            parametro.put("", cbCodigo.getSelectedItem());
-            parametro.put("", txtaDescripcion.getText());
+            parametro.put("codigo", cbCodigo.getSelectedItem());
+            parametro.put("descripcion", txtaDescripcion.getText());
+            parametro.put("numero",1);
             try {
                 JasperReport reporte = JasperCompileManager.compileReport("/Reportes/reportePorCodigo.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametro, connection);

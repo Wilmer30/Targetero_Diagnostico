@@ -89,8 +89,9 @@ public class reporteFecha extends javax.swing.JInternalFrame {
         Connection connection = connect.conectar();
         if (connection != null) {
             Map parametro = new HashMap();
-            parametro.put("", dcDesde.getDate());
-            parametro.put("", dcHasta.getDate());
+            parametro.put("fechaInicio", dcDesde.getDate());
+            parametro.put("fechaFin", dcHasta.getDate());
+            parametro.put("numero",);
             try {
                 JasperReport reporte = JasperCompileManager.compileReport("/Reportes/reportePorFecha.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametro, connection);
