@@ -22,7 +22,7 @@ public class ReportesDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT LAST_VALUE FROM ";//Falta nombre de la secuencia
+                String sentencia = "SELECT LAST_VALUE FROM reports_id_rep_seq";
                 Statement comando = connection.createStatement();
                 ResultSet lector = comando.executeQuery(sentencia);
                 if(lector.next()) {

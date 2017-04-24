@@ -137,6 +137,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                     if (message == null) {
                         JOptionPane.showMessageDialog(null, "Rol asignado correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                         limpiarControles();
+                        usuarioBL.ultimaActividad(menu.usuario());
                     } else {
                         JOptionPane.showMessageDialog(null, "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                         limpiarControles();

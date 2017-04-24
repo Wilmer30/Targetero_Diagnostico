@@ -296,6 +296,11 @@ public class menu extends javax.swing.JFrame {
 
         miFecha.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.ALT_MASK));
         miFecha.setText("Por fechas");
+        miFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miFechaActionPerformed(evt);
+            }
+        });
         mnReportes.add(miFecha);
 
         miFechaCodigo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
@@ -317,6 +322,11 @@ public class menu extends javax.swing.JFrame {
 
         miCambioCorreo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         miCambioCorreo.setText("Actualizar correo");
+        miCambioCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCambioCorreoActionPerformed(evt);
+            }
+        });
         mnConfiguraciones.add(miCambioCorreo);
 
         jMenuBar1.add(mnConfiguraciones);
@@ -513,6 +523,30 @@ public class menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miCodigoActionPerformed
+
+    private void miFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFechaActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            reporteFecha ventana = new reporteFecha();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_miFechaActionPerformed
+
+    private void miCambioCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCambioCorreoActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            actualizarCorreo ventana = new actualizarCorreo();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_miCambioCorreoActionPerformed
 
     /**
      * @param args the command line arguments

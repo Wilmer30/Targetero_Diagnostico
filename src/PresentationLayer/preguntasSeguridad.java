@@ -59,6 +59,7 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
                     limpiarControles();
                     this.dispose();
                     menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+                    usuarioBL.ultimaActividad(menu.usuario());
                 } else {
                     JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarControles();

@@ -76,6 +76,7 @@ public class ingresoUsuarios extends javax.swing.JInternalFrame {
                                             "No se pudo asignar el rol al usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                                     limpiarControles();
                             }
+                            usuarioBL.ultimaActividad(menu.usuario());
                         } else {
                             JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                             limpiarControles();

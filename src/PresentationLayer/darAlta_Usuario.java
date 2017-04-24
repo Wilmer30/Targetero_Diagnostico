@@ -86,7 +86,8 @@ public class darAlta_Usuario extends javax.swing.JInternalFrame {
             String mensaje=usuarioBL.cambiarEstado(txtNombreUsuario.getText(), true);
             if (mensaje==null) {
                 JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" ha sido dado de alta",
-                        "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);                
+                        "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                usuarioBL.ultimaActividad(menu.usuario());
             }else{
                 JOptionPane.showMessageDialog(null, "El usuario "+txtNombreUsuario.getText()+" no ha podido ser dado de alta",
                         "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);

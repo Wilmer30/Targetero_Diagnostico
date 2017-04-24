@@ -6,6 +6,7 @@
 package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
+import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
@@ -19,10 +20,12 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Datos">
     private EnfermedadesBL enfermedadesBL;
     private Validaciones validar;
+    private UsuariosBL usuarioBL;
     //</editor-fold> 
 
     public darBaja_Cie10() {
         initComponents();
+        usuarioBL=new UsuariosBL();
         enfermedadesBL = new EnfermedadesBL();
         validar = new Validaciones();
         CargarCIE10();
@@ -64,6 +67,7 @@ public class darBaja_Cie10 extends javax.swing.JInternalFrame {
                 String mensaje = enfermedadesBL.UpdateEstadoCIE10(codigo, "INACTIVO"); //Ejecutamos la actualización
                 if (mensaje == null) {
                     JOptionPane.showMessageDialog(null, "Enfermedad dada de baja correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                    usuarioBL.ultimaActividad(menu.usuario());
                 } else {
                     JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 }

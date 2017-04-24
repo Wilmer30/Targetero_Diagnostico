@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte por Fecha" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4b9847cf-6315-488e-8c72-81c9bf2d6eca">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="fechaInicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -12,6 +12,7 @@
 	<parameter name="numero" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="foto" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      historicos."cod_cie",
@@ -44,7 +45,7 @@ ORDER BY
 				<textField>
 					<reportElement mode="Opaque" x="0" y="0" width="71" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="54eb9d8c-f619-48e0-8e77-09fc35a69839"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="14" isBold="true"/>
+						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cod_cie}]]></textFieldExpression>
 				</textField>
@@ -109,7 +110,7 @@ ORDER BY
 				</staticText>
 				<image scaleImage="FillFrame">
 					<reportElement x="20" y="34" width="86" height="58" uuid="afa64ee1-b0d0-48fc-9e2c-5493db3b9e2e"/>
-					<imageExpression><![CDATA["..\\Imagenes\\logo.png"]]></imageExpression>
+					<imageExpression><![CDATA[$P{foto}]]></imageExpression>
 				</image>
 			</frame>
 		</band>
@@ -161,21 +162,21 @@ ORDER BY
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="cd182a99-be94-46f2-a613-7587cd03a078"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número de Historia Clínica]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="246" y="1" width="145" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="1fec3d18-25b9-4876-b92c-2497d09e889c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estado del Paciente]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="432" y="0" width="123" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="62e1df48-bed3-4bba-83e5-10af6fe87c36"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha de Ingreso]]></text>
 			</staticText>
@@ -189,21 +190,21 @@ ORDER BY
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="185" height="20" uuid="42617959-6650-4472-9547-0e966e620892"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{num_hist_cli}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="246" y="0" width="145" height="20" uuid="f68ca723-fbdb-4138-b936-bcaf17acef1d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{est_pac}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement x="432" y="0" width="123" height="20" uuid="412a1422-f231-45d5-8a3e-bd2d91cb270b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_ing}]]></textFieldExpression>
 			</textField>

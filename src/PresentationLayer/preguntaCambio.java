@@ -63,6 +63,7 @@ public class preguntaCambio extends javax.swing.JFrame {
                     menu menu = new menu(txtUsuario.getText());
                     menu.setVisible(true);
                     this.dispose();
+                    usuarioBL.ultimaActividad(menu.usuario());
                 } else {
                     JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarControles();

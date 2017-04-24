@@ -96,6 +96,7 @@ public class darBaja_Usuario extends javax.swing.JInternalFrame {
                 if (mensaje == null) {
                     JOptionPane.showMessageDialog(null, "El usuario " + txtNombreUsuario.getText() + " ha sido dado de baja",
                             "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                    usuarioBL.ultimaActividad(menu.usuario());
                 } else {
                     JOptionPane.showMessageDialog(null, "El usuario " + txtNombreUsuario.getText() + " no ha podido ser dado de baja",
                             "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);

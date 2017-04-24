@@ -88,6 +88,7 @@ public class reiniciarClave extends javax.swing.JInternalFrame {
             if (cambio == null) {
                 JOptionPane.showMessageDialog(null, "La contraseña ha sido reiniciada",
                         "CONTRASEÑA REINICIADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+                usuarioBL.ultimaActividad(menu.usuario());
             } else {
                 JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 txtBusquedaCedula.requestFocus();

@@ -12,6 +12,7 @@
 	<parameter name="numero" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="foto" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
 	historicos."num_hist_cli",
@@ -42,10 +43,10 @@ ORDER BY
 				<line>
 					<reportElement x="-20" y="33" width="595" height="1" forecolor="#666666" uuid="a30cc938-60bd-4745-9cae-4ec48c9cb0b3"/>
 				</line>
-				<textField>
+				<textField pattern="dd/MM/yyyy">
 					<reportElement mode="Opaque" x="0" y="1" width="59" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="470f1255-81c0-4657-99ca-a9c2061bfcab"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="14" isBold="true"/>
+						<font fontName="Arial" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fec_ing}]]></textFieldExpression>
 				</textField>
@@ -107,7 +108,7 @@ ORDER BY
 				</staticText>
 				<image scaleImage="FillFrame">
 					<reportElement x="20" y="34" width="86" height="58" uuid="ca9fc12d-3596-4730-b024-66dc618cadb1"/>
-					<imageExpression><![CDATA["..\\Imagenes\\logo.png"]]></imageExpression>
+					<imageExpression><![CDATA[$P{foto}]]></imageExpression>
 				</image>
 			</frame>
 		</band>
@@ -152,14 +153,14 @@ ORDER BY
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="1" width="192" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e66b89ea-f87d-4956-b410-6f27cf7dc9bd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número de Historia Clínica]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="226" y="1" width="185" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="49b92afb-e5c8-4946-bf53-d7a65808b3f1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estado del Paciente]]></text>
 			</staticText>
@@ -173,14 +174,14 @@ ORDER BY
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="185" height="20" uuid="035c93a8-6629-40d3-9d8a-84c3bd148132"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{num_hist_cli}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="247" y="0" width="156" height="20" uuid="059f40d7-794b-4a59-ad06-87adcbe650d0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{est_pac}]]></textFieldExpression>
 			</textField>

@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
 import BusinessLayer.HistoriasBL;
+import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import BusinessObjects.Historicos;
@@ -19,11 +20,12 @@ import javax.swing.table.DefaultTableModel;
 public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    EnfermedadesBL enfermedadesBL;
-    Validaciones validar;
-    HistoriasBL historicoBL;
-    Historicos historico;
-    DefaultTableModel modelo;
+    private EnfermedadesBL enfermedadesBL;
+    private Validaciones validar;
+    private HistoriasBL historicoBL;
+    private Historicos historico;
+    private DefaultTableModel modelo;
+    private UsuariosBL usuarioBL;
     // </editor-fold>
 
     public ingreso_HistoriaClinica() {
@@ -32,6 +34,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         enfermedadesBL = new EnfermedadesBL();
         historico = new Historicos();
         historicoBL = new HistoriasBL();
+        usuarioBL=new UsuariosBL();
 
         setModeloTabla();
         BusquedaEnfermedad();
@@ -216,16 +219,16 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     }
 
     private void InsertarHistoriaClinica() {
-        int res = JOptionPane.showConfirmDialog(null, "Esta seguro de ingresar esta Historia Clinica?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int res = JOptionPane.showConfirmDialog(null, "Esta seguro de ingresar estas Historias Clinicas?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         //res=0 si//res=1 =no                  
         if (res == 0) {
             String mensaje = historicoBL.nuevaHistoria((DefaultTableModel) tbHistorias.getModel());
             if (mensaje == null) {
-                JOptionPane.showMessageDialog(null, "Historia ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Historias ingresadas correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 limpiarControles();
                 ActivarControles();
                 ActivarDesactivarBtnGuardar();
-
+                usuarioBL.ultimaActividad(menu.usuario());
             } else {
                 JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 limpiarControles();

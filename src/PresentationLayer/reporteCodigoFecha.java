@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
@@ -30,7 +31,7 @@ import net.sf.jasperreports.view.JRViewer;
  *
  * @author Erick
  */
-public class reporteCodigo extends javax.swing.JInternalFrame {
+public class reporteCodigoFecha extends javax.swing.JInternalFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     private EnfermedadesBL enfermedadesBL;
@@ -40,9 +41,9 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
     // </editor-fold>
     
     /**
-     * Creates new form reporteCodigo
+     * Creates new form reporteCodigoFecha
      */
-    public reporteCodigo() {
+    public reporteCodigoFecha() {
         initComponents();
         enfermedadesBL = new EnfermedadesBL();
         validar = new Validaciones();
@@ -68,7 +69,7 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
             }
         });
     }
-
+    
     private void BusquedaEnfermedad() {
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
         cbCodigo.setModel(enfermedadesBL.SelectCodigoCIE10(textoBusqueda, "ACTIVO"));
@@ -81,7 +82,7 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
     }
     
     private void confirmarCierre() {
-        if (!txtaDescripcion.getText().isEmpty()) {
+        if (!txtaDescripcion.getText().isEmpty() || dcDesde.getDate()!=null || dcHasta.getDate()!=null) {
             int resultado = JOptionPane.showConfirmDialog(null, "Esta ventana contiene datos que se perderan. \n"
                     + "¿Desea cerrar esta ventana?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
@@ -99,7 +100,9 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
     private void limpiarControles() {
         cbCodigo.getEditor().setItem("");
         txtaDescripcion.setText("");
-        cbCodigo.requestFocus();
+        dcDesde.setDate(null);
+        dcHasta.setDate(null);
+        cbCodigo.requestFocus();        
     }
 
     private boolean controlCodigo() {
@@ -109,7 +112,37 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
             return false;
         }
         return true;
-    }    
+    }
+    
+    private boolean controlFechaDesde(){
+        if (dcDesde.getDate()==null) {
+            JOptionPane.showMessageDialog(null, "Debe escoger una fecha de inicio", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            dcDesde.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean controlFechaHasta(){
+        if (dcHasta.getDate()==null) {
+            JOptionPane.showMessageDialog(null, "Debe escoger una fecha de fin", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            dcHasta.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean control(){
+        if (controlFechaDesde()&&controlFechaHasta()) {
+            if (dcDesde.getDate().after(dcHasta.getDate())) {
+                JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser menor a la fecha de fin",
+                        "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                return false;                
+            }
+            return true;
+        }
+        return false;
+    }
     
     private void reporte() {
         int numero=reporteBL.numeroReporte();
@@ -119,19 +152,21 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
             Map parametro = new HashMap();
             parametro.put("codigo", cbCodigo.getSelectedItem().toString().toUpperCase());
             parametro.put("descripcion", txtaDescripcion.getText());
+            parametro.put("fechaInicio", dcDesde.getDate());
+            parametro.put("fechaFin", dcHasta.getDate());
             parametro.put("numero",numero);
             parametro.put("foto",getClass().getResource("/Imagenes/logo.png").getPath());
             try {
                 JasperReport reporte = JasperCompileManager.compileReport(getClass().getResource("/Reportes/reportePorCodigo.jrxml").getPath());
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametro, connection);
                 JRViewer ver = new JRViewer(imprimir);
-                JInternalFrame visualizar = new JInternalFrame("Reporte por Código CIE-10");
+                JInternalFrame visualizar = new JInternalFrame("Reporte por Código CIE-10 y Rango de Fechas");
                 visualizar.getContentPane().add(ver);
                 visualizar.setClosable(true);
                 menu.agregarReporte(visualizar);
                 try {
                     visualizar.setMaximum(true);
-                    reporteBL.nuevoReporte("Reporte por Código CIE-10");
+                    reporteBL.nuevoReporte("Reporte por Código CIE-10 y Rango de Fechas");
                     limpiarControles();
                     this.dispose();
                     menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
@@ -159,18 +194,21 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        cbCodigo = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        cbCodigo = new javax.swing.JComboBox<String>();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtaDescripcion = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        dcHasta = new com.toedter.calendar.JDateChooser();
+        dcDesde = new com.toedter.calendar.JDateChooser();
 
-        setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("REPORTE POR CÓDIGO CIE-10");
+        setTitle("REPORTE POR CÓDIGO CIE-10 Y RANGO DE FECHAS");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reporte.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -190,10 +228,10 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel1.setText("Código CIE 10");
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel3.setText("Código CIE 10");
 
         cbCodigo.setEditable(true);
         cbCodigo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -210,6 +248,12 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         txtaDescripcion.setColumns(20);
         txtaDescripcion.setRows(5);
         jScrollPane2.setViewportView(txtaDescripcion);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel1.setText("Desde:");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel2.setText("Hasta:");
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
@@ -229,45 +273,67 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        dcHasta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        dcDesde.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cbCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(97, 97, 97)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbCodigo, 0, 155, Short.MAX_VALUE)
+                            .addComponent(dcDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
                 .addComponent(btnAceptar)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
-                .addGap(95, 95, 95))
+                .addGap(47, 47, 47))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
                     .addComponent(cbCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(dcDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(dcHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,42 +341,41 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        if (control()&&controlCodigo()) {
+            reporte();
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         confirmarCierre();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        // TODO add your handling code here:
-        confirmarCierre();
-    }//GEN-LAST:event_formInternalFrameClosing
-
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
-        if (controlCodigo()) {            
-            reporte();
-        }        
-    }//GEN-LAST:event_btnAceptarActionPerformed
-
     private void cbCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCodigoItemStateChanged
         // TODO add your handling code here:
         busquedaEnfermedadDescripcion();
     }//GEN-LAST:event_cbCodigoItemStateChanged
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+        confirmarCierre();
+    }//GEN-LAST:event_formInternalFrameClosing
 
     /**
      * @param args the command line arguments
@@ -329,21 +394,20 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reporteCodigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteCodigoFecha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reporteCodigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteCodigoFecha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reporteCodigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteCodigoFecha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reporteCodigo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteCodigoFecha.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
-                new reporteCodigo().setVisible(true);
+                new reporteCodigoFecha().setVisible(true);
             }
         });
     }
@@ -352,9 +416,13 @@ public class reporteCodigo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cbCodigo;
+    private com.toedter.calendar.JDateChooser dcDesde;
+    private com.toedter.calendar.JDateChooser dcHasta;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea txtaDescripcion;
     // End of variables declaration//GEN-END:variables

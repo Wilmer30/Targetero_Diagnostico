@@ -6,6 +6,7 @@
 package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
+import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enfermedades;
 import BusinessObjects.Enumeraciones;
@@ -23,10 +24,12 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     private Validaciones validar;
     private EnfermedadesDAL enfermedadesDAL;
     private Enfermedades enfermedades;
+    private UsuariosBL usuarioBL;
     // </editor-fold>
 
     public ingreso_CIE10() {
         initComponents();
+        usuarioBL=new UsuariosBL();
         validar = new Validaciones();
         enfermedadesBL = new EnfermedadesBL();
         enfermedadesDAL = new EnfermedadesDAL();
@@ -85,7 +88,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         }
     }
 
-    private void ingresoUsuario() {
+    private void ingresoCodigo() {
         if (controlIngreso()) {
             int res = JOptionPane.showConfirmDialog(null, "Está seguro de ingresar este Código CIE-10?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
@@ -97,6 +100,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
                     if (mensajeIngreso == null) {
                         JOptionPane.showMessageDialog(null, "Enfermedad ingresada correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
                         limpiarControles();
+                        usuarioBL.ultimaActividad(menu.usuario());
                     } else {
                         JOptionPane.showMessageDialog(null, mensajeIngreso, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                         limpiarControles();
@@ -267,7 +271,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        ingresoUsuario();
+        ingresoCodigo();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtDiagnosticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyTyped

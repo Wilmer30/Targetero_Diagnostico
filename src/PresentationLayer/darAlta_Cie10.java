@@ -6,6 +6,7 @@
 package PresentationLayer;
 
 import BusinessLayer.EnfermedadesBL;
+import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
@@ -19,10 +20,12 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Datos">
     private EnfermedadesBL enfermedadesBL;
     private Validaciones validar;
+    private UsuariosBL usuarioBL;
     //</editor-fold>       
 
     public darAlta_Cie10() {
         initComponents();
+        usuarioBL=new UsuariosBL();
         enfermedadesBL = new EnfermedadesBL();
         validar = new Validaciones();
         tbCie10.getTableHeader().setReorderingAllowed(false); //Poner las columnas estaticas
@@ -67,6 +70,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
 
                 if (mensaje == null) {
                     JOptionPane.showMessageDialog(null, "Enfermedad dada de alta correctamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                    usuarioBL.ultimaActividad(menu.usuario());
                 } else {
                     JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 }

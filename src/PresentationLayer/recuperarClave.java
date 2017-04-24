@@ -78,6 +78,7 @@ public class recuperarClave extends javax.swing.JFrame {
                 if (cambio == null) {
                     JOptionPane.showMessageDialog(null, "Su nueva contraseña es su usuario\n"
                             + "La aplicación se va a cerrar", "CONTRASEÑA RECUPERADA CON ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+                    usuarioBL.ultimaActividad(menu.usuario());
                     System.exit(0);
                 } else {
                     JOptionPane.showMessageDialog(null, cambio, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);

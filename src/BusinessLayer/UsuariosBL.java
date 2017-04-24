@@ -173,4 +173,12 @@ public class UsuariosBL {
         }
         return mensaje;
     }
+    
+    public String cambiarMail(String usuario,String nuevoMail){
+        String mensaje=usuarioDAL.updateEmail(usuario, nuevoMail);
+        if (mensaje!=null) {
+            return mensaje;
+        }
+        return null;
+    }
 }
