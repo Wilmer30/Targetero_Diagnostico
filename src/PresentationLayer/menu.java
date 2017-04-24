@@ -304,7 +304,12 @@ public class menu extends javax.swing.JFrame {
         mnReportes.add(miFecha);
 
         miFechaCodigo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
-        miFechaCodigo.setText("Por Fecha/Código");
+        miFechaCodigo.setText("Por fecha/código");
+        miFechaCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miFechaCodigoActionPerformed(evt);
+            }
+        });
         mnReportes.add(miFechaCodigo);
 
         jMenuBar1.add(mnReportes);
@@ -547,6 +552,18 @@ public class menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miCambioCorreoActionPerformed
+
+    private void miFechaCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFechaCodigoActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            reporteCodigoFecha ventana = new reporteCodigoFecha();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_miFechaCodigoActionPerformed
 
     /**
      * @param args the command line arguments

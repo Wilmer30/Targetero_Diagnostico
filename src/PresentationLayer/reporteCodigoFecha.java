@@ -15,9 +15,15 @@ import BusinessObjects.Enumeraciones;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -155,9 +161,10 @@ public class reporteCodigoFecha extends javax.swing.JInternalFrame {
             parametro.put("fechaInicio", dcDesde.getDate());
             parametro.put("fechaFin", dcHasta.getDate());
             parametro.put("numero",numero);
-            parametro.put("foto",getClass().getResource("/Imagenes/logo.png").getPath());
+            parametro.put("foto",getClass().getResource("/Imagenes/logo.png"));
             try {
-                JasperReport reporte = JasperCompileManager.compileReport(getClass().getResource("/Reportes/reportePorCodigo.jrxml").getPath());
+                JasperReport reporte = JasperCompileManager.compileReport(new File("").getAbsolutePath()+
+                        recuperarPath()+"reportePorCodigoFecha.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametro, connection);
                 JRViewer ver = new JRViewer(imprimir);
                 JInternalFrame visualizar = new JInternalFrame("Reporte por Código CIE-10 y Rango de Fechas");
@@ -179,12 +186,25 @@ public class reporteCodigoFecha extends javax.swing.JInternalFrame {
                 visualizar.show();
             } catch (JRException ex) {
                 JOptionPane.showMessageDialog(null,ex.getMessage() , "ERROR",
-                        JOptionPane.WARNING_MESSAGE);
-                //"No se pudo visualizar el reporte"
+                        JOptionPane.WARNING_MESSAGE);                
             }
         }
     }
 
+    private String recuperarPath() {
+        File archivoConfiguracion = new File("config.properties");
+        try {
+            InputStream archivo = new FileInputStream(archivoConfiguracion);
+            Properties propiedades = new Properties();
+            propiedades.load(archivo);
+            return propiedades.getProperty("Path");            
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

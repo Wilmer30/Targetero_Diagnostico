@@ -204,8 +204,11 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+M"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Por Fecha/C&#xf3;digo"/>
+                <Property name="text" type="java.lang.String" value="Por fecha/c&#xf3;digo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miFechaCodigoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
