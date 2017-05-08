@@ -305,7 +305,7 @@ public class UsuariosDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Approved='true'";
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Approved='true' AND UserID!=1";
                 Statement comando = connection.createStatement();
                 ResultSet lector = comando.executeQuery(sentencia);
                 while (lector.next()) {
@@ -330,7 +330,7 @@ public class UsuariosDAL {
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE ? AND Approved=?";
+                String sentencia = "SELECT UserName,Email FROM Usuarios WHERE Username LIKE ? AND Approved=? AND UserID!=1";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, usuario + "%");
                 comando.setBoolean(2, true);

@@ -36,8 +36,10 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         usuarioBL = new UsuariosBL();
         validar = new Validaciones();
         rolBL = new RolesBL();
+        userrolBL=new UsuariosRolesBL();
         initComponents();
         cargarDatos();
+        cargarTabla();
         tblUsuarios.getTableHeader().setReorderingAllowed(false);
     }
 
@@ -104,6 +106,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         dgBuscarUsuario.setLocationRelativeTo(null);
         dgBuscarUsuario.setVisible(true);
         dgBuscarUsuario.setModal(true);
+        txtBusquedaCedula.setText("");
         txtBusquedaCedula.requestFocus();        
         cargarTabla();
     }
@@ -130,8 +133,8 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
     private void cambiarRol() {
         if (controlCedula()) {
             if (controlRol()) {
-                int idRol = cbRol.getSelectedIndex();
                 int idUser = usuarioBL.idUsuario(txtCedulaUsuario.getText());
+                int idRol = cbRol.getSelectedIndex();                
                 if (idUser != -1) {
                     String message = userrolBL.cambiarRol(idUser, idRol);
                     if (message == null) {
@@ -284,7 +287,6 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
         });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel3.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText("Número de cédula");
@@ -379,8 +381,8 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addGap(41, 41, 41)
-                .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -390,7 +392,7 @@ public class asignarRol_Usuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
