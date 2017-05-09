@@ -61,7 +61,7 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
         if (tbCie10.getSelectedRow() >= 0) {
             int res = JOptionPane.showConfirmDialog(null,
                     "Desea dar de alta a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
-                    "BAR DE ALTA",
+                    "DAR DE ALTA",
                     JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);
             if (res == 0) {
                 //Procedemos a actualizar el estado de la enfermedad de activa a inactiva              

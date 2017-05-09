@@ -213,7 +213,9 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
                 limpiarControlesNuevo();
                 ControlesAgregar();
             } else {
-                JOptionPane.showMessageDialog(null, "Está historia ya fue agregada anteriormente", "controlTablaRepetidos", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Está historia ya fue agregada anteriormente", "Error", JOptionPane.INFORMATION_MESSAGE);
+                //Limpiar controles
+                limpiarControlesNuevo();
             }
         }
     }
@@ -492,9 +494,11 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //TODO add your handling code here:
-        limpiarControles();
-        ActivarDesactivarBtnGuardar();
-        ActivarControles();
+//        limpiarControles();
+//        ActivarDesactivarBtnGuardar();
+//        ActivarControles();
+        controlVentana();
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
