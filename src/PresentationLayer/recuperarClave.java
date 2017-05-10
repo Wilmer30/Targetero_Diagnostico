@@ -190,6 +190,7 @@ public class recuperarClave extends javax.swing.JFrame {
             }
         });
 
+        txtMostrarRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtMostrarRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMostrarRespuestaFocusGained(evt);
@@ -311,9 +312,12 @@ public class recuperarClave extends javax.swing.JFrame {
 
     private void txtRespuestaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRespuestaFocusGained
         // TODO add your handling code here:
-        if (txtPregunta.getText().isEmpty()) {
+        if (!txtUsuario.getText().isEmpty()) {
             setPregunta();
-        }        
+        }else{
+            txtUsuario.requestFocus();
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtRespuestaFocusGained
 
     private void btnMostrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMousePressed
