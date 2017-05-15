@@ -10,15 +10,9 @@ import BusinessLayer.UsuariosBL;
 import BusinessObjects.ConectarBaseDatos;
 import BusinessObjects.Enumeraciones;
 import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -110,8 +104,7 @@ public class reporteFecha extends javax.swing.JInternalFrame {
             parametro.put("numero",numero);
             parametro.put("foto",getClass().getResource("/Imagenes/logo.png"));
             try {
-                JasperReport reporte = JasperCompileManager.compileReport(new File("").getAbsolutePath()+
-                        recuperarPath()+"reportePorFecha.jrxml");
+                JasperReport reporte = JasperCompileManager.compileReport("Reportes/reportePorFecha.jrxml");
                 JasperPrint imprimir = JasperFillManager.fillReport(reporte, parametro, connection);
                 JRViewer ver = new JRViewer(imprimir);
                 JInternalFrame visualizar = new JInternalFrame("Reporte por Rango de Fechas");
@@ -136,21 +129,7 @@ public class reporteFecha extends javax.swing.JInternalFrame {
                         JOptionPane.WARNING_MESSAGE);
             }
         }
-    }
-    
-    private String recuperarPath() {
-        File archivoConfiguracion = new File("config.properties");
-        try {
-            InputStream archivo = new FileInputStream(archivoConfiguracion);
-            Properties propiedades = new Properties();
-            propiedades.load(archivo);
-            return propiedades.getProperty("Path");            
-        } catch (FileNotFoundException ex) {
-            return null;
-        } catch (IOException ex) {
-            return null;
-        }
-    }
+    }      
     
     /**
      * This method is called from within the constructor to initialize the form.
