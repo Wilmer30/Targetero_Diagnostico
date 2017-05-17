@@ -9,6 +9,8 @@ import BusinessLayer.RolesBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import BusinessObjects.Enumeraciones.EstadoVentanas;
+import java.awt.Desktop;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -20,8 +22,8 @@ import javax.swing.JOptionPane;
 public class menu extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
-    RolesBL rolBL;
-    Validaciones validar;
+    private RolesBL rolBL;
+    private Validaciones validar;
     static EstadoVentanas estadoVentana;
     // </editor-fold>
 
@@ -100,6 +102,16 @@ public class menu extends javax.swing.JFrame {
         } else {
             this.dispose();
             menu.setEstadoVentana(Enumeraciones.EstadoVentanas.cerrado);
+        }
+    }
+    
+    private void abrirManual(){
+        try {
+            File path=new File("Manual/Manual.pdf");
+            Desktop.getDesktop().open(path);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido visualizar el manual de usuario",
+                    "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
     }
     /**
@@ -340,6 +352,11 @@ public class menu extends javax.swing.JFrame {
 
         miManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         miManual.setText("Manual");
+        miManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miManualActionPerformed(evt);
+            }
+        });
         mnAyuda.add(miManual);
 
         miAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
@@ -564,6 +581,11 @@ public class menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_miFechaCodigoActionPerformed
+
+    private void miManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miManualActionPerformed
+        // TODO add your handling code here:
+        abrirManual();
+    }//GEN-LAST:event_miManualActionPerformed
 
     /**
      * @param args the command line arguments
