@@ -34,6 +34,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         enfermedadesBL = new EnfermedadesBL();
         enfermedadesDAL = new EnfermedadesDAL();
         enfermedades = new Enfermedades();
+        txtDiagnostico.setLineWrap(true);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Metodos"> 
@@ -54,6 +55,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     private void limpiarControles() {
         txtCodigo.setText(null);
         txtDiagnostico.setText(null);
+        
     }
 
     private void controlVentana() {
@@ -123,10 +125,10 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDiagnostico = new javax.swing.JTextArea();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDiagnostico = new javax.swing.JTextArea();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -165,19 +167,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
             }
         });
 
-        txtDiagnostico.setColumns(20);
-        txtDiagnostico.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        txtDiagnostico.setRows(5);
-        txtDiagnostico.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDiagnosticoKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDiagnosticoKeyTyped(evt);
-            }
-        });
-        jScrollPane1.setViewportView(txtDiagnostico);
-
         btnAceptar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Guardar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
@@ -196,6 +185,10 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
             }
         });
 
+        txtDiagnostico.setColumns(20);
+        txtDiagnostico.setRows(5);
+        jScrollPane2.setViewportView(txtDiagnostico);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -210,13 +203,13 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(77, 77, 77)
                         .addComponent(btnAceptar)
                         .addGap(58, 58, 58)
                         .addComponent(btnCancelar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,17 +218,17 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAceptar)
                             .addComponent(btnCancelar)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 104, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel2)))
                 .addContainerGap())
         );
 
@@ -273,17 +266,6 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         ingresoCodigo();
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void txtDiagnosticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyTyped
-        // TODO add your handling code here:
-        controlDescripcion(evt);
-        validar.convertirMayusculas(evt);
-    }//GEN-LAST:event_txtDiagnosticoKeyTyped
-
-    private void txtDiagnosticoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiagnosticoKeyPressed
-        // TODO add your handling code here:
-        controlDescripcionEnter(evt);
-    }//GEN-LAST:event_txtDiagnosticoKeyPressed
 
     private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
         validar.soloNumerosLetras(evt);
@@ -332,7 +314,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDiagnostico;
     // End of variables declaration//GEN-END:variables
