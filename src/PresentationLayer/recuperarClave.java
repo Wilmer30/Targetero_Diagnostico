@@ -58,7 +58,8 @@ public class recuperarClave extends javax.swing.JFrame {
                     txtPregunta.setText(pregunta);
                     btnAceptar.setEnabled(true);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El usuario no puede recuperar la contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "El usuario no puede recuperar la contraseña\n"+
+                            "El usuario se encuentra dado de baja en el sistema", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     limpiarControles();
                     txtUsuario.requestFocus();
                 }
@@ -182,6 +183,11 @@ public class recuperarClave extends javax.swing.JFrame {
 
         txtPregunta.setEditable(false);
         txtPregunta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtPregunta.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPreguntaFocusGained(evt);
+            }
+        });
 
         txtRespuesta.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtRespuesta.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -335,6 +341,11 @@ public class recuperarClave extends javax.swing.JFrame {
             txtRespuesta.requestFocus();
         }        
     }//GEN-LAST:event_txtMostrarRespuestaFocusGained
+
+    private void txtPreguntaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPreguntaFocusGained
+        // TODO add your handling code here:
+        txtRespuesta.requestFocus();
+    }//GEN-LAST:event_txtPreguntaFocusGained
 
     /**
      * @param args the command line arguments
