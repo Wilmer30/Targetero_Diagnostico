@@ -37,7 +37,7 @@ public class recuperarClave extends javax.swing.JFrame {
     private void limpiarControles() {
         txtUsuario.setText("");
         txtPregunta.setText("");
-        txtRespuesta.setText("");
+        txtRespuesta.setText("");        
     }
 
     private boolean controlUsuario() {
@@ -58,16 +58,24 @@ public class recuperarClave extends javax.swing.JFrame {
                     txtPregunta.setText(pregunta);
                     btnAceptar.setEnabled(true);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El usuario no puede recuperar la contraseña\n"+
-                            "El usuario se encuentra dado de baja en el sistema", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    new Thread(){
+                        public void run(){
+                            JOptionPane.showMessageDialog(null, "El usuario no puede recuperar la contraseña\n"
+                                    + "El usuario se encuentra dado de baja en el sistema", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }.start();
                     limpiarControles();
                     txtUsuario.requestFocus();
-                }
-            } else {                
-                JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                limpiarControles();                
+                }                
+            } else {
+                new Thread(){
+                    public void run(){
+                        JOptionPane.showMessageDialog(null, mensaje, "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);                
+                    }
+                }.start();
+                limpiarControles();
                 txtUsuario.requestFocus();
-            }
+            }            
         }
     }
 
@@ -322,7 +330,7 @@ public class recuperarClave extends javax.swing.JFrame {
             setPregunta();
         }else{
             txtUsuario.requestFocus();
-            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);            
         }
     }//GEN-LAST:event_txtRespuestaFocusGained
 
@@ -335,7 +343,7 @@ public class recuperarClave extends javax.swing.JFrame {
         // TODO add your handling code here:        
         if (txtUsuario.getText().isEmpty()) {
             txtUsuario.requestFocus();
-            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);            
         }else{
             ocultar();
             txtRespuesta.requestFocus();
@@ -344,7 +352,7 @@ public class recuperarClave extends javax.swing.JFrame {
 
     private void txtPreguntaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPreguntaFocusGained
         // TODO add your handling code here:
-        txtRespuesta.requestFocus();
+        txtMostrarRespuesta.requestFocus();
     }//GEN-LAST:event_txtPreguntaFocusGained
 
     /**
