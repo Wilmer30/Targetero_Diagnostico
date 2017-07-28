@@ -197,7 +197,6 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         String textoBusqueda = (String) cbCodigo.getEditor().getItem();
         txtaDescripcion.setLineWrap(true);
         txtaDescripcion.setText(enfermedadesBL.SelectDescripcionCIE10(textoBusqueda, "ACTIVO"));
-
     }
 
     private void HistoriaClinicaTabla() {
@@ -494,11 +493,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         //TODO add your handling code here:
-//        limpiarControles();
-//        ActivarDesactivarBtnGuardar();
-//        ActivarControles();
         controlVentana();
-
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing

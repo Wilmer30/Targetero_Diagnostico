@@ -37,25 +37,10 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         txtDiagnostico.setLineWrap(true);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Metodos"> 
-    private void controlDescripcion(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == 44 || c == 46 || Character.isDigit(c) || c == 8 || c == 32)) {
-            evt.consume();
-        }
-    }
-
-    private void controlDescripcionEnter(java.awt.event.KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if ((c == java.awt.event.KeyEvent.VK_TAB || c == java.awt.event.KeyEvent.VK_ENTER)) {
-            evt.consume();
-        }
-    }
-    
+    // <editor-fold defaultstate="collapsed" desc="Metodos">        
     private void limpiarControles() {
         txtCodigo.setText(null);
-        txtDiagnostico.setText(null);
-        
+        txtDiagnostico.setText(null);        
     }
 
     private void controlVentana() {
@@ -92,7 +77,8 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
 
     private void ingresoCodigo() {
         if (controlIngreso()) {
-            int res = JOptionPane.showConfirmDialog(null, "Está seguro de ingresar este Código CIE-10?", "Seleccionar una opción", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int res = JOptionPane.showConfirmDialog(null, "Está seguro de ingresar este Código CIE-10?", "Seleccionar una opción",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             //res=0 si//res=1 =no                  
             if (res == 0) {
                 String mensaje = enfermedadesBL.buscarEnfermedad(txtCodigo.getText());
