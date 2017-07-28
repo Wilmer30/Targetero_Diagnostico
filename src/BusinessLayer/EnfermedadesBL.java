@@ -20,6 +20,7 @@ public class EnfermedadesBL {
     Enfermedades enfermedades;
 
     // </editor-fold>
+    
     public EnfermedadesBL() {
         enfermedadesDAL = new EnfermedadesDAL();
         enfermedades= new Enfermedades();
