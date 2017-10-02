@@ -77,15 +77,13 @@ public class Validaciones {
         if (!(texto.length() < 6)) {
             evt.consume();
         }
-
     }
     
     public void convertirMayusculas(java.awt.event.KeyEvent evt){
         char c = evt.getKeyChar();
         if (Character.isLowerCase(c)) {
             String texto=String.valueOf(c).toUpperCase();
-            evt.setKeyChar(texto.charAt(0));
-            
+            evt.setKeyChar(texto.charAt(0));            
         }
     }
     

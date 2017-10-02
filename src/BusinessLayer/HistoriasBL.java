@@ -27,7 +27,7 @@ public class HistoriasBL {
 
     private Date convertirFechaStringDate(String fecha) {
         Date date = null;
-        SimpleDateFormat cambiarfecha = new SimpleDateFormat("dd-MM-yyyy");//revisar       
+        SimpleDateFormat cambiarfecha = new SimpleDateFormat("dd-MM-yyyy");       
         try {
             date = cambiarfecha.parse(fecha);
         } catch (ParseException ex) {
@@ -49,5 +49,4 @@ public class HistoriasBL {
         String mensaje = historicoDAL.Insert(historicoVec); //Ejecutamos la inserción
         return mensaje;
     }
-
 }

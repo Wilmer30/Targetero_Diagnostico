@@ -20,6 +20,7 @@ public class EnfermedadesBL {
     Enfermedades enfermedades;
 
     // </editor-fold>
+    
     public EnfermedadesBL() {
         enfermedadesDAL = new EnfermedadesDAL();
         enfermedades= new Enfermedades();
@@ -59,13 +60,11 @@ public class EnfermedadesBL {
     public DefaultTableModel SelectCIE10PrimaryKeyActivas(String codigo) {
         //Se realiza la busqueda inteligente        
         return (enfermedadesDAL.SelectPrimaryKeyTablaActivas(codigo));
-
     }
 
     public DefaultTableModel SelectCIE10PrimaryKeyInactivas(String codigo) {
         //Se realiza la busqueda inteligente        
         return (enfermedadesDAL.SelelctPrimaryKeyTablaInactivas(codigo));
-
     }
 
     public String InsertEnfermedad(String codigo, String descripcion) {
@@ -80,5 +79,4 @@ public class EnfermedadesBL {
         String mensaje = enfermedadesDAL.UpdateEstado(codigo, estado); //Ejecutamos la actualización
         return mensaje;
     }
-
 }

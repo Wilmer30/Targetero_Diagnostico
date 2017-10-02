@@ -60,7 +60,8 @@ public class darAlta_Cie10 extends javax.swing.JInternalFrame {
         //Pedimos confirmación para dar de alta. devuelve 0= si 1=no
         if (tbCie10.getSelectedRow() >= 0) {
             int res = JOptionPane.showConfirmDialog(null,
-                    "Desea dar de alta a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
+                    "Desea dar de alta a la enfermedad: \n " + tbCie10.getValueAt(tbCie10.getSelectedRow(), 0).toString() + ". \n" + 
+                            tbCie10.getValueAt(tbCie10.getSelectedRow(), 1),
                     "DAR DE ALTA",
                     JOptionPane.YES_NO_OPTION, JOptionPane.OK_CANCEL_OPTION);
             if (res == 0) {

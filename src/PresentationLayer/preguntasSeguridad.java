@@ -52,10 +52,12 @@ public class preguntasSeguridad extends javax.swing.JInternalFrame {
     private void cambiarSeguridad() {
         if (controlPregunta()) {
             if (controlRespuesta()) {
-                String cambio = usuarioBL.cambiarSeguridad(txtUsuario.getText(), txtPregunta.getText(), String.valueOf(txtRespuesta.getPassword()));
+                String cambio = usuarioBL.cambiarSeguridad(txtUsuario.getText(), txtPregunta.getText(),
+                        String.valueOf(txtRespuesta.getPassword()));
                 if (cambio == null) {
                     usuarioBL.ultimaActividad(menu.usuario());
-                    JOptionPane.showMessageDialog(null, "Su pregunta y respuesta de seguridad han sido modificadas", "SEGURIDAD MODIFICADA CON ÉXITO",
+                    JOptionPane.showMessageDialog(null, "Su pregunta y respuesta de seguridad han sido modificadas",
+                            "SEGURIDAD MODIFICADA CON ÉXITO",
                             JOptionPane.INFORMATION_MESSAGE);
                     limpiarControles();
                     this.dispose();
