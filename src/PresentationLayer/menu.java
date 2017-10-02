@@ -144,6 +144,8 @@ public class menu extends javax.swing.JFrame {
         miIngresarCIE10 = new javax.swing.JMenuItem();
         miDarBajaCIE10 = new javax.swing.JMenuItem();
         miDarAltaCIE10 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mnHistoriaClinica = new javax.swing.JMenu();
         miIngresarHC = new javax.swing.JMenuItem();
         mnReportes = new javax.swing.JMenu();
@@ -187,7 +189,7 @@ public class menu extends javax.swing.JFrame {
         );
         dpPrincipalLayout.setVerticalGroup(
             dpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 392, Short.MAX_VALUE)
+            .addGap(0, 394, Short.MAX_VALUE)
         );
 
         lblUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -281,6 +283,18 @@ public class menu extends javax.swing.JFrame {
         mnCIE10.add(miDarAltaCIE10);
 
         jMenuBar1.add(mnCIE10);
+
+        jMenu2.setText("Pacientes");
+
+        jMenuItem1.setText("Ingresar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
 
         mnHistoriaClinica.setText("Historias clinicas");
 
@@ -587,6 +601,19 @@ public class menu extends javax.swing.JFrame {
         abrirManual();
     }//GEN-LAST:event_miManualActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        if (!estadoVentana.name().equals("abierto")) {
+            ingreso_Paciente ventana = new ingreso_Paciente();
+            dpPrincipal.add(ventana);
+            ventana.setVisible(true);
+            estadoVentana = EstadoVentanas.abierto;
+        } else {
+            JOptionPane.showMessageDialog(null, "Cerrar la ventana abierta para poder continuar", "Informacion", JOptionPane.OK_OPTION);
+        }
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -626,10 +653,12 @@ public class menu extends javax.swing.JFrame {
     private static javax.swing.JDesktopPane dpPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JSeparator jSeparator1;
     private static javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuItem miAcercaDe;
