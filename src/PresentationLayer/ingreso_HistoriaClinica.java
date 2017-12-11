@@ -5,7 +5,7 @@ import BusinessLayer.HistoriasBL;
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
-import BusinessObjects.Historicos;
+import BusinessObjects.Historico;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -23,7 +23,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
     private EnfermedadesBL enfermedadesBL;
     private Validaciones validar;
     private HistoriasBL historicoBL;
-    private Historicos historico;
+    private Historico historico;
     private DefaultTableModel modelo;
     private UsuariosBL usuarioBL;
     // </editor-fold>
@@ -32,7 +32,7 @@ public class ingreso_HistoriaClinica extends javax.swing.JInternalFrame {
         initComponents();
         validar = new Validaciones();
         enfermedadesBL = new EnfermedadesBL();
-        historico = new Historicos();
+        historico = new Historico();
         historicoBL = new HistoriasBL();
         usuarioBL = new UsuariosBL();
 

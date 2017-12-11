@@ -6,7 +6,7 @@
 package DataAccessLayer;
 
 import BusinessObjects.ConectarBaseDatos;
-import BusinessObjects.Enfermedades;
+import BusinessObjects.Enfermedad;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +61,7 @@ public class EnfermedadesDAL {
         return connect.getError();
     }
 
-    public String SelectPrimaryDesciprcion(String codigo, String estado) {
+    public String SelectPrimaryDescripcion(String codigo, String estado) {
         String desc = null;
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
@@ -210,7 +210,7 @@ public class EnfermedadesDAL {
         return com;
     }
 
-    public String Insert(Enfermedades enfermedad) {
+    public String Insert(Enfermedad enfermedad) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         int registrosAfectados = 0;

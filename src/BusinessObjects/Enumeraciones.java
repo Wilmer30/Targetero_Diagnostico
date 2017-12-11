@@ -6,12 +6,22 @@
 package BusinessObjects;
 
 /**
- *
+ * Clase que contiene enumeraciones.
  * @author Wilmer Oñate
  */
 public class Enumeraciones {
 
+    /**
+     * Enumeración que representa el estado de una ventana.
+     */
     public enum EstadoVentanas {
-        cerrado, abierto
+        cerrado,abierto
+    }
+    
+    /**
+     * Enumeración que representa el nivel de encriptación.
+     */
+    public enum Encriptacion{
+        Normal,Fuerte
     }
 }
