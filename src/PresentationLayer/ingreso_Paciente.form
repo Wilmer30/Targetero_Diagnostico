@@ -187,6 +187,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCedula">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCedulaKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
@@ -194,6 +197,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoPaterno">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtApellidoPaternoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
@@ -201,6 +207,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoMaterno">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtApellidoMaternoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
@@ -213,8 +222,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPreimerNombre">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPreimerNombreKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSegundoNombre">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSegundoNombreKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel17">
           <Properties>
@@ -242,10 +257,19 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dcFechaNacimiento">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPaisNacimiento">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPaisNacimientoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNacionalidad">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNacionalidadKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbGenero">
           <Properties>
@@ -311,7 +335,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
-                  <Component id="txtNuemroHistoria" min="-2" pref="171" max="-2" attributes="0"/>
+                  <Component id="txtNumeroHistoria" min="-2" pref="171" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -322,7 +346,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtNuemroHistoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtNumeroHistoria" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="36" max="32767" attributes="0"/>
               </Group>
@@ -335,7 +359,10 @@
             <Property name="text" type="java.lang.String" value="N&#xfa;mero de historia"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNuemroHistoria">
+        <Component class="javax.swing.JTextField" name="txtNumeroHistoria">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumeroHistoriaKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -360,11 +387,13 @@
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="cbParroquia" alignment="1" max="32767" attributes="0"/>
-                      <Component id="cbCanton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="cbProvincia" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" pref="171" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cbParroquia" alignment="1" pref="171" max="32767" attributes="0"/>
+                          <Component id="cbCanton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="cbProvincia" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="jScrollPane1" alignment="1" min="-2" pref="171" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

@@ -353,12 +353,18 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNumeroCama">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumeroCamaKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSala">
         </Component>
         <Component class="javax.swing.JTextField" name="txtHora">
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dcFechaIngreso">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>

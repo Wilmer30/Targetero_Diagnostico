@@ -5,6 +5,10 @@
  */
 package BusinessLayer;
 
+import com.toedter.calendar.JDateChooser;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,8 +69,8 @@ public class Validaciones {
         Matcher comparar = patron.matcher(email);
         return comparar.matches();
     }
-    
-    public void soloNumerosLetras(java.awt.event.KeyEvent evt){
+
+    public void soloNumerosLetras(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || Character.isDigit(c))) {
             evt.consume();
@@ -78,24 +82,53 @@ public class Validaciones {
             evt.consume();
         }
     }
-    
-    public void convertirMayusculas(java.awt.event.KeyEvent evt){
+
+    public void convertirMayusculas(java.awt.event.KeyEvent evt) {
         char c = evt.getKeyChar();
         if (Character.isLowerCase(c)) {
-            String texto=String.valueOf(c).toUpperCase();
-            evt.setKeyChar(texto.charAt(0));            
+            String texto = String.valueOf(c).toUpperCase();
+            evt.setKeyChar(texto.charAt(0));
         }
     }
-    
+
     public void longitudMaximoCuatro(java.awt.event.KeyEvent evt, String texto) {
         if ((texto.length() > 4)) {
             evt.consume();
         }
     }
-    
-    public void longitudCedula(java.awt.event.KeyEvent evt, String texto){
+
+    public void longitudCedula(java.awt.event.KeyEvent evt, String texto) {
         if ((texto.length() > 9)) {
             evt.consume();
         }
     }
+
+    public int diferenciaFechaEnDias(Date fechaMayor, Date fechaMenor) {
+        long diferenciaEn_ms = fechaMayor.getTime() - fechaMenor.getTime();
+        long dias = diferenciaEn_ms / (1000 * 60 * 60 * 24);
+        return (int) dias;
+    }
+
+    public boolean validarFecha(String fecha) {
+
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            formatoFecha.setLenient(false);
+            formatoFecha.parse(fecha);
+        } catch (Exception e ) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public String getFecha(JDateChooser jd) {
+        SimpleDateFormat Formato = new SimpleDateFormat("dd-MM-yyyy");
+        if (jd.getDate() != null) {
+            return Formato.format(jd.getDate());
+        } else {
+            return null;
+        }
+    }
+
 }

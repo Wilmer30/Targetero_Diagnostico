@@ -5,6 +5,8 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.Validaciones;
+
 /**
  *
  * @author Wilmer
@@ -14,8 +16,12 @@ public class ingreso_ReguistroPasiente extends javax.swing.JFrame {
     /**
      * Creates new form ingreso_ReguistroPasiente
      */
+     // <editor-fold defaultstate="collapsed" desc="Datos">    
+    private Validaciones validar;    
+    // </editor-fold>
     public ingreso_ReguistroPasiente() {
         initComponents();
+         validar = new Validaciones();
     }
 
     /**
@@ -175,6 +181,14 @@ public class ingreso_ReguistroPasiente extends javax.swing.JFrame {
 
         jLabel9.setText("Hora");
 
+        txtNumeroCama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroCamaKeyTyped(evt);
+            }
+        });
+
+        dcFechaIngreso.setDateFormatString("dd-MM-yyyy");
+
         jLabel13.setText("Ser_Sal_int ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -269,6 +283,11 @@ public class ingreso_ReguistroPasiente extends javax.swing.JFrame {
     private void txtApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidosActionPerformed
+
+    private void txtNumeroCamaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroCamaKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+    }//GEN-LAST:event_txtNumeroCamaKeyTyped
 
     /**
      * @param args the command line arguments
