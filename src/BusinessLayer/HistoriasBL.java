@@ -5,7 +5,7 @@
  */
 package BusinessLayer;
 
-import BusinessObjects.Historicos;
+import BusinessObjects.Historico;
 import DataAccessLayer.HistoricosDAL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,11 +17,11 @@ import java.util.Date;
  */
 public class HistoriasBL {
 
-    Historicos historico;
+    Historico historico;
     HistoricosDAL historicoDAL;
 
     public HistoriasBL() {
-        historico = new Historicos();
+        historico = new Historico();
         historicoDAL = new HistoricosDAL();
     }
 
@@ -37,9 +37,9 @@ public class HistoriasBL {
     }
 
     public String nuevaHistoria(javax.swing.table.DefaultTableModel tbHistorias) {        
-        Historicos[] historicoVec = new Historicos[tbHistorias.getRowCount()];
+        Historico[] historicoVec = new Historico[tbHistorias.getRowCount()];
         for (int i = 0; i < tbHistorias.getRowCount(); i++) {
-            historico = new Historicos();
+            historico = new Historico();
             historico.setNumeroHistoriaClinica(tbHistorias.getValueAt(i, 0).toString());
             historico.setCodigoCie10(tbHistorias.getValueAt(i, 1).toString());
             historico.setFechaIngreso(convertirFechaStringDate((String) (tbHistorias.getValueAt(i, 2))));

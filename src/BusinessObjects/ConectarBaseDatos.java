@@ -11,7 +11,7 @@ import java.util.Properties;
 import org.postgresql.util.PSQLException;
 
 /**
- *
+ * Clase para gestionar la conexión con la base de datos.
  * @author Erick
  */
 public class ConectarBaseDatos {
@@ -22,11 +22,18 @@ public class ConectarBaseDatos {
     private String clave;
     private String error;
 
+    /**
+     * Constructor de la clase.
+     */
     public ConectarBaseDatos() {
         connect = null;
         error = null;
     }
 
+    /**
+     * Método para la conexión a la base de datos.
+     * @return estado de la conexión a la base de datos.
+     */
     public Connection conectar() {
         error = recuperarConfiguracion();
         if (error == null) {
@@ -44,10 +51,18 @@ public class ConectarBaseDatos {
         return connect;
     }
 
+    /**
+     * Almacena los errores al conectar a la base de datos.
+     * @return error ocurrido durante la conexión a la base de datos.
+     */
     public String getError() {
         return error;
     }
 
+    /**
+     * Carga los parámetros usados para la cadena de conexión desde un archivo de configuración.
+     * @return algún error producido al cargar los parámetros desde el archivo.
+     */
     private String recuperarConfiguracion() {
         File archivoConfiguracion = new File("config.properties");
         try {

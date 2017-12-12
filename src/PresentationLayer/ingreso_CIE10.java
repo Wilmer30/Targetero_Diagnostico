@@ -8,7 +8,7 @@ package PresentationLayer;
 import BusinessLayer.EnfermedadesBL;
 import BusinessLayer.UsuariosBL;
 import BusinessLayer.Validaciones;
-import BusinessObjects.Enfermedades;
+import BusinessObjects.Enfermedad;
 import BusinessObjects.Enumeraciones;
 import DataAccessLayer.EnfermedadesDAL;
 import javax.swing.JOptionPane;
@@ -23,7 +23,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
     private EnfermedadesBL enfermedadesBL;
     private Validaciones validar;
     private EnfermedadesDAL enfermedadesDAL;
-    private Enfermedades enfermedades;
+    private Enfermedad enfermedades;
     private UsuariosBL usuarioBL;
     // </editor-fold>
 
@@ -33,7 +33,7 @@ public class ingreso_CIE10 extends javax.swing.JInternalFrame {
         validar = new Validaciones();
         enfermedadesBL = new EnfermedadesBL();
         enfermedadesDAL = new EnfermedadesDAL();
-        enfermedades = new Enfermedades();
+        enfermedades = new Enfermedad();
         txtDiagnostico.setLineWrap(true);
     }
 

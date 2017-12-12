@@ -7,7 +7,7 @@ package BusinessLayer;
 
 import DataAccessLayer.UsuariosDAL;
 import SecurityLayer.Encriptacion;
-import BusinessObjects.Usuarios;
+import BusinessObjects.Usuario;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,13 +19,13 @@ public class UsuariosBL {
     // <editor-fold defaultstate="collapsed" desc="Datos">
     UsuariosDAL usuarioDAL;
     Encriptacion encriptar;
-    Usuarios nuevoUsuario;
+    Usuario nuevoUsuario;
     // </editor-fold>
 
     public UsuariosBL() {
         usuarioDAL = new UsuariosDAL();
         encriptar = new Encriptacion();
-        nuevoUsuario=new Usuarios();
+        nuevoUsuario=new Usuario();
     }
 
     public String validarIngreso(String usuario, String clave) {

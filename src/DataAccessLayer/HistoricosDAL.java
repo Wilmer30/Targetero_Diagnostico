@@ -6,7 +6,7 @@
 package DataAccessLayer;
 
 import BusinessObjects.ConectarBaseDatos;
-import BusinessObjects.Historicos;
+import BusinessObjects.Historico;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -26,10 +26,10 @@ public class HistoricosDAL {
         return timestamp;
     }
     
-     public String Insert(Historicos historicos[]) {
+     public String Insert(Historico historicos[]) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
-        Historicos historico ;        
+        Historico historico ;        
         if (connection != null) {
             try {
                 connection.setAutoCommit(false);

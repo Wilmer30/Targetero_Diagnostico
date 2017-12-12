@@ -5,7 +5,7 @@
  */
 package BusinessLayer;
 
-import BusinessObjects.Enfermedades;
+import BusinessObjects.Enfermedad;
 import DataAccessLayer.EnfermedadesDAL;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -17,13 +17,13 @@ public class EnfermedadesBL {
 
     // <editor-fold defaultstate="collapsed" desc="Datos">
     EnfermedadesDAL enfermedadesDAL;
-    Enfermedades enfermedades;
+    Enfermedad enfermedades;
 
     // </editor-fold>
     
     public EnfermedadesBL() {
         enfermedadesDAL = new EnfermedadesDAL();
-        enfermedades= new Enfermedades();
+        enfermedades= new Enfermedad();
     }
 
     public String validarEnfermedad(String enfermedad) {
@@ -54,7 +54,7 @@ public class EnfermedadesBL {
     }
     
     public String SelectDescripcionCIE10(String codigo, String estado) {        
-         return (enfermedadesDAL.SelectPrimaryDesciprcion(codigo, estado));
+         return (enfermedadesDAL.SelectPrimaryDescripcion(codigo, estado));
     }
 
     public DefaultTableModel SelectCIE10PrimaryKeyActivas(String codigo) {

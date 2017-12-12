@@ -104,7 +104,7 @@ public class UsuariosDAL {
         return null;
     }
 
-    public String insert(Usuarios usuario) {
+    public String insert(Usuario usuario) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
