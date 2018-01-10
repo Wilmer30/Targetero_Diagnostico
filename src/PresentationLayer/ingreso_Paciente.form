@@ -61,7 +61,7 @@
                   </Group>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="79" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnIngresar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -110,7 +110,7 @@
                               <Component id="cbEtnia" alignment="0" pref="0" max="32767" attributes="0"/>
                               <Component id="cbGenero" alignment="0" pref="170" max="32767" attributes="0"/>
                               <Component id="txtSegundoNombre" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPreimerNombre" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtPrimerNombre" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtApellidoMaterno" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtApellidoPaterno" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtCedula" alignment="0" max="32767" attributes="0"/>
@@ -143,7 +143,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtPreimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtPrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -221,9 +221,9 @@
             <Property name="text" type="java.lang.String" value="Segundo nombre"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtPreimerNombre">
+        <Component class="javax.swing.JTextField" name="txtPrimerNombre">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPreimerNombreKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrimerNombreKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSegundoNombre">
@@ -334,8 +334,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="28" max="32767" attributes="0"/>
-                  <Component id="txtNumeroHistoria" min="-2" pref="171" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="txtNumeroHistoria" min="-2" pref="181" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -387,13 +387,11 @@
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="cbParroquia" alignment="1" pref="171" max="32767" attributes="0"/>
-                          <Component id="cbCanton" alignment="1" max="32767" attributes="0"/>
-                          <Component id="cbProvincia" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jScrollPane1" alignment="1" min="-2" pref="171" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="cbCanton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="cbParroquia" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" alignment="1" pref="180" max="32767" attributes="0"/>
+                      <Component id="cbProvincia" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

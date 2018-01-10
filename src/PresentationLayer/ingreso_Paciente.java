@@ -74,7 +74,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         txtApellidoMaterno = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtPreimerNombre = new javax.swing.JTextField();
+        txtPrimerNombre = new javax.swing.JTextField();
         txtSegundoNombre = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -153,9 +153,9 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Segundo nombre");
 
-        txtPreimerNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPrimerNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPreimerNombreKeyTyped(evt);
+                txtPrimerNombreKeyTyped(evt);
             }
         });
 
@@ -226,7 +226,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                             .addComponent(cbEtnia, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
                             .addComponent(cbGenero, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
                             .addComponent(txtSegundoNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPreimerNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPrimerNombre, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCedula, javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +251,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(txtPreimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -300,8 +300,8 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(txtNumeroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtNumeroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -346,12 +346,11 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cbParroquia, javax.swing.GroupLayout.Alignment.TRAILING, 0, 171, Short.MAX_VALUE)
-                        .addComponent(cbCanton, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbProvincia, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cbCanton, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbParroquia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(cbProvincia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -408,7 +407,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnCancelar))
@@ -442,10 +441,10 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         validar.soloLetras(evt);
     }//GEN-LAST:event_txtApellidoMaternoKeyTyped
 
-    private void txtPreimerNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPreimerNombreKeyTyped
+    private void txtPrimerNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrimerNombreKeyTyped
         // TODO add your handling code here:
         validar.soloLetras(evt);
-    }//GEN-LAST:event_txtPreimerNombreKeyTyped
+    }//GEN-LAST:event_txtPrimerNombreKeyTyped
 
     private void txtSegundoNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSegundoNombreKeyTyped
         // TODO add your handling code here:
@@ -539,7 +538,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNacionalidad;
     private javax.swing.JTextField txtNumeroHistoria;
     private javax.swing.JTextField txtPaisNacimiento;
-    private javax.swing.JTextField txtPreimerNombre;
+    private javax.swing.JTextField txtPrimerNombre;
     private javax.swing.JTextField txtSegundoNombre;
     // End of variables declaration//GEN-END:variables
 }
