@@ -35,18 +35,44 @@ public class CantonesDAL {
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigoProvincia);
                 ResultSet lector = comando.executeQuery();
+                connection.close();
                 while (lector.next()) {
                     canton=new Canton();
                     canton.setCodigo(lector.getString("COD_CAN"));
                     canton.setNombre(lector.getString("NOM_CAN"));                                        
                     model.addElement(canton);
-                }
-                connection.close();
+                }                
                 return model;                
             } catch (Exception e) {
                 return null;
             }
         }
         return null;
-    }    
+    }
+    
+    /**
+     * Recupera el código de la provincia al que pertenece el cantón.
+     * @param codigoCanton parámetro de la consulta.
+     * @return cadena con el código de la provincia.
+     */
+    public String SelectProvinceCode(String codigoCanton) {
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT COD_PRO FROM Cantones WHERE COD_CAN=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, codigoCanton);
+                ResultSet lector = comando.executeQuery();
+                connection.close();
+                if (lector.next()) {
+                    return lector.getString("COD_PRO");
+                }                
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
 }

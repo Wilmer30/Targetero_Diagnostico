@@ -38,8 +38,8 @@ public class HistoricosDAL {
                     String sentencia = "INSERT INTO historicos(COD_CIE ,NUM_HIST_CLI ,FEC_ING ,EST_PAC ) "
                             + "VALUES(?,?,?,?)";
                     PreparedStatement comando = connection.prepareStatement(sentencia);
-                    comando.setString(1, historico.getCodigoCie10());
-                    comando.setString(2, historico.getNumeroHistoriaClinica());
+                    comando.setString(1, historico.getCodigo());
+                    comando.setString(2, historico.getHistoriaClinica());
                     comando.setTimestamp(3, fechaHora(historico.getFechaIngreso()));
                     comando.setString(4, historico.getEstadoPaciente());
                     int registrosAfectados = comando.executeUpdate();

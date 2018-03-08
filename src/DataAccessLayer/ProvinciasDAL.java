@@ -31,13 +31,13 @@ public class ProvinciasDAL {
                 String sentencia = "SELECT COD_PRO,NOM_PRO FROM Provincias";
                 Statement comando = connection.createStatement();
                 ResultSet lector = comando.executeQuery(sentencia);
+                connection.close();
                 while (lector.next()) {
                     provincia=new Provincia();
                     provincia.setCodigo(lector.getString("COD_PRO"));
                     provincia.setNombre(lector.getString("NOM_PRO"));
                     model.addElement(provincia);
-                }               
-                connection.close();
+                }                
                 return model;                
             } catch (Exception e) {
                 return null;

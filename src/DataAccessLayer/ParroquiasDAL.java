@@ -13,18 +13,18 @@ import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 
 /**
- * Contiene los métodos de persistencia para la tabla: Parroquias.
+ * Contiene los métodos de persistencia para la tabla: Parroquias. 
  * @author Erick
  */
 public class ParroquiasDAL {
-    
+
     /**
-     * Recupera los registros de la tabla: Parroquias, según el
-     * código del cantón especificado.
+     * Recupera los registros de la tabla: Parroquias, según el código del
+     * cantón especificado.     
      * @param codigoCanton parámetro de la consulta.
      * @return DefaultComboBoxModel con los datos de la consulta.
      */
-    public DefaultComboBoxModel Select(String codigoCanton){                
+    public DefaultComboBoxModel Select(String codigoCanton) {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
@@ -35,14 +35,40 @@ public class ParroquiasDAL {
                 PreparedStatement comando = connection.prepareStatement(sentencia);
                 comando.setString(1, codigoCanton);
                 ResultSet lector = comando.executeQuery();
-                while (lector.next()) {
-                    parroquia=new Parroquia();
-                    parroquia.setCodigo(lector.getString("COD_PARR"));
-                    parroquia.setNombre(lector.getString("NOM_PARR"));                    
-                    model.addElement(parroquia);
-                }
                 connection.close();
-                return model;                
+                while (lector.next()) {
+                    parroquia = new Parroquia();
+                    parroquia.setCodigo(lector.getString("COD_PARR"));
+                    parroquia.setNombre(lector.getString("NOM_PARR"));
+                    model.addElement(parroquia);
+                }                
+                return model;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Recupera el código del cantón al que pertenece la parroquia.     
+     * @param codigoParroquia parámetro de la consulta.
+     * @return cadena con el código del cantón.
+     */
+    public String SelectCantonCode(String codigoParroquia) {
+        ConectarBaseDatos connect = new ConectarBaseDatos();
+        Connection connection = connect.conectar();
+        if (connection != null) {
+            try {
+                String sentencia = "SELECT COD_CAN FROM Parroquias WHERE COD_PARR=?";
+                PreparedStatement comando = connection.prepareStatement(sentencia);
+                comando.setString(1, codigoParroquia);
+                ResultSet lector = comando.executeQuery();
+                connection.close();
+                if (lector.next()) {
+                    return lector.getString("COD_CAN");
+                }                
+                return null;
             } catch (Exception e) {
                 return null;
             }

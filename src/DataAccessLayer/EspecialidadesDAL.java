@@ -32,13 +32,13 @@ public class EspecialidadesDAL {
                 String sentencia = "SELECT COD_ESP,DESC_ESP FROM Especialidades";
                 Statement comando = connection.createStatement();
                 ResultSet lector = comando.executeQuery(sentencia);
+                connection.close();
                 while (lector.next()) {
                     especialidad=new Especialidad();
                     especialidad.setCodigo(lector.getString("COD_ESP"));
                     especialidad.setDescripcion(lector.getString("DESC_ESP"));                                        
                     model.addElement(especialidad);
-                }               
-                connection.close();
+                }                               
                 return model;                
             } catch (Exception e) {
                 return null;

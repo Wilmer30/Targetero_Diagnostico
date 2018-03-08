@@ -11,224 +11,170 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Wilmer Oñate
+ * Contiene los métodos de persistencia para la tabla: Enfermedades. 
+ * @author Erick
  */
 public class EnfermedadesDAL {
 
-    public String VerificarEnfermedad(String codigo) {
+    /**
+     * Recupera los registros de la tabla: Enfermedades, según el código de la
+     * enfermedad especificado.     
+     * @param codigoEnfermedad parámetro de la consulta.
+     * @return DefaultComboBoxModel con los datos de la consulta.
+     */
+    public DefaultComboBoxModel SelectIntelligentSearch(String codigoEnfermedad) {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
+        Enfermedad enfermedad;
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie =  ? and est_cie=?";                
+                String sentencia = "SELECT COD_CIE,DESC_CIE FROM Enfermedades WHERE COD_CIE LIKE ? AND EST_CIE=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo);
-                comando.setString(2, "ACTIVO");
-                ResultSet rs = comando.executeQuery();
-                if (rs.next()) {
-                    return null;
+                comando.setString(1, codigoEnfermedad + "%");
+                comando.setString(2, "1");
+                ResultSet lector = comando.executeQuery();
+                connection.close();
+                while (lector.next()) {
+                    enfermedad = new Enfermedad();
+                    enfermedad.setCodigo(lector.getString("COD_CIE"));
+                    enfermedad.setDescripcion(lector.getString("DESC_CIE"));
+                    model.addElement(enfermedad);
                 }
-                return "La enfermedad ingresada no existe";
+                return model;
             } catch (Exception e) {
-                return e.getMessage();
-            }
-        }
-        return connect.getError();
-    }
-
-    public String buscarEnfermedad(String codigo) {
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT  cod_cie ,est_cie from enfermedades where cod_cie =  ? ";
-                PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo);
-                ResultSet rs = comando.executeQuery();
-                if (rs.next()) {
-                    return "La enfermedad ya existe. \n Está enfermedad esta: " + rs.getString("est_cie");
-                }
                 return null;
-            } catch (Exception e) {
-                return e.getMessage();
             }
         }
-        return connect.getError();
+        return null;
     }
 
-    public String SelectPrimaryDescripcion(String codigo, String estado) {
-        String desc = null;
+    /**
+     * Recupera un registro de la tabla: Enfermedades, según el código de
+     * enfermedad especificado.     
+     * @param codigoEnfermedad parámetro de la consulta.
+     * @return objeto Enfermedad con los datos de la consulta.
+     */
+    public Enfermedad SelectById(String codigoEnfermedad) {
+        Enfermedad enfermedad = null;
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  desc_cie from enfermedades where cod_cie = ? and est_cie=?";
+                String sentencia = "SELECT DESC_CIE,EST_CIE FROM Enfermedades "
+                        + "WHERE COD_CIE=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo);
-                comando.setString(2, estado);
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    desc = (rs.getString("desc_cie"));
+                comando.setString(1, codigoEnfermedad);
+                ResultSet lector = comando.executeQuery();
+                if (lector.next()) {
+                    enfermedad = new Enfermedad();
+                    enfermedad.setCodigo(codigoEnfermedad);
+                    enfermedad.setDescripcion(lector.getString("DESC_CIE"));
+                    enfermedad.setEstado(lector.getString("EST_CIE"));
                 }
+                connection.close();
+                return enfermedad;
             } catch (Exception e) {
-
+                return null;
             }
         }
-        return desc;
+        return null;
     }
 
-    public DefaultComboBoxModel SelectPrimaryKeyCombo(String codigo,String estado) {
-        DefaultComboBoxModel com = new DefaultComboBoxModel();
-        boolean res = false;
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT  cod_cie from enfermedades where cod_cie like ? and est_cie=?";                
-                PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo + "%");
-                comando.setString(2, estado);
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    com.addElement(rs.getString("cod_cie"));
-                }
-
-            } catch (Exception e) {
-            }
-        }
-        return com;
-    }
-
-    public DefaultTableModel SelectPrimaryKeyTablaActivas(String codigo) {
-        DefaultTableModel com = new DefaultTableModel();
+    /**
+     * Recupera los registros de la tabla: Enfermedades, según el código y el
+     * estado de la enfermedad especificado.     
+     * @param codigoEnfermedad parámetro de la consulta.
+     * @param estadoEnfermedad parámetro de la consulta.
+     * @return DefaultTableModel con los datos de la consulta.
+     */
+    public DefaultTableModel SelectIntelligentSearch(String codigoEnfermedad, String estadoEnfermedad) {
+        DefaultTableModel model = new DefaultTableModel();
         String[] fila = new String[2];
-        com.addColumn("Código");
-        com.addColumn("Descripción");
+        model.addColumn("Código");
+        model.addColumn("Descripción");
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like ? and est_cie=?";
-                //String sentencia = "SELECT  cod_cie from enfermedades ";
+                String sentencia = "SELECT COD_CIE,DESC_CIE FROM Enfermedades "
+                        + "WHERE COD_CIE LIKE ? AND EST_CIE=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo + "%");
-                comando.setString(2, "ACTIVO");
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    fila[0] = rs.getString("cod_cie");
-                    fila[1] = rs.getString("desc_cie");
-                    com.addRow(fila);
+                comando.setString(1, codigoEnfermedad + "%");
+                comando.setString(2, estadoEnfermedad);
+                ResultSet lector = comando.executeQuery();
+                while (lector.next()) {
+                    fila[0] = lector.getString("COD_CIE");
+                    fila[1] = lector.getString("DESC_CIE");
+                    model.addRow(fila);
                 }
-
+                connection.close();
+                return model;
             } catch (Exception e) {
+                return null;
             }
         }
-        return com;
+        return null;
     }
 
-    public DefaultTableModel SelelctPrimaryKeyTablaInactivas(String codigo) {
-        DefaultTableModel com = new DefaultTableModel();
+    /**
+     * Recupera los registros de la tabla: Enfermedades, según el estado de la
+     * enfermedad especificado.    
+     * @param estadoEnfermedad parámetro de la consulta.
+     * @return DefaultTableModel con los datos de la consulta.
+     */
+    public DefaultTableModel Select(String estadoEnfermedad) {
+        DefaultTableModel model = new DefaultTableModel();
         String[] fila = new String[2];
-        com.addColumn("Código");
-        com.addColumn("Descripción");
+        model.addColumn("Código");
+        model.addColumn("Descripción");
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
         if (connection != null) {
             try {
-                String sentencia = "SELECT  cod_cie, desc_cie from enfermedades where cod_cie like ? and est_cie=?";
+                String sentencia = "SELECT COD_CIE,DESC_CIE FROM Enfermedades WHERE EST_CIE=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, codigo + "%");
-                comando.setString(2, "INACTIVO");
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    fila[0] = rs.getString("cod_cie");
-                    fila[1] = rs.getString("desc_cie");
-                    com.addRow(fila);
+                comando.setString(1, estadoEnfermedad);
+                ResultSet lector = comando.executeQuery();
+                while (lector.next()) {
+                    fila[0] = lector.getString("COD_CIE");
+                    fila[1] = lector.getString("DESC_CIE");
+                    model.addRow(fila);
                 }
-
+                connection.close();
+                return model;
             } catch (Exception e) {
+                return null;
             }
         }
-        return com;
+        return null;
     }
 
-    public DefaultTableModel SelelctEnfermedadesActivas() {
-        DefaultTableModel com = new DefaultTableModel();
-        String[] fila = new String[2];
-        com.addColumn("Código");
-        com.addColumn("Descripción");
-
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT  cod_cie,desc_cie from enfermedades where est_cie =?";
-                PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, "ACTIVO");
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    fila[0] = rs.getString("cod_cie");
-                    fila[1] = rs.getString("desc_cie");
-                    com.addRow(fila);
-                }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
-        }
-        return com;
-    }
-
-    public DefaultTableModel SelelctEnfermedadesInactivas() {
-        DefaultTableModel com = new DefaultTableModel();
-        String[] fila = new String[2];
-        com.addColumn("Código");
-        com.addColumn("Descripción");
-
-        ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        if (connection != null) {
-            try {
-                String sentencia = "SELECT  cod_cie,desc_cie from enfermedades where est_cie = ? ";                
-                PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, "INACTIVO");
-                ResultSet rs = comando.executeQuery();
-                while (rs.next()) {
-                    fila[0] = rs.getString("cod_cie");
-                    fila[1] = rs.getString("desc_cie");
-                    com.addRow(fila);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
-        }
-        return com;
-    }
-
+    /**
+     * Inserta un registro en la tabla: Enfermedades.
+     * @param enfermedad parámetro para la inserción.
+     * @return cadena con el resultado de la inserción.
+     */
     public String Insert(Enfermedad enfermedad) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
-        int registrosAfectados = 0;
         if (connection != null) {
             try {
-
-                String sentencia = "INSERT INTO Enfermedades(cod_cie,desc_cie,est_cie) "
+                String sentencia = "INSERT INTO Enfermedades(COD_CIE,DESC_CIE,EST_CIE) "
                         + "VALUES(?,?,?)";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, enfermedad.getCodigoCie10());
+                comando.setString(1, enfermedad.getCodigo());
                 comando.setString(2, enfermedad.getDescripcion());
                 comando.setString(3, enfermedad.getEstado());
-                registrosAfectados = comando.executeUpdate();
+                int registrosAfectados = comando.executeUpdate();
+                connection.close();
                 if (registrosAfectados > 0) {
                     return null;
-                } else {
-                    return "Enfermedad no ingresada.";
                 }
+                return "No se ha podido insertar";
             } catch (Exception e) {
                 return e.getMessage();
             }
@@ -236,30 +182,31 @@ public class EnfermedadesDAL {
         return connect.getError();
     }
 
-    public String UpdateEstado(String codigo, String parametro) {
+    /**
+     * Actualiza el estado de una Enfermedad.
+     * @param enfermedad parámetro para la actualización.
+     * @return cadena con el resultado de la actualización.
+     */
+    public String UpdateEstado(Enfermedad enfermedad) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
-        Connection connection = connect.conectar();
-        int registrosAfectados = 0;
+        Connection connection = connect.conectar();        
         if (connection != null) {
             try {
-                String sentencia = "UPDATE  Enfermedades SET est_cie= ? "
-                        + "Where cod_cie=? ";
+                String sentencia = "UPDATE Enfermedades SET EST_CIE=? "
+                        + "WHERE COD_CIE=?";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, parametro);
-                comando.setString(2, codigo);
-
-                registrosAfectados = comando.executeUpdate();
+                comando.setString(1, enfermedad.getEstado());
+                comando.setString(2, enfermedad.getCodigo());
+                int registrosAfectados = comando.executeUpdate();
+                connection.close();
                 if (registrosAfectados > 0) {
                     return null;
-                } else {
-                    return "No se ha dado de alta correctamente la enfermedad " + codigo;
                 }
-
+                return "No se ha podido actualizar la enfermedad";
             } catch (Exception e) {
                 return e.getMessage();
             }
         }
         return connect.getError();
     }
-
 }

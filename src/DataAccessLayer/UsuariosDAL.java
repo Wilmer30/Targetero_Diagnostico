@@ -112,10 +112,9 @@ public class UsuariosDAL {
                 String sentencia = "INSERT INTO Usuarios(UserName,Created,Email,Password,Approved) "
                         + "VALUES(?,?,?,?,?)";
                 PreparedStatement comando = connection.prepareStatement(sentencia);
-                comando.setString(1, usuario.getNombreUsuario());
-                comando.setTimestamp(2, Timestamp.valueOf(fechaHora()));
-                comando.setString(3, usuario.getEmail());
-                comando.setString(4, usuario.getPassword());
+                comando.setString(1, usuario.getNombre());
+                comando.setTimestamp(2, Timestamp.valueOf(fechaHora()));                
+                comando.setString(4, usuario.getClave());
                 comando.setBoolean(5, true);
                 int registrosAfectados = comando.executeUpdate();
                 if (registrosAfectados > 0) {
