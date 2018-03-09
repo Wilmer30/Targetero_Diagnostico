@@ -47,6 +47,7 @@ public class buscar_Paciente extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BUSCAR PACIENTES");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar por"));
 

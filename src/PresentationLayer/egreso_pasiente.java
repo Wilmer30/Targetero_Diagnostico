@@ -143,9 +143,15 @@ public class egreso_pasiente extends javax.swing.JFrame {
 
         jLabel19.setText("Hora Ingreso");
 
+        txtEdad.setEditable(false);
+
         cbCondicionEdad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Horas", "Días", "Meses", "Años", " ", " " }));
 
-        cbSala.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtSer_Sala.setEditable(false);
+
+        cbSala.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
+
+        txtHoraIngreso.setEditable(false);
 
         cbDiscapacidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ningina", "Física", "Intelegtual", "Mental", "Auditiva", "Visual", "Otra" }));
 
@@ -258,13 +264,18 @@ public class egreso_pasiente extends javax.swing.JFrame {
 
         jLabel11.setText("CIE10 extremo");
 
-        cbCie10S1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10S1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
 
-        cbCie10S2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10S2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
 
-        cbCie10S3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10S3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
 
-        cbCie10Extremo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10Extremo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
+        cbCie10Extremo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCie10ExtremoActionPerformed(evt);
+            }
+        });
 
         cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vivo", "Muerto menos de 48 horas", "Muerto más de 48 horas" }));
         cbEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -277,11 +288,11 @@ public class egreso_pasiente extends javax.swing.JFrame {
 
         jLabel20.setText("CIE10 secuendario 4");
 
-        cbCie10S4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10S4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
 
         jLabel21.setText("CIE10 secuendario 5");
 
-        cbCie10S5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCie10S5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Selecionar-" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -401,6 +412,10 @@ public class egreso_pasiente extends javax.swing.JFrame {
     private void cbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbEstadoActionPerformed
+
+    private void cbCie10ExtremoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCie10ExtremoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCie10ExtremoActionPerformed
 
     /**
      * @param args the command line arguments
