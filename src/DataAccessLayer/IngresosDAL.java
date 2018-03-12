@@ -20,8 +20,7 @@ public class IngresosDAL {
 
     /**
      * Recupera los registros de la tabla: Ingresos, según el documento de
-     * identidad del paciente especificado.
-     *
+     * identidad del paciente especificado.     
      * @param documentoIdentidad parámetro de la consulta.
      * @return DefaultTableModel con los datos de la consulta.
      */
@@ -99,7 +98,7 @@ public class IngresosDAL {
     }
     
     /**
-     * Inserta un registro en la tabla: INGRESOS.
+     * Inserta un registro en la tabla: Ingresos.
      * @param ingreso parámetro para la inserción.
      * @return cadena con el resultado de la inserción.
      */

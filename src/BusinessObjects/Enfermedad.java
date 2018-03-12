@@ -13,7 +13,7 @@ public class Enfermedad {
 
     private String _codigo;
     private String _descripcion;
-    private char _estado;
+    private String _estado;
 
     /**
      * @return código CIE10 de la enfermedad.
@@ -32,7 +32,7 @@ public class Enfermedad {
     /**
      * @return estado de la enfermedad.
      */
-    public char getEstado() {
+    public String getEstado() {
         return _estado;
     }
 
@@ -53,7 +53,12 @@ public class Enfermedad {
     /**
      * @param estado estado de la enfermedad a ser seteado.
      */
-    public void setEstado(char estado) {
+    public void setEstado(String estado) {
         this._estado = estado;
+    }
+    
+    @Override
+    public String toString(){
+        return _codigo;
     }
 }

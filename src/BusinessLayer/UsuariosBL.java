@@ -8,6 +8,7 @@ package BusinessLayer;
 import DataAccessLayer.UsuariosDAL;
 import SecurityLayer.Encriptacion;
 import BusinessObjects.Usuario;
+import BusinessObjects.Enumeraciones;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,7 +34,7 @@ public class UsuariosBL {
         if (mensaje == null) {
             String password = usuarioDAL.recuperarContraseña(usuario);
             if (password != null) {
-                if (password.equals(encriptar.encriptar(clave))) {               
+                if (password.equals(encriptar.encriptar(clave,Enumeraciones.Encriptacion.Fuerte))) {               
                     return null;
                 }
                 return "Contraseña incorrecta";
@@ -69,14 +70,14 @@ public class UsuariosBL {
     
     public String validarRecuperacion(String usuario,String respuesta){
         String answer=usuarioDAL.recuperarRespuesta(usuario);
-        if (answer.equals(encriptar.encriptar(respuesta))) {
+        if (answer.equals(encriptar.encriptar(respuesta,Enumeraciones.Encriptacion.Normal))) {
             return null;
         }
         return "Respuesta incorrecta";
     }
     
     public String cambiarClave(String usuario,String nuevaClave){
-        String mensaje=usuarioDAL.updatePassword(usuario, encriptar.encriptar(nuevaClave));
+        String mensaje=usuarioDAL.updatePassword(usuario, encriptar.encriptar(nuevaClave,Enumeraciones.Encriptacion.Normal));
         if (mensaje!=null) {
             return mensaje;
         }
@@ -84,9 +85,8 @@ public class UsuariosBL {
     }
     
     public String nuevoUsuario(String usuario,String email){
-        nuevoUsuario.setNombreUsuario(usuario);
-        nuevoUsuario.setEmail(email);
-        nuevoUsuario.setPassword(encriptar.encriptar(usuario));
+        nuevoUsuario.setNombre(usuario);        
+        nuevoUsuario.setClave(encriptar.encriptar(usuario,Enumeraciones.Encriptacion.Fuerte));
         String mensaje=usuarioDAL.insert(nuevoUsuario);
         if (mensaje!=null) {
             return mensaje;
@@ -144,7 +144,7 @@ public class UsuariosBL {
     }
     
     public String cambiarSeguridad(String usuario,String pregunta,String respuesta){
-        String mensaje=usuarioDAL.updateSeguridad(usuario, pregunta, encriptar.encriptar(respuesta));
+        String mensaje=usuarioDAL.updateSeguridad(usuario, pregunta, encriptar.encriptar(respuesta,Enumeraciones.Encriptacion.Fuerte));
         if (mensaje!=null) {
             return mensaje;
         }
@@ -156,7 +156,7 @@ public class UsuariosBL {
         if (mensaje == null) {
             String password = usuarioDAL.recuperarContraseña(usuario);
             if (password != null) {
-                if (password.equals(encriptar.encriptar(usuario))) {               
+                if (password.equals(encriptar.encriptar(usuario,Enumeraciones.Encriptacion.Fuerte))) {               
                     return null;
                 }
                 return "Primer ingreso";

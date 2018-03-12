@@ -5,7 +5,7 @@
  */
 package BusinessObjects;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Clase que representa la tabla: Pacientes.
@@ -19,11 +19,11 @@ public class Paciente {
     private String _primerApellido;
     private String _segundoApellido;
     private String _numeroHistoriaClinica;
-    private char _nacionalidad;
+    private String _nacionalidad;
     private String _paisNacionalidad;
-    private char _genero;
+    private String _genero;
     private Date _fechaNacimiento;
-    private char _etnia;
+    private String _etnia;
     private String _direccion;
     private String _codigoParroquia;
 
@@ -72,7 +72,7 @@ public class Paciente {
     /**
      * @return nacionalidad del paciente.
      */
-    public char getNacionalidad() {
+    public String getNacionalidad() {
         return _nacionalidad;
     }
 
@@ -86,7 +86,7 @@ public class Paciente {
     /**
      * @return género del paciente.
      */
-    public char getGenero() {
+    public String getGenero() {
         return _genero;
     }
 
@@ -100,7 +100,7 @@ public class Paciente {
     /**
      * @return etnia del paciente.
      */
-    public char getEtnia() {
+    public String getEtnia() {
         return _etnia;
     }
 
@@ -156,7 +156,7 @@ public class Paciente {
     /**
      * @param nacionalidad nacionalidad del paciente a ser seteado.
      */
-    public void setNacionalidad(char nacionalidad) {
+    public void setNacionalidad(String nacionalidad) {
         this._nacionalidad = nacionalidad;
     }
 
@@ -170,7 +170,7 @@ public class Paciente {
     /**
      * @param genero género del paciente a ser seteado
      */
-    public void setGenero(char genero) {
+    public void setGenero(String genero) {
         this._genero = genero;
     }
 
@@ -184,7 +184,7 @@ public class Paciente {
     /**
      * @param etnia etnia del paciente a ser seteado.
      */
-    public void setEtnia(char etnia) {
+    public void setEtnia(String etnia) {
         this._etnia = etnia;
     }
 

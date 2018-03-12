@@ -70,5 +70,5 @@ public class Cama {
      */
     public void setCodigoSala(String codigoSala) {
         this._codigoSala = codigoSala;
-    }
+    }        
 }

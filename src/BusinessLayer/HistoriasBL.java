@@ -40,8 +40,8 @@ public class HistoriasBL {
         Historico[] historicoVec = new Historico[tbHistorias.getRowCount()];
         for (int i = 0; i < tbHistorias.getRowCount(); i++) {
             historico = new Historico();
-            historico.setNumeroHistoriaClinica(tbHistorias.getValueAt(i, 0).toString());
-            historico.setCodigoCie10(tbHistorias.getValueAt(i, 1).toString());
+            historico.setHistoriaClinica(tbHistorias.getValueAt(i, 0).toString());
+            historico.setCodigo(tbHistorias.getValueAt(i, 1).toString());
             historico.setFechaIngreso(convertirFechaStringDate((String) (tbHistorias.getValueAt(i, 2))));
             historico.setEstadoPaciente(tbHistorias.getValueAt(i, 3).toString());
             historicoVec[i] = historico;

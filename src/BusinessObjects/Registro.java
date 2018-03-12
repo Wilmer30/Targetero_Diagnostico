@@ -5,7 +5,7 @@
  */
 package BusinessObjects;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Clase que representa la tabla: Registros.
@@ -15,15 +15,15 @@ public class Registro {
     
     private String _documentoIdentidad;
     private Date _fechaIngreso;
-    private char _condicionEdad;
+    private String _condicionEdad;
     private int _edad;
-    private char _tipoDiscapacidad;
+    private String _tipoDiscapacidad;
     private String _servicioSalaInternacion;
-    private char _sala;
+    private String _sala;
     private String _horaIngreso;
     private Date _fechaEgreso;
     private int _diasEstancia;
-    private char _estado;
+    private String _estado;
     private String _cieDefinitivo;
     private String _cieSecundario1;
     private String _cieSecundario2;
@@ -50,7 +50,7 @@ public class Registro {
     /**
      * @return condición de la edad al ingreso del paciente.
      */
-    public char getCondicionEdad() {
+    public String getCondicionEdad() {
         return _condicionEdad;
     }
 
@@ -64,7 +64,7 @@ public class Registro {
     /**
      * @return tipo de discapacidad del paciente al ingreso.
      */
-    public char getTipoDiscapacidad() {
+    public String getTipoDiscapacidad() {
         return _tipoDiscapacidad;
     }
 
@@ -78,7 +78,7 @@ public class Registro {
     /**
      * @return sala por la cual ingresó el paciente.
      */
-    public char getSala() {
+    public String getSala() {
         return _sala;
     }
 
@@ -106,7 +106,7 @@ public class Registro {
     /**
      * @return estado del paciente al egreso.
      */
-    public char getEstado() {
+    public String getEstado() {
         return _estado;
     }
 
@@ -183,7 +183,7 @@ public class Registro {
     /**
      * @param condicionEdad condición de la edad al ingreso del paciente a ser seteado.
      */
-    public void setCondicionEdad(char condicionEdad) {
+    public void setCondicionEdad(String condicionEdad) {
         this._condicionEdad = condicionEdad;
     }
 
@@ -197,7 +197,7 @@ public class Registro {
     /**
      * @param tipoDiscapacidad tipo de discapacidad del paciente al ingreso a ser seteado.
      */
-    public void setTipoDiscapacidad(char tipoDiscapacidad) {
+    public void setTipoDiscapacidad(String tipoDiscapacidad) {
         this._tipoDiscapacidad = tipoDiscapacidad;
     }
 
@@ -211,7 +211,7 @@ public class Registro {
     /**
      * @param sala sala por la cual ingresó el paciente a ser seteado.
      */
-    public void setSala(char sala) {
+    public void setSala(String sala) {
         this._sala = sala;
     }
 
@@ -239,7 +239,7 @@ public class Registro {
     /**
      * @param estado estado del paciente al egreso a ser seteado.
      */
-    public void setEstado(char estado) {
+    public void setEstado(String estado) {
         this._estado = estado;
     }
 

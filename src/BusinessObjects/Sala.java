@@ -41,4 +41,9 @@ public class Sala {
     public void setNombre(String nombre) {
         this._nombre = nombre;
     }
+    
+    @Override
+    public String toString(){
+        return _nombre;
+    }
 }

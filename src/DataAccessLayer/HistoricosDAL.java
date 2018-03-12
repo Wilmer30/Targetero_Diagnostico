@@ -15,8 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
- * @author Wilmer Oñate
+ * Contiene los métodos de persistencia para la tabla: Históricos.
+ * @author Erick
  */
 public class HistoricosDAL {
 
@@ -29,7 +29,7 @@ public class HistoricosDAL {
      public String Insert(Historico historicos[]) {
         ConectarBaseDatos connect = new ConectarBaseDatos();
         Connection connection = connect.conectar();
-        Historico historico ;        
+        Historico historico;        
         if (connection != null) {
             try {
                 connection.setAutoCommit(false);

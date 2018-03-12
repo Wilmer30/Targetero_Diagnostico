@@ -5,7 +5,7 @@
  */
 package BusinessObjects;
 
-import java.util.Date;
+import java.sql.Date;
 /**
  * Clase que representa la tabla: Ingresos.
  * @author Erick
@@ -14,11 +14,11 @@ public class Ingreso {
     
     private String _documentoIdentidad;
     private Date _fecha;
-    private char _condicionEdad;
+    private String _condicionEdad;
     private int _edad;
-    private char _tipoDiscapacidad;
+    private String _tipoDiscapacidad;
     private String _servicioSalaInternacion;
-    private char _sala;
+    private String _sala;
     private String _hora;
     private String _codigoCama;    
 
@@ -39,7 +39,7 @@ public class Ingreso {
     /**
      * @return condición de la edad al ingreso del paciente.
      */
-    public char getCondicionEdad() {
+    public String getCondicionEdad() {
         return _condicionEdad;
     }
 
@@ -53,7 +53,7 @@ public class Ingreso {
     /**
      * @return tipo de discapacidad del paciente al ingreso.
      */
-    public char getTipoDiscapacidad() {
+    public String getTipoDiscapacidad() {
         return _tipoDiscapacidad;
     }
 
@@ -67,7 +67,7 @@ public class Ingreso {
     /**
      * @return sala por la cual ingresó el paciente.
      */
-    public char getSala() {
+    public String getSala() {
         return _sala;
     }
 
@@ -102,7 +102,7 @@ public class Ingreso {
     /**
      * @param condicionEdad condición de la edad al ingreso del paciente a ser seteado.
      */
-    public void setCondicionEdad(char condicionEdad) {
+    public void setCondicionEdad(String condicionEdad) {
         this._condicionEdad = condicionEdad;
     }
 
@@ -116,7 +116,7 @@ public class Ingreso {
     /**
      * @param tipoDiscapacidad tipo de discapacidad del paciente al ingreso a ser seteado.
      */
-    public void setTipoDiscapacidad(char tipoDiscapacidad) {
+    public void setTipoDiscapacidad(String tipoDiscapacidad) {
         this._tipoDiscapacidad = tipoDiscapacidad;
     }
 
@@ -130,7 +130,7 @@ public class Ingreso {
     /**
      * @param sala sala por la cual ingresa el paciente a ser seteado.
      */
-    public void setSala(char sala) {
+    public void setSala(String sala) {
         this._sala = sala;
     }
 
