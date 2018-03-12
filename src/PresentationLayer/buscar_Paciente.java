@@ -5,6 +5,9 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.Validaciones;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Wilmer
@@ -14,8 +17,13 @@ public class buscar_Paciente extends javax.swing.JFrame {
     /**
      * Creates new form buscar_Paciente
      */
+    // <editor-fold defaultstate="collapsed" desc="Datos">    
+    private Validaciones validar;    
+    // </editor-fold>
     public buscar_Paciente() {
         initComponents();
+        validar = new Validaciones();
+        rbCedula.setSelected(true);
     }
 
     /**
@@ -39,14 +47,31 @@ public class buscar_Paciente extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BUSCAR PACIENTES");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar por"));
 
         buttonGroup1.add(rbCedula);
         rbCedula.setText("Cédula");
+        rbCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbCedulaActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rbNumeroHistoria);
         rbNumeroHistoria.setText("Número de historia clinica");
+        rbNumeroHistoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbNumeroHistoriaActionPerformed(evt);
+            }
+        });
+
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,6 +168,29 @@ public class buscar_Paciente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+        if(rbCedula.isSelected()){
+            validar.soloNumeros(evt);
+            validar.longitudCedula(evt,txtBusqueda.getText());
+        }else{
+            if (rbNumeroHistoria.isSelected()) {
+                validar.soloNumerosLetras(evt);
+                validar.longitudMaximoSeis(evt, txtBusqueda.getText());
+            }
+        }
+    
+                
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void rbCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCedulaActionPerformed
+        txtBusqueda.setText(null);
+    }//GEN-LAST:event_rbCedulaActionPerformed
+
+    private void rbNumeroHistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNumeroHistoriaActionPerformed
+        // TODO add your handling code here:
+        txtBusqueda.setText(null);
+    }//GEN-LAST:event_rbNumeroHistoriaActionPerformed
 
     /**
      * @param args the command line arguments

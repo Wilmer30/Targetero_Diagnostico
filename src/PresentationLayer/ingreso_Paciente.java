@@ -5,6 +5,7 @@
  */
 package PresentationLayer;
 
+import BusinessLayer.Validaciones;
 import BusinessObjects.Enumeraciones;
 import javax.swing.JOptionPane;
 
@@ -17,8 +18,12 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
     /**
      * Creates new form ingresoPaciente
      */
+    // <editor-fold defaultstate="collapsed" desc="Datos">    
+    private Validaciones validar;    
+    // </editor-fold>
     public ingreso_Paciente() {
         initComponents();
+        validar = new Validaciones();
     }
     
      // <editor-fold defaultstate="collapsed" desc="Metodos"> 
@@ -69,7 +74,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         txtApellidoMaterno = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtPreimerNombre = new javax.swing.JTextField();
+        txtPrimerNombre = new javax.swing.JTextField();
         txtSegundoNombre = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -85,7 +90,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        txtNuemroHistoria = new javax.swing.JTextField();
+        txtNumeroHistoria = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -98,7 +103,6 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         taDireccion = new javax.swing.JTextArea();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PACIENTES");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -122,13 +126,48 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Cédula");
 
+        txtCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedulaActionPerformed(evt);
+            }
+        });
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyTyped(evt);
+            }
+        });
+
         jLabel10.setText("Apellido paterno");
 
+        txtApellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoPaternoKeyTyped(evt);
+            }
+        });
+
         jLabel11.setText("Apellido materno");
+
+        txtApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoMaternoKeyTyped(evt);
+            }
+        });
 
         jLabel12.setText("Primer nombre");
 
         jLabel13.setText("Segundo nombre");
+
+        txtPrimerNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrimerNombreKeyTyped(evt);
+            }
+        });
+
+        txtSegundoNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSegundoNombreKeyTyped(evt);
+            }
+        });
 
         jLabel17.setText("Genero");
 
@@ -139,6 +178,20 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         jLabel16.setText("País de nacimiento");
 
         jLabel15.setText("Nacionalidad");
+
+        dcFechaNacimiento.setDateFormatString("dd-MM-yyyy");
+
+        txtPaisNacimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPaisNacimientoKeyTyped(evt);
+            }
+        });
+
+        txtNacionalidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNacionalidadKeyTyped(evt);
+            }
+        });
 
         cbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino", "Indeterinado" }));
         cbGenero.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +230,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                             .addComponent(cbEtnia, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
                             .addComponent(cbGenero, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
                             .addComponent(txtSegundoNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPreimerNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPrimerNombre, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtApellidoMaterno, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCedula, javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +255,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(txtPreimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -231,12 +284,23 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
         );
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
         jLabel14.setText("Número de historia");
+
+        txtNumeroHistoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroHistoriaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -245,8 +309,8 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(txtNuemroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtNumeroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -255,7 +319,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(txtNuemroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumeroHistoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -291,11 +355,11 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbParroquia, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbCanton, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbProvincia, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cbCanton, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbParroquia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(cbProvincia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -352,7 +416,7 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnCancelar))
@@ -370,6 +434,55 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
     private void cbGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGeneroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbGeneroActionPerformed
+
+    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
+        // TODO add your handling code here:
+        validar.longitudCedula(evt, txtCedula.getText());
+    }//GEN-LAST:event_txtCedulaKeyTyped
+
+    private void txtApellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoPaternoKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtApellidoPaternoKeyTyped
+
+    private void txtApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoMaternoKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtApellidoMaternoKeyTyped
+
+    private void txtPrimerNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrimerNombreKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtPrimerNombreKeyTyped
+
+    private void txtSegundoNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSegundoNombreKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtSegundoNombreKeyTyped
+
+    private void txtPaisNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaisNacimientoKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtPaisNacimientoKeyTyped
+
+    private void txtNacionalidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacionalidadKeyTyped
+        // TODO add your handling code here:
+        validar.soloLetras(evt);
+    }//GEN-LAST:event_txtNacionalidadKeyTyped
+
+    private void txtNumeroHistoriaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroHistoriaKeyTyped
+        // TODO add your handling code here:
+        validar.soloNumeros(evt);
+        validar.longitudMaximoSeis(evt, txtNumeroHistoria.getText());
+    }//GEN-LAST:event_txtNumeroHistoriaKeyTyped
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedulaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -440,9 +553,9 @@ public class ingreso_Paciente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApellidoPaterno;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtNacionalidad;
-    private javax.swing.JTextField txtNuemroHistoria;
+    private javax.swing.JTextField txtNumeroHistoria;
     private javax.swing.JTextField txtPaisNacimiento;
-    private javax.swing.JTextField txtPreimerNombre;
+    private javax.swing.JTextField txtPrimerNombre;
     private javax.swing.JTextField txtSegundoNombre;
     // End of variables declaration//GEN-END:variables
 }
